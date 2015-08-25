@@ -1,0 +1,45 @@
+@media screen and (max-width: 800px) {
+	header {
+		nav {
+			z-index: 2;
+		}
+	}
+}
+
+@media screen and (max-width: 640px) {
+	header {
+		.logo img {
+			width: 95%;
+			margin: 0 auto;
+			display: block;
+		}
+		nav {
+			position: relative;
+		}
+        .quick-search {
+            display: none;
+        }
+	}
+	.two-column {
+	    .left, .right {
+	        float: none;
+	        width: auto;
+	    }
+	}
+	.blog-item.has-image.left-aligned, .blog-item.has-image.right-aligned {
+		padding: 0;
+		.title img {
+    		display: block;
+    		float: none;
+    		margin: 0;
+		}
+	}
+	footer {
+		.footer-links {
+			li {
+				float: none;
+				width: auto;
+			}
+		}
+	}
+}

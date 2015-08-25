@@ -1,0 +1,13 @@
+name = NBA Content module
+description = Adds the nba blog and basic page content types.
+core = 7.x
+version = "7.x-0.0"
+package = NBA
+configure = admin/config/nbacontent
+
+files[] = nbacontent.admin.inc
+files[] = nbacontent.taxonomy.inc
+files[] = nbacontent.helpers.inc
+
+dependencies[] = image
+dependencies[] = views

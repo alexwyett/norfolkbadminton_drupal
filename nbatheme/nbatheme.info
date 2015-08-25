@@ -1,0 +1,20 @@
+name        = NBA Theme
+description = Base theme for Norfolk Badminton projects.
+core        = 7.x
+engine      = phptemplate
+screenshot  = logo.png
+
+; Stylesheets
+stylesheets[all][] = css/styles.css
+
+; Unset default stylesheets
+stylesheets[all][] = views.css
+
+; Scripts
+scripts[] = js/main.js
+
+; Regions
+regions[header]  = Header region for NBA base theme
+regions[content] = Content region for NBA base theme
+regions[footer]  = Footer region for NBA base theme
+regions[sidebar] = Sidebar region for NBA base theme

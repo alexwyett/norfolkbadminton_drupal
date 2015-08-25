@@ -1,0 +1,468 @@
+<?php
+
+/**
+ * Implement hook_install()
+ *
+ * @return void
+ */
+function nbacontent_install()
+{    
+    // Create banner image style
+    $style = image_style_save(array('name' => 'nbabanner'));
+    $effect = array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+            'width' => 1140,
+            'height' => 285
+        ),
+        'isid' => $style['isid'],
+    );
+    image_effect_save($effect);
+
+    // Create author image style
+    $style = image_style_save(array('name' => 'nbaauthor'));
+    $effect = array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+            'width' => 64,
+            'height' => 64
+        ),
+        'isid' => $style['isid'],
+    );
+    image_effect_save($effect);
+
+    // Create blog teaser style
+    $style = image_style_save(array('name' => 'nbathumbnail'));
+    $effect = array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+            'width' => 64,
+            'height' => 64
+        ),
+        'isid' => $style['isid'],
+    );
+    image_effect_save($effect);
+
+
+    // Create a taxonomies
+    foreach (nbacontent_get_taxonomies() as $key => $val) {
+        taxonomy_vocabulary_save(
+            (object) array_merge($val, array('machine_name' => $key))
+        );
+    }
+
+    nbacontent_setup_blog();
+    nbacontent_setup_basic_page();
+    nbacontent_add_custom_fields();
+    nbacontent_add_taxonomy_custom_fields();
+
+    // Misc variables
+    variable_set(
+        'pathauto_node_nbablog_pattern',
+        'blog/[node:created:custom:Y]/[node:created:custom:n]/[node:created:custom:j]/[node:title]'
+    );
+    variable_set(
+        'pathauto_taxonomy_term_nbatag_pattern',
+        'blog/tag/[term:name]'
+    );
+    variable_set(
+        'site_frontpage',
+        'homepage_blogs'
+    );
+}
+
+/**
+ * Return the taxonomy definitions
+ *
+ * @return array
+ */
+function nbacontent_get_taxonomies()
+{
+    return array(
+        'nbatag' => array(
+            'name' => 'Blog page tag',
+            'description' => 'Used to tag blog pages.'
+        ),
+        'nbasocialmedialinks' => array(
+            'name' => 'Social media links taxonomy',
+            'description' => 'Primarily used for config of social media links in the footer.'
+        )
+    );
+}
+
+/**
+ * Setup the contact us page content type
+ *
+ * @return void
+ */
+function nbacontent_setup_blog()
+{
+    $searchnode = array(
+        'type' => 'nbablog',
+        'name' => 'Blog Page',
+        'base' => 'node_content',
+        'description' => t('This node allows you to create a blog page page.'),
+        'title_label' => t('Page Title'),
+        'custom' => TRUE
+    );
+
+    $content_type = node_type_set_defaults($searchnode);
+    node_add_body_field($content_type, t('Body'));
+    node_type_save($content_type);
+}
+
+/**
+ * Setup the contact us page content type
+ *
+ * @return void
+ */
+function nbacontent_setup_basic_page()
+{
+    $searchnode = array(
+        'type' => 'nbabasicpage',
+        'name' => 'Basic Page',
+        'base' => 'node_content',
+        'description' => t('This node allows you to create a basic page.'),
+        'title_label' => t('Page Title'),
+        'custom' => TRUE
+    );
+
+    $content_type = node_type_set_defaults($searchnode);
+    node_add_body_field($content_type, t('Body'));
+    node_type_save($content_type);
+}
+
+/**
+ * Install custom fields
+ *
+ * @return void
+ */
+function nbacontent_add_custom_fields()
+{
+    $custom_fields = nbacontent_get_content_fields();
+    foreach ($custom_fields as $bundle => $fields) {
+        foreach ($fields as $key => $field) {
+            if (!field_info_field($key)) {
+                field_create_field($field);
+            }
+        }
+    }
+    foreach ($custom_fields as $bundle => $fields) {
+        $type = node_type_load($bundle);
+        $type->promote = 0;
+        node_type_save($type);
+
+        foreach ($fields as $fieldinstance) {
+            $fieldinstance['entity_type'] = 'node';
+            $fieldinstance['bundle'] = $bundle;
+            field_create_instance($fieldinstance);
+        }
+    }
+}
+
+/**
+ * Return the places of interest custom content
+ *
+ * @return array
+ */
+function nbacontent_get_content_fields()
+{
+    $t = get_t();
+    return array(
+        'nbablog' => array(
+            'tags' => array(
+                'field_name' => 'tags',
+                'label' => $t('Tag?'),
+                'description' => $t('Use this to tag content.  Can be used to pull content into lists.'),
+                'type' => 'taxonomy_term_reference',
+                'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+                'settings' => array(
+                    'allowed_values' => array(
+                        array(
+                            'vocabulary' => 'nbatag',
+                            'parent' => 0
+                        )
+                    )
+                ),
+                'widget' => array(
+                    'type' => 'taxonomy_autocomplete'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'taxonomy_term_reference_link'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'taxonomy_term_reference_link'
+                    )
+                ),
+                'foreign keys' => array(
+                    'tid' => array(
+                        'columns' => array(
+                            'tid' => 'tid',
+                        ),
+                        'table' => 'taxonomy_term_data',
+                    )
+                ),
+                'indexes' => array(
+                    'tid' => array(
+                        0 => 'tid',
+                    )
+                )
+            ),
+            'banners' => array(
+                'field_name' => 'banners',
+                'label' => $t('Banner images'),
+                'description' => $t('Banner images for the page.'),
+                'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+                'type' => 'image',
+                'widget' => array(
+                    'type' => 'image'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'banner'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'banner'
+                    )
+                ),
+                'settings' => array(
+                    'alt_field' => true,
+                    'title_field' => true,
+                    'file_extensions' => 'png gif jpg jpeg'
+                )
+            ),
+            'thumbnail' => array(
+                'field_name' => 'thumbnail',
+                'label' => $t('Thumbnail image'),
+                'description' => $t('Thumbnail image for the page.'),
+                'cardinality' => 1,
+                'required' => false,
+                'type' => 'image',
+                'widget' => array(
+                    'type' => 'image'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'banner'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'banner'
+                    )
+                ),
+                'settings' => array(
+                    'alt_field' => true,
+                    'title_field' => true,
+                    'file_extensions' => 'png gif jpg jpeg'
+                )
+            )
+        )
+    );
+}
+
+/**
+ * Add in custom taxonomy fields
+ */
+function nbacontent_add_taxonomy_custom_fields()
+{
+    // Add taxonomy fields
+    foreach (nbacontent_get_taxonomy_fields() as $fields) {
+        foreach ($fields as $field) {
+            field_create_field($field);
+        }
+    }
+
+    foreach (nbacontent_get_taxonomy_fields() as $bundle => $fields) {
+        foreach ($fields as $fieldinstance) {
+            $fieldinstance['entity_type'] = 'taxonomy_term';
+            $fieldinstance['bundle'] = $bundle;
+            field_create_instance($fieldinstance);
+        }
+    }
+}
+
+/**
+ * Return the custom taxonomy fields for this module
+ *
+ * @return void
+ */
+function nbacontent_get_taxonomy_fields()
+{
+    $t = get_t();
+    return array(
+        'nbatag' => array(
+            'nbatag_colour' => array(
+                'field_name' => 'nbatag_colour',
+                'label' => $t('Tag colour'),
+                'description' => $t(
+                    'Choosing an item here will determine the colour of the tag'
+                ),
+                'type' => 'list_text',
+                'cardinality' => 1,
+                'foreign keys' => array(),
+                'indexes' => array(
+                    'value' => array(
+                        0 => 'value'
+                    )
+                ),
+                'module' => 'list',
+                'settings' => array(
+                    'allowed_values_function' => 'nbacontent_get_tag_colours'
+                ),
+                'default_value' => 'blue',
+                'required' => true,
+                'widget' => array(
+                    'type' => 'options_select'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    )
+                )
+            ),
+            'tag_thumbnail' => array(
+                'field_name' => 'tag_thumbnail',
+                'label' => $t('Thumbnail image'),
+                'description' => $t('Thumbnail image for the page.'),
+                'cardinality' => 1,
+                'required' => false,
+                'type' => 'image',
+                'widget' => array(
+                    'type' => 'image'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'thumbnail'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'thumbnail'
+                    )
+                ),
+                'settings' => array(
+                    'alt_field' => true,
+                    'title_field' => true,
+                    'file_extensions' => 'png gif jpg jpeg'
+                )
+            )
+        ),
+        'nbasocialmedialinks' => array(
+            'nbasocialmedialinks_link' => array(
+                'field_name' => 'nbasocialmedialinks_link',
+                'label' => $t('Social media link'),
+                'description' => $t('HTTP link for your social media page'),
+                'type' => 'text',
+                'required' => true,
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'text',
+                    'settings' => array(
+                        'size' => '64',
+                    ),
+                    'type' => 'text_textfield'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    )
+                )
+            ),
+            'nbasocialmedialinks_type' => array(
+                'field_name' => 'nbasocialmedialinks_type',
+                'label' => $t('Type of social media link'),
+                'description' => $t(
+                    'Choosing an item here will determine the icon shown'
+                ),
+                'type' => 'list_text',
+                'cardinality' => 1,
+                'foreign keys' => array(),
+                'indexes' => array(
+                    'value' => array(
+                        0 => 'value'
+                    )
+                ),
+                'module' => 'list',
+                'settings' => array(
+                    'allowed_values_function' => 'nbacontent_get_social_media_link_types'
+                ),
+                'default_value' => null,
+                'required' => true,
+                'widget' => array(
+                    'type' => 'options_select'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    )
+                )
+            )
+        )
+    );
+}
+
+/**
+ * Un-install.  Implements hook_uninstall()
+ *
+ * @return void
+ */
+function nbacontent_uninstall()
+{
+    // Remove content types
+    foreach (array('nbablog', 'nbabasicpage') as $contenttype) {
+        $sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
+        $result = db_query($sql, array(':type' => $contenttype));
+        $nodeids = array();
+        foreach ($result as $row) {
+            $nodeids[] = $row->nid;
+        }
+        node_delete_multiple($nodeids);
+
+        // Remove node instances
+        $instances = field_info_instances('node', $contenttype);
+        foreach ($instances as $instance_name => $fieldinstance) {
+            field_delete_instance($fieldinstance);
+        }
+
+        node_type_delete($contenttype);
+        field_purge_batch(500);
+    }
+
+    // Delete the all taxonomy vocabulary
+    foreach (nbacontent_get_taxonomies() as $taxname => $detail) {
+        $vocab = taxonomy_vocabulary_machine_name_load($taxname);
+        taxonomy_vocabulary_delete($vocab->vid);
+    }
+
+    // Remove field instances
+    foreach (nbacontent_get_taxonomies() as $taxname => $detail) {
+        $instances = field_info_instances('taxonomy_term', $taxname);
+        foreach ($instances as $fieldinstance) {
+            field_delete_instance($fieldinstance);
+        }
+    }
+
+    // Remove additional content fields
+    $bundles = array_merge(nbacontent_get_content_fields(), nbacontent_get_taxonomy_fields());
+    foreach ($bundles as $bundle => $fields) {
+        foreach (array_keys($fields) as $field) {
+            field_delete_field($field);
+        }
+    }
+
+    image_style_delete(image_style_load('nbabanner'));
+    image_style_delete(image_style_load('nbaauthor'));
+    image_style_delete(image_style_load('nbathumbnail'));
+
+    // Rebuild menu (to remove content type from it).
+    menu_rebuild();
+}

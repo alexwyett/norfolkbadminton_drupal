@@ -1,0 +1,272 @@
+<?php
+
+require_once dirname(__FILE__) . '/nbacontent.helpers.inc';
+require_once dirname(__FILE__) . '/nbacontent.admin.inc';
+require_once dirname(__FILE__) . '/nbacontent.taxonomy.inc';
+
+/**
+ * Implementation of hook_views_api().
+ *
+ * @return array
+ */
+function nbacontent_views_api()
+{
+    return array('api' => 3.0);
+}
+
+/**
+ * Implements hook_menu().
+ *
+ * @return array
+ */
+function nbacontent_menu()
+{
+    $items = array();
+
+    // Add a tab to the config section.
+    $items['admin/config/nbacontent'] = array(
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('nbacontent_config_form'),
+        'title' => 'NBA Content Admin',
+        'access arguments' => array('nbacontent'),
+        'type' => MENU_LOCAL_TASK,
+        'file' => 'nbacontent.admin.inc',
+        'weight' => 50
+    );
+
+    return $items;
+}
+
+
+/**
+ * Implements hook_permission()
+ *
+ * @return array
+ */
+function nbacontent_permission()
+{
+    return array(
+        'nbacontent' => array(
+            'title' => 'Manage the NBA Content types module',
+            'description' => t(
+                'Allows users to configure the system internals for the NBA content types nodes and blocks'
+            )
+        )
+    );
+}
+
+/**
+ * Implement hook_node_view
+ *
+ * @return void
+ */
+function nbacontent_node_view($node, $view_mode, $langcode)
+{
+    if ($node->type == 'nbablog' || $node->type == 'nbabasicpage') {
+        $node->node_author = user_load($node->uid);
+
+        $node->author_name = '';
+        if ($node->node_author->uid != '0') {
+            $node->author_name = $node->node_author->name;
+        }
+    }
+}
+
+/**
+ * Return the markup for the social media links
+ *
+ * @param string $url Set to a url if you want to use the sharing api for
+ *                    each media link
+ *
+ * @return array
+ */
+function nbacontent_get_social_media_links($url = false)
+{
+    $links = array();
+    foreach (nbacontent_get_vocabulary('nbasocialmedialinks') as $id => $field) {
+
+        $link = $field->nbasocialmedialinks_link->value();
+        $type = $field->nbasocialmedialinks_type->value();
+        if (is_string($url)) {
+            nbacontent_get_social_media_sharing_link($link, $url, $type);
+        }
+
+        if (is_string($link)) {
+            $links[] = theme(
+                'nbacontent_sm_link',
+                array(
+                    'name' => $field->name->value(),
+                    'link' => $link,
+                    'type' => $type
+                )
+            );
+        }
+    }
+
+    return $links;
+}
+
+/**
+ * Function used to get a social media sharing link
+ *
+ * @param string $link Original sharing link
+ * @param string $url  Url for the sharing link
+ * @param string $type Type of sharing link
+ *
+ * @return void
+ */
+function nbacontent_get_social_media_sharing_link(&$link, $url, $type)
+{
+    switch (strtolower($type)) {
+        case 'facebook3':
+            $link = 'https://www.facebook.com/sharer/sharer.php?u=' . $url;
+            break;
+        case 'twitter3':
+            $link = 'https://twitter.com/home?status=' . $url;
+            break;
+        case 'google-plus3':
+            $link = 'https://plus.google.com/share?url=' . $url;
+            break;
+        case 'linkedin':
+            $link = 'https://www.linkedin.com/shareArticle?mini=true&url=' . $url;
+            break;
+        case 'pinterest':
+            $link = 'https://pinterest.com/pin/create/button/?url=' . $url;
+            break;
+        case 'mail_dot':
+            $link = 'mailto:?subject=&body=' . $url;
+            break;
+        default:
+            $link = false;
+            break;
+    }
+}
+
+/**
+ * Implements hook_theme()
+ *
+ * Defines the theme hooks used by the module
+ *
+ * @return array
+ */
+function nbacontent_theme() {
+    return array(
+        'nbacontent_sm_links' => array(
+            'variables' => array(
+                'links' => NULL,
+                'attrs' => array(
+                    'class' => ''
+                ),
+                'container_tag' => 'div'
+            ),
+            'template' => 'templates/nbacontent_sm_links.block'
+        ),
+        'nbacontent_sm_link' => array(
+            'variables' => array(
+                'link' => NULL,
+                'text' => NULL,
+                'type' => NULL
+            ),
+            'template' => 'templates/nbacontent_sm_link'
+        ),
+        'nbacontentbreadcrumb' => array(
+            'variables' => array(
+                'crumbs' => array()
+            ),
+            'template' => 'templates/breadcrumb'
+        ),
+        'nbacontentsocialtags' => array(
+            'variables' => array(),
+            'template' => 'templates/nbacontentsocialtags'
+        ),
+        'nbacontentauthorinfo' => array(
+            'variables' => array(
+                'author' => NULL
+            ),
+            'template' => 'templates/nbacontentauthorinfo'
+        ),
+        'nbacontentauthorname' => array(
+            'variables' => array(
+                'author' => NULL,
+                'node' => NULL
+            ),
+            'template' => 'templates/nbacontentauthorname'
+        )
+    );
+}
+
+/**
+ * Returns the social media allowed types
+ *
+ * @return array
+ */
+function nbacontent_get_social_media_link_types()
+{
+    return array(
+        'facebook3' => 'Facebook',
+        'twitter3' => 'Twitter',
+        'google-plus3' => 'Google Plus',
+        'pinterest' => 'Pinterest',
+        'youtube' => 'YouTube',
+        'vimeo2' => 'Vimeo',
+        'flickr' => 'Flickr',
+        'instagram' => 'Instagram',
+        'mail_dot' => 'Email'
+    );
+}
+
+/**
+ * Tag colours
+ *
+ * @return array
+ */
+function nbacontent_get_tag_colours()
+{
+    return array(
+        'blue' => 'Blue',
+        'red' => 'Red'
+    );
+}
+
+/**
+ * Get the breadcrumbs for the current page
+ *
+ * @return array
+ */
+function nbacontent_get_breadcrumbs()
+{
+    // Get url
+    $path_alias = drupal_lookup_path('alias', current_path());
+
+    // Break into parts
+    $parts = explode('/', $path_alias);
+
+    // Breadcrumb array
+    $crumbs = array();
+
+    $counter = 0;
+    while($parts) {
+        $p = implode('/', $parts);
+    
+        $path = drupal_lookup_path('source', $p);
+        if (drupal_valid_path($path)) {
+            switch (substr($path, 0, 4)) {
+                case 'node':
+                    $title = _nbacontent_get_menu_object_title($path);
+                    if (is_string($title)) {
+                        $crumbs[] = l(
+                            $title,
+                            $path
+                        );
+                    }
+                break;
+            }
+        }
+
+        array_pop($parts);
+        $counter++;
+    }
+
+    // reverse array into correct order
+    return array_reverse($crumbs, true);
+}

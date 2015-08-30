@@ -36,8 +36,10 @@ $localThemePath = $base_path  . drupal_get_path('theme', $theme);
 ?>
 <?php if ($content): ?>
     <header class="main-header <?php print $classes; ?>" itemtype="http://schema.org/WebPage" itemscope>
-        <a href="<?php echo url('<front>'); ?>" class="main-header_logo">
-            <img src="<?php echo $themePath; ?>/assets/img/footer-logo.png">
+        <a href="<?php echo url('<front>'); ?>" class="main-header_logo logo">
+			<svg width="330" height="130">
+               <image xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="<?php echo $themePath; ?>/assets/logo.svg" src="<?php echo $themePath; ?>/assets/img/footer-logo.png" width="330" height="130"></image>
+            </svg>
         </a>
     
         <?php print $content; ?>

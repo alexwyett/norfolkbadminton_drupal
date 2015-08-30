@@ -2,33 +2,31 @@
     $thumbnail = render($content['thumbnail']);
     $hasThumbnail = strlen($thumbnail) > 0;
     ?>
-    <article class="media nbablog nbablog-teaser <?php echo ($hasThumbnail) ? 'nbablog-thumbnail' : ''; ?> node-<?php print $node->nid; ?> <?php print $classes; ?>  clearfix"<?php print $attributes; ?>">
-        <?php
-            if ($hasThumbnail) {
-                ?>
-        <div class="pull-left media-left">
-            <a href="<?php echo url('node/' . $node->nid); ?>">
-                <?php echo $thumbnail; ?>
-            </a>
-        </div>
-                <?php
-            }
-        ?>
-        <div class="media-body">
-            <h2 class="media-heading">
+    <article class="media nbablog blog-item nbablog-teaser <?php echo ($hasThumbnail) ? 'nbablog-thumbnail' : ''; ?> node-<?php print $node->nid; ?> <?php print $classes; ?>  clearfix"<?php print $attributes; ?>">
+        <time class="date" itemprop="datePublished">
+            <strong><?php echo date('j', $node->created); ?></strong>
+            <small><?php echo date('M', $node->created); ?></small>
+        </time>
+        <div class="article-body">
+            <h2 class="title">
                 <a href="<?php echo url('node/' . $node->nid); ?>">
-                    <?php echo $title; ?>
+                    <?php echo $title; ?>&nbsp;&raquo;
+                    <?php
+                        if ($hasThumbnail) {
+                            echo $thumbnail;
+                        }
+                    ?>
                 </a>
-                <?php
-                    echo theme(
-                        'nbacontentauthorname',
-                        array(
-                            'author' => $node_author,
-                            'node' => $node,
-                        )
-                    );
-                ?>
             </h2>
+            <?php
+                echo theme(
+                    'nbacontentauthorname',
+                    array(
+                        'author' => $node_author,
+                        'node' => $node,
+                    )
+                );
+            ?>
             <?php 
                 echo render($content['body']);
             ?>

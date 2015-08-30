@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="204.33093mm"
+   width="646.49194mm"
    height="269.13782mm"
-   viewBox="0 0 724.00724 953.63793"
+   viewBox="0 0 2290.7195 953.63793"
    id="svg4207"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="-137.9162"
-     inkscape:cy="574.25973"
+     inkscape:zoom="0.175"
+     inkscape:cx="759.68737"
+     inkscape:cy="530.43647"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -56,7 +56,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(124.14647,173.02818)">
+     transform="translate(1016.2119,173.02818)">
     <path
        style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
        d="m -124.14647,780.19956 c 0,-0.61392 9.45314,-12.09627 21.00697,-25.51635 53.027118,-61.5924 94.4055328,-121.45686 120.108525,-173.76769 18.730103,-38.11955 26.295048,-58.70907 34.360145,-93.51785 4.93597,-21.30344 5.748569,-29.33235 5.862633,-57.92427 0.09957,-24.97586 -0.818573,-37.55804 -3.709107,-50.82647 C 45.669963,342.784 31.175262,311.04092 7.0652641,276.99399 -7.7283671,256.1032 -59.504763,202.65339 -82.17282,184.87173 c -7.135935,-5.59769 -12.593666,-10.5584 -12.128301,-11.02377 1.529692,-1.52969 33.108664,10.17685 49.254747,18.25906 48.2384695,24.14665 107.425409,92.90656 132.890444,154.38439 11.241483,22.69091 12.94,45.94976 12.58875,73.64651 -0.32812,23.64497 -4.859701,61.3189 -29.605312,117.32807 -17.428877,39.44849 -26.627705,56.72389 -45.465304,85.38369 -23.8663623,36.31067 -43.458299,60.58363 -74.7269,92.58097 -30.544559,31.25649 -74.781774,69.57056 -74.781774,64.76891 z"
@@ -76,5 +76,44 @@
        cy="177.57405"
        rx="44.82143"
        ry="55.178574" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:176.54997253px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-837.47845"
+       y="459.82309"
+       id="text3344"
+       sodipodi:linespacing="125%"
+       transform="scale(1.2324479,0.81139332)"><tspan
+         sodipodi:role="line"
+         id="tspan3346"
+         x="-837.47845"
+         y="459.82309"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Trebuchet MS';-inkscape-font-specification:'Trebuchet MS Bold'">NORFOLK</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:166.55259705px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="184.63428"
+       y="434.01123"
+       id="text3344-1"
+       sodipodi:linespacing="125%"
+       transform="scale(1.1626589,0.86009749)"><tspan
+         sodipodi:role="line"
+         id="tspan3346-3"
+         x="184.63428"
+         y="434.01123"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Trebuchet MS';-inkscape-font-specification:'Trebuchet MS Bold'">BADMINTON</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:166.55259705px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="192.43417"
+       y="546.73608"
+       id="text3344-1-6"
+       sodipodi:linespacing="125%"
+       transform="scale(1.1626589,0.86009749)"><tspan
+         sodipodi:role="line"
+         id="tspan3346-3-1"
+         x="192.43417"
+         y="546.73608"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:80px;font-family:'Trebuchet MS';-inkscape-font-specification:'Trebuchet MS Bold';letter-spacing:10px;word-spacing:0px">ASSOCIATION</tspan></text>
   </g>
 </svg>

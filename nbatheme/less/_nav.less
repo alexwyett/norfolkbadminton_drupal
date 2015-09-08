@@ -1,0 +1,57 @@
+.region-nav {
+    margin-bottom: @main-wrapper-padding;
+    nav {
+        .clearfix();
+        width: 100%;
+        display: block;
+
+        .menu {
+            .reset();
+            .clearfix();
+            background: @nba-light-blue;
+
+            li {
+                color: @body-color;
+                display: inline-block;
+                font-size: 12px;
+
+                a {
+                    font-family: Arial, Helvetica, sans-serif;
+                    color: @body-color;
+                    font-weight: bold;
+                    padding: 0.5em;
+                    display: inline-block;
+                }
+
+                &:before {
+                    content: "|";
+                    display: inline-block;
+                    padding: .5em 0;
+                }
+
+                &:first-child:before {
+                    display: none;
+                }
+
+                > .menu {
+                    position: absolute;
+                    left: -9999px;
+                    z-index: 1;
+
+                    li {
+                        display: block;
+                        &:before {
+                            display: none;
+                        }
+                    }
+                }
+
+                &:hover {
+                    > .menu {
+                        left: auto;
+                    }
+                }
+            }
+        }
+    }
+}

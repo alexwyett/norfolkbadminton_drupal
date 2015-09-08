@@ -1,0 +1,112 @@
+
+
+.nbacontent {
+
+    .clearfix();
+    padding-right: @main-wrapper-padding;
+    min-height: @blog-item-height;
+    margin-bottom: @main-wrapper-padding;
+
+    &_body {
+        margin-left: 60px;
+
+        .blog_title {
+            color: @nba-dark-blue;
+            font-size: @article-title-font-size;
+            letter-spacing: -1px;
+
+            img {
+                float: right;
+                width: 120px;
+                height: auto;
+                margin-left: 0.5em;
+            }
+        }
+
+        .meta {
+            .reset();
+            display: none;
+        }
+
+        p {
+            color: @font-color;
+            font-size: 14px;
+            line-height: 20px;
+            line-height: 1.5rem;
+        }
+    }
+
+    &-teaser {
+        .nbacontent_body {
+            .meta {
+                display: block;
+                color: @nba-light-blue;
+                font-size: @small-font-size;
+            }
+        }
+    }
+}
+
+.blog_date {
+    .box(50px, 50px);
+    background: @nba-dark-blue;
+    color: #FFF;
+    float: left;
+
+    strong {
+        .box(40px, 20px);
+        text-align: center;
+        padding: 5px;
+        line-height: 28px;
+        font-size: 24px;
+    }
+
+    small {
+        display: block;
+        text-align: center;
+        padding: 0px;
+        font-size: 12px;
+    }
+}
+
+.gallery {
+    &_item {
+        .box(100%, auto);
+        margin: 1em 0;
+        padding: 0;
+        position: relative;
+
+        img {
+            .box(100%, auto);
+        }
+
+        &_caption {
+            .absolute(auto, 0, 0);
+            background: rgba(0, 0, 0, 0.4);
+            width: 100%;
+
+            p {
+                padding: 0.5em;
+                margin: 0;
+                color: white;
+            }
+        }
+    }
+}
+
+.documents {
+    margin-bottom: 1em;
+    .title {
+        margin-bottom: 1em;
+    }
+}
+
+.node-nbabasicpage {
+    .blog_date {
+        display: none;
+    }
+
+    .nbacontent_body {
+        margin-left: 0;
+    }
+}

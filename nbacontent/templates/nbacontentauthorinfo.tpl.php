@@ -1,4 +1,4 @@
-<div class="media">
+<div class="media authorname">
     <?php
         if ($author->picture) {
             ?>
@@ -6,7 +6,7 @@
         <?php
             echo theme_image_style(
                 array(
-                    'style_name' => 'author',
+                    'style_name' => 'thumbnail',
                     'height' => '100',
                     'width' => '100',
                     'path' => $author->picture->uri,

@@ -9,6 +9,7 @@ stylesheets[all][] = css/styles.css
 
 ; Unset default stylesheets
 stylesheets[all][] = views.css
+stylesheets[all][] = system.menus.css
 
 ; Scripts
 scripts[] = js/main.js
@@ -16,5 +17,6 @@ scripts[] = js/main.js
 ; Regions
 regions[header]  = Header region for NBA base theme
 regions[content] = Content region for NBA base theme
+regions[nav] = Nav region for NBA base theme
 regions[footer]  = Footer region for NBA base theme
 regions[sidebar] = Sidebar region for NBA base theme

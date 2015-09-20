@@ -1,0 +1,13 @@
+name        = NJBA Theme
+description = Norfolk junior badminton theme
+core        = 7.x
+engine      = phptemplate
+base theme  = nbatheme
+screenshot  = logo.png
+
+; Regions
+regions[header]  = Header region for NBA base theme
+regions[content] = Content region for NBA base theme
+regions[nav] = Nav region for NBA base theme
+regions[footer]  = Footer region for NBA base theme
+regions[sidebar] = Sidebar region for NBA base theme

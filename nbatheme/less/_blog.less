@@ -45,13 +45,39 @@
             }
         }
     }
+
+    &_meta {
+        width: 50px;
+        float: left;
+
+        .sharingicons {
+            width: 50px;
+
+            a {
+                text-align: center;
+                display: block;
+                margin: 10px;
+            }
+        }
+    }
+}
+
+.sharingicons {
+    a {
+        &:hover {
+            text-decoration: none;
+        }
+
+        span {
+            display: none;
+        }
+    }
 }
 
 .blog_date {
     .box(50px, 50px);
     background: @nba-dark-blue;
     color: #FFF;
-    float: left;
 
     strong {
         .box(40px, 20px);
@@ -106,7 +132,11 @@
         display: none;
     }
 
-    .nbacontent_body {
-        margin-left: 0;
+    .sharingicons {
+        a {
+            &:first-child {
+                margin-top: 0;
+            }
+        }
     }
 }

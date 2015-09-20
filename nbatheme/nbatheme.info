@@ -6,6 +6,7 @@ screenshot  = logo.png
 
 ; Stylesheets
 stylesheets[all][] = css/styles.css
+stylesheets[all][] = css/icomoon.css
 
 ; Unset default stylesheets
 stylesheets[all][] = views.css

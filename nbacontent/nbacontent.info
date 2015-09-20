@@ -9,5 +9,6 @@ files[] = nbacontent.admin.inc
 files[] = nbacontent.taxonomy.inc
 files[] = nbacontent.helpers.inc
 
+dependencies[] = entity
 dependencies[] = image
 dependencies[] = views

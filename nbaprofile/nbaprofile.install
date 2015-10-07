@@ -1,0 +1,156 @@
+<?php
+
+/**
+ * Implements hook_install()
+ *
+ * @see system_install()
+ */
+function nbaprofile_install()
+{
+    //Perform a minimal install
+    include_once DRUPAL_ROOT . '/profiles/standard/standard.install';
+    standard_install();
+
+    // Remove page / article
+    node_type_delete('page');
+    node_type_delete('article');
+
+    //Disable unused modules
+    _disableUnusedModules();
+
+    //Setup admin theme
+    _setupAdminTheme();
+
+    //Set toccvanilla as default theme
+    _setupDefaultTheme();
+    
+    _setupMenus();
+    
+    // Disable user reg
+    variable_set('user_register', 0);
+}
+
+
+function _setupMenus()
+{
+    //Delete built in menus
+    $menusToBeDeleted = array('main-menu', 'navigation');
+    foreach($menusToBeDeleted as $menuToBeDeleted) {
+        $menu = menu_load($menuToBeDeleted);
+        menu_delete($menu);
+    }
+
+    //Add in the standard menus
+    $menusToBeAdded = array(
+        array(
+            'menu_name' => 'menu-header-menu',
+            'title' => 'Header Menu',
+            'description' => 'The menu that appears in the header'
+        ),
+        array(
+            'menu_name' => 'menu-footer-menu',
+            'title' => 'Footer Menu',
+            'description' => 'The menu that appears in the footer'
+        )
+    );
+
+    foreach ($menusToBeAdded as $menu) {
+        menu_save($menu);
+    }
+
+    //Add in some standard links to the menus
+    $links = array(
+        array(
+            'link_title' => 'Home',
+            'link_path' => '<front>',
+            'menu_name' => 'menu-header-menu',
+            'weight' => -100,
+            'expanded' => 0
+        ),
+        array(
+            'link_title' => 'About Us',
+            'link_path' => '<front>',
+            'menu_name' => 'menu-header-menu',
+            'weight' => 1,
+            'expanded' => 0
+        ),
+        array(
+            'link_title' => 'Contact Us',
+            'link_path' => '<front>',
+            'menu_name' => 'menu-footer-menu',
+            'weight' => 100,
+            'expanded' => 0
+        ),
+        array(
+            'link_title' => 'Privacy Policy',
+            'link_path' => '<front>',
+            'menu_name' => 'menu-footer-menu',
+            'weight' => 100,
+            'expanded' => 0
+        )
+    );
+
+    foreach ($links as $link) {
+        menu_link_save($link);
+    }
+}
+
+
+function _disableUnusedModules()
+{
+    $unusedModules = array('contextual', 'dashboard', 'rdf', 'overlay', 'search', 'help', 'color', 'shortcut', 'comment');
+
+    module_disable($unusedModules);
+}
+
+
+/**
+ * Sets the default admin theme to be 'seven'
+ *
+ * @return void
+ */
+function _setupAdminTheme()
+{
+    //Enable the 'seven' theme
+    db_update('system')
+        ->fields(array('status' => 1))
+        ->condition('type', 'theme')
+        ->condition('name', 'seven')
+        ->execute();
+
+    //Set the 'seventheme' theme to be the default
+    variable_set('admin_theme', 'seven');
+    variable_set('node_admin_theme', '1');
+}
+
+/**
+ * Sets the default theme to be 'toccvanilla'
+ *
+ * @return void
+ */
+function _setupDefaultTheme()
+{
+    //Enable the 'toccvanilla' theme
+    db_update('system')
+        ->fields(array('status' => 1))
+        ->condition('type', 'theme')
+        ->condition('name', 'nbatheme')
+        ->execute();
+
+    //Set the 'seventheme' theme to be the default
+    variable_set('theme_default', 'nbatheme');
+
+    //Disable bartik theme
+    db_update('system')
+        ->fields(array('status' => 0))
+        ->condition('type', 'theme')
+        ->condition('name', 'bartik')
+        ->execute();
+}
+
+/**
+ * Disable user registration
+ */
+function _disableUserRegistration() {
+    variable_set('user_register', 0);
+}

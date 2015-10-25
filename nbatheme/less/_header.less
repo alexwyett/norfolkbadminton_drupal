@@ -17,12 +17,11 @@ header {
             img {
                 width: 95%;
                 margin: 0 auto;
-                display: block;
             }
         }
 
         img {
-            .absolute(auto, auto, auto, auto, 1);
+            display: block;
         }
 
         span {
@@ -45,14 +44,15 @@ header {
     .quick-search {
 
         @media screen and (min-width: @screen-sm-min) {
-            .absolute(0, 0);   
+            .absolute(1em, 1em);   
+            width: 400px;
         }
 
         form {
             .clearfix();
         }
 
-        padding: @main-wrapper-padding 0;
+        padding: @main-wrapper-padding 0 0;
 
         @media screen and (min-width: @screen-sm-min) {
             padding: @main-wrapper-padding;
@@ -64,16 +64,40 @@ header {
 
         input {
             float: left;
-            padding: 5px;
+            padding: 5px 1%;
+            @media screen and (min-width: @screen-sm-min) {
+                .absolute(0);
+                float: none;
+            }
         }
         
         input {
             border: none;
         }
 
+        input[type=text] {
+            width: 70%;
+
+            .transition(0.5s);
+
+            @media screen and (min-width: @screen-sm-min) {
+                width: 200px;
+                right: 80px;
+                &:focus {
+                    width: 300px;
+                }
+            }
+        }
+
         input[type=submit] {
             background: @nba-light-blue;
             color: @body-color;
+            width: 28%;
+
+            @media screen and (min-width: @screen-sm-min) {
+                width: 80px;
+                right: 0;
+            }
         }
     }
 }

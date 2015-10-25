@@ -5,6 +5,8 @@ engine      = phptemplate
 base theme  = nbatheme
 screenshot  = logo.png
 
+stylesheets[all][] = css/styles.css
+
 ; Regions
 regions[header]  = Header region for NBA base theme
 regions[content] = Content region for NBA base theme

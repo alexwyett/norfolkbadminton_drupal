@@ -36,10 +36,12 @@ $localThemePath = $base_path  . drupal_get_path('theme', $theme);
 ?>
 <?php if ($content): ?>
     <header class="main-header <?php print $classes; ?>" itemtype="http://schema.org/WebPage" itemscope>
-        <a href="<?php echo url('<front>'); ?>" class="main-header_logo logo">
-            <img src="<?php echo $localThemePath; ?>/assets/img/logo.png" width="330">
-        </a>
-    
-        <?php print $content; ?>
+    	<div class="wrapper">
+	        <a href="<?php echo url('<front>'); ?>" class="main-header_logo logo">
+	            <img src="<?php echo $localThemePath; ?>/assets/img/logo.png">
+	        </a>
+	    
+	        <?php print $content; ?>
+    	</div>
   </header>
 <?php endif;

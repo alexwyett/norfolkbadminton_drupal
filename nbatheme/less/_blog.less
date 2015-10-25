@@ -11,10 +11,8 @@
         margin-left: 60px;
 
         .blog_title {
-            color: @nba-dark-blue;
-            font-size: @article-title-font-size;
-            letter-spacing: -1px;
-
+            color: @blog-title-color;
+            
             img {
                 float: right;
                 width: 120px;
@@ -27,6 +25,10 @@
                     width: 100%;
                     margin: 0.5em 0;
                 }
+            }
+
+            a {
+                color: @blog-title-color;
             }
         }
 
@@ -86,7 +88,7 @@
 
 .blog_date {
     .box(50px, 50px);
-    background: @nba-dark-blue;
+    background: @blog-date-background-color;
     color: #FFF;
 
     strong {

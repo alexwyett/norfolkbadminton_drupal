@@ -1,4 +1,4 @@
-jQuery(document).ready(function() {
+/**jQuery(document).ready(function() {
 
 	jQuery('svg').each(function() {
 	    var $img = jQuery(this);
@@ -34,4 +34,4 @@ jQuery(document).ready(function() {
 
 	    }, 'xml');
 	});
-});
+});*/

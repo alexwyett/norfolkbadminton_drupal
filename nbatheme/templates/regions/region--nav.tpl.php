@@ -36,6 +36,8 @@ $localThemePath = $base_path  . drupal_get_path('theme', $theme);
 ?>
 <?php if ($content): ?>
     <section class="main-nav <?php print $classes; ?>">
-    	<?php print $content; ?>
+    	<div class="wrapper">    
+    		<?php print $content; ?>
+		</div>
     </section>
 <?php endif;

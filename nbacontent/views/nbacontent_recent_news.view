@@ -51,3 +51,4 @@ $handler->display->display_options['filters']['type']['value'] = array(
 
 /* Display: Block */
 $handler = $view->new_display('block', 'Block', 'block');
+$handler->display->display_options['block_caching'] = '8';

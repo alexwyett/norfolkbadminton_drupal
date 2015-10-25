@@ -12,3 +12,4 @@ files[] = nbacontent.helpers.inc
 dependencies[] = entity
 dependencies[] = image
 dependencies[] = views
+dependencies[] = file

@@ -35,6 +35,8 @@ $localThemePath = $base_path  . drupal_get_path('theme', $theme);
 ?>
 <?php if ($content): ?>
     <footer class="main-footer <?php print $classes; ?>">
-        <?php print $content; ?>
+    	<div class="wrapper">
+        	<?php print $content; ?>
+        </div>
     </footer>
 <?php endif;

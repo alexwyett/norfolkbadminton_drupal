@@ -3,7 +3,7 @@
 header {
     .relative();
     padding: @main-wrapper-padding;
-    background: @nba-dark-blue;
+    background: @header-background-color;
 
     .logo {
         .box(100%, auto);
@@ -77,6 +77,7 @@ header {
 
         input[type=text] {
             width: 70%;
+            background: @search-text-input-background-color;
 
             .transition(0.5s);
 
@@ -90,7 +91,7 @@ header {
         }
 
         input[type=submit] {
-            background: @nba-light-blue;
+            background: @search-button-color;
             color: @body-color;
             width: 28%;
 

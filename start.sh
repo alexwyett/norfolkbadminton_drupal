@@ -26,6 +26,7 @@ if [ ! -d sites/all/modules/nbacontent ]; then
     # Setup a symlink to the themes folder
     ln -s $cwd/nbatheme ../themes
     ln -s $cwd/njbatheme ../themes
+    ln -s $cwd/nba_theme ../themes
 
     # Setup a symlink to the modules folder
     ln -s $cwd/nbacontent .

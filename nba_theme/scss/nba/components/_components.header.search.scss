@@ -1,0 +1,55 @@
+.header {
+    #block-search-form {
+        
+        @media screen and (min-width: $screen-sm-min) {
+            @include absolute(0, 0);   
+            width: 50%;
+        }
+
+        form {
+            @include clearfix();
+        }
+
+        padding: $base-spacing-unit 0 0;
+
+        @media screen and (min-width: $screen-sm-min) {
+            padding: $base-spacing-unit;
+        }
+
+        input {
+            float: left;
+            padding: 5px 1%;
+            @media screen and (min-width: $screen-sm-min) {
+                @include absolute(0);
+                float: none;
+            }
+        }
+        
+        input {
+            border: none;
+        }
+
+        input[type=text] {
+            width: 70%;
+
+            @include transition(0.5s);
+
+            @media screen and (min-width: $screen-sm-min) {
+                width: 50%;
+                right: 80px;
+                &:focus {
+                    width: 80%;
+                }
+            }
+        }
+
+        input[type=submit] {
+            width: 28%;
+
+            @media screen and (min-width: $screen-sm-min) {
+                width: 80px;
+                right: 0;
+            }
+        }
+    }
+}

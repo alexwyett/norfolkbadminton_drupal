@@ -1,0 +1,64 @@
+@mixin font-size($font-size, $line-height: auto) {
+    font-size: $font-size;
+    font-size: ($font-size / $base-font-size) * 1rem;
+
+    @if $line-height == auto {
+        line-height: ceil($font-size / $base-line-height) * ($base-line-height / $font-size);
+    }
+
+    @else {
+
+        @if (type-of($line-height) == number or $line-height == inherit or $line-height == normal) {
+            line-height: $line-height;
+        }
+
+        @elseif ($line-height != none and $line-height != false) {
+            @warn "D’oh! ‘#{$line-height}’ is not a valid value for `line-height`."
+        }
+
+    }
+
+}
+
+
+@mixin inline-block() {
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;
+}
+
+@mixin clearfix() {
+    zoom: 1;
+    &:before {
+        content: '';
+        display: block;
+    }
+    &:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+@mixin box($width: 50px, $height: 50px, $display: block) {
+    width: $width;
+    height: $height;
+    display: $display;
+}
+
+@mixin absolute($top: auto, $right: auto, $bottom: auto, $left: auto, $z-index: 0) {
+    position: absolute;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+    z-index: $z-index;
+}
+
+@mixin transition($duration: 0.2s, $ease: ease-out) {
+    -webkit-transition: all $duration $ease;
+    -moz-transition: all $duration $ease;
+    transition: all $duration $ease;
+}

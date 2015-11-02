@@ -1,0 +1,28 @@
+.header {
+    background: $color-brand;
+    padding: $base-spacing-unit;
+    
+    .logo {
+        &:hover {
+            text-decoration: none;
+        }
+
+        img {
+            @include box(auto, 100px, inline);
+        }
+
+        @media screen and (max-width: 640px) {
+            img {
+                width: 95%;
+                height: auto;
+                margin: 0 auto;
+            }
+        }
+    }
+    
+    .o-wrapper {
+        position: relative;
+    }
+}
+
+@import "components.header.search";

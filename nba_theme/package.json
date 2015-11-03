@@ -4,7 +4,8 @@
   "description": "Sass starter kit based on ITCSS Methodology",
   "main": "Gruntfile.js",
   "dependencies": {
-    "grunt-cli": "^0.1.13"
+    "grunt-cli": "^0.1.13",
+    "lexer": "^0.1.1"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

@@ -7,14 +7,11 @@ $localThemePath = $base_path  . drupal_get_path('theme', $theme);
 
 ?>
 <header class="header header-main <?php print $classes; ?>" itemtype="http://schema.org/WebPage" itemscope>
-    <div class="o-padder">
-        <?php echo render($page['header_nav']); ?>
-        
-        <a href="<?php echo url('<front>'); ?>" class="main-header_logo logo">
-            <img src="<?php echo $localThemePath; ?>/assets/img/logo.png">
-        </a>
-        
-    </div>
+    <a href="<?php echo url('<front>'); ?>" class="main-header_logo logo">
+        <img src="<?php echo $localThemePath; ?>/assets/img/logo.png">
+    </a>
+    
+    <?php echo render($page['header_nav']); ?>
 </header>
 
 <main class="main">

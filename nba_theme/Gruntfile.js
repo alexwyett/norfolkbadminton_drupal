@@ -49,56 +49,14 @@ module.exports = function(grunt) {
       }
     },
 
-    // configure concatenation --> grunt concat
-    concat: {
-      dist: {
-        src: [
-          'js/libs/*.js' // All JS in the libs folder
-        ],
-        dest: 'js/plugins.js'
-      }
-    },
-
-    // configure minification --> grunt uglify
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-      },
-      dist: {
-        files: {
-          'js/build/plugins.js' : 'js/plugins.js',
-          'js/build/global.js' : 'js/global.js'
-        }
-      }
-    },
-
     // configure file watching --> grunt watch
     watch: {
-      scripts: {
-        files: ['js/**/*.js'],
-        tasks: ['concat', 'uglify'],
-        options: {
-            spawn: false,
-        },
-      },
       css: {
         files: ['scss/**/*.scss'],
         tasks: ['sass:dev'],
         options: {
             spawn: false,
         }
-      }
-    },
-
-    // configure image optimization --> grunt imagemin
-    imagemin: {
-      dynamic: {
-        files: [{
-            expand: true,
-            cwd: 'img/',
-            src: ['**/*.{png,jpg,gif}'],
-            dest: 'img/build/'
-        }]
       }
     }
   });

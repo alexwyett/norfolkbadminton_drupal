@@ -30,7 +30,7 @@
 
 ?>
 <?php if ($content): ?>
-    <nav class="header_nav <?php print $classes; ?>">
+    <div class="header_nav <?php print $classes; ?>">
         <?php print $content; ?>
-    </nav>
+    </div>
 <?php endif;

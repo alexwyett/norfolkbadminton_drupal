@@ -1,28 +1,26 @@
 .header {
     background: $color-brand;
-    padding: $base-spacing-unit;
     
     .logo {
+        @include box(100%, auto);
+        margin: 0 auto;
+        text-align: center;
+        
         &:hover {
             text-decoration: none;
         }
 
         img {
-            @include box(auto, 100px, inline);
-        }
-
-        @media screen and (max-width: 640px) {
-            img {
-                width: 95%;
-                height: auto;
-                margin: 0 auto;
+            @include box(100%, auto, inline);
+        
+            @media screen and (min-width: $screen-sm-min) {
+                max-width: $screen-sm-min;
             }
         }
     }
     
-    .o-wrapper {
-        position: relative;
+    @media screen and (min-width: $screen-sm-min) {
+        @include absolute(0, auto, auto, 0);
+        @include box(25%, 100%);
     }
 }
-
-@import "components.header.search";

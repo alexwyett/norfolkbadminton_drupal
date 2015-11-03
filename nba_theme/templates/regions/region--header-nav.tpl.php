@@ -28,20 +28,9 @@
  * @ingroup themeable
  */
 
-global $base_path;
-global $theme;
-$themePath = $base_path  . drupal_get_path('theme', 'nbatheme');
-$localThemePath = $base_path  . drupal_get_path('theme', $theme);
-
 ?>
 <?php if ($content): ?>
-    <header class="header header-main <?php print $classes; ?>" itemtype="http://schema.org/WebPage" itemscope>
-    	<div class="o-wrapper">
-            <a href="<?php echo url('<front>'); ?>" class="main-header_logo logo">
-                <img src="<?php echo $localThemePath; ?>/assets/img/logo.png">
-            </a>
-	    
-            <?php print $content; ?>
-    	</div>
-  </header>
+    <nav class="header_nav <?php print $classes; ?>">
+        <?php print $content; ?>
+    </nav>
 <?php endif;

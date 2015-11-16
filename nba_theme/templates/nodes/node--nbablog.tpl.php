@@ -47,17 +47,20 @@ if ($teaser) {
         echo render($content['banners']);
     ?>
     <div class="article-body nbacontent_body">
-        <h2 class="blog_title">
-            <?php echo $title; ?>
-            <time class="blog_date" itemprop="datePublished">
-                <strong><?php echo date('j', $node->created); ?></strong>
-                <small><?php echo date('M', $node->created); ?></small>
-            </time>
+        <h2 class="c-title c-title-main">
+            <?php 
+                echo $title;
+                
+                $date = $node->created;
+                $dateClass = 'c-date';
+                if ($node->changed > $node->created) {
+                    $date = $node->changed;
+                    $dateClass .= ' c-date-updated';
+                } else { 
+                    $dateClass .= ' c-date-created';
+                }
+            ?>
         </h2>
-
-        <?php
-            echo theme('nbacontentsocialtags');
-        ?>
         <?php 
             echo render($content['body']);
             
@@ -66,11 +69,24 @@ if ($teaser) {
             hide($content['links']);
             hide($content['tags']);
             hide($content['thumbnail']);
+            hide($content['documents']);
             print render($content);
+        ?>
+
+        <time class="<?php echo $dateClass; ?>" itemprop="datePublished">
+            <span class="c-date_day"><?php echo date('j', $date); ?></span>
+            <span class="c-date_month"><?php echo date('M', $date); ?></span>
+            <span class="c-date_year"><?php echo date('Y', $date); ?></span>
+        </time>
+
+        <?php
+            echo theme('nbacontentsocialtags');
         ?>
     </div>
 </article>
 
 <?php
+
+    echo render($content['documents']);
 
 }

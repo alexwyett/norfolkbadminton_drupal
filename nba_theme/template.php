@@ -1,5 +1,6 @@
 <?php
 
+require_once 'themehelpers/theme.php';
 require_once 'themehelpers/form.php';
 
 /**

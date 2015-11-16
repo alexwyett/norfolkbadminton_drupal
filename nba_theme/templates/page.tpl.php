@@ -6,7 +6,7 @@ $themePath = $base_path  . drupal_get_path('theme', 'nbatheme');
 $localThemePath = $base_path  . drupal_get_path('theme', $theme);
 
 ?>
-<header class="header header-main <?php print $classes; ?>" itemtype="http://schema.org/WebPage" itemscope>
+<header class="header main_header <?php print $classes; ?>" itemtype="http://schema.org/WebPage" itemscope>
     <a href="<?php echo url('<front>'); ?>" class="main-header_logo logo">
         <img src="<?php echo $localThemePath; ?>/assets/img/logo.png">
     </a>

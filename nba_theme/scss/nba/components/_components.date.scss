@@ -1,0 +1,17 @@
+.c-date {
+	display: block;
+	font-weight: normal;
+	@include font-size(14px);
+
+	&-created {
+		&:before {
+			content: "Page created: ";
+		}
+	}
+
+	&-updated {
+		&:before {
+			content: "Last updated: ";
+		}
+	}
+}

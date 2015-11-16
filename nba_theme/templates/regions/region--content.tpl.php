@@ -31,14 +31,6 @@
 <?php if ($content): ?>
     <section class="left content main_content <?php print $classes; ?>">
         <?php
-            $slogan = variable_get('site_slogan', '');
-            if (drupal_strlen($slogan) > 0) {
-                echo sprintf(
-                    '<blockquote class="siteslogan">%s</blockquote>',
-                    $slogan
-                );
-            }
-            
             print $content;
         ?>
   </section>

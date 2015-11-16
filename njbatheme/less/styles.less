@@ -1,0 +1,37 @@
+@import '../../nbatheme/less/_variables.less';
+
+@background-color: white;
+@main-border-colour: white;
+@sideblock-background-color: #DDD;
+@sideblock-body-color: white;
+@footer-background-color: #DDD;
+@header-background-color: white;
+@search-text-input-background-color: #DDD;
+@nba-dark-blue: #404040;
+@nba-light-blue: @nba-dark-blue;
+@search-button-color: #6F0F13;
+@blog-date-background-color: #6F0F13;
+@nav-background-color: #6F0F13;
+@sidebar-block-title-color: #404040;
+@background-color: @footer-background-color;
+
+@import '../../nbatheme/less/_mixins.less';
+@import '../../nbatheme/less/_header.less';
+@import '../../nbatheme/less/_nav.less';
+@import '../../nbatheme/less/_blog.less';
+@import '../../nbatheme/less/_footer.less';
+@import '../../nbatheme/less/_layout.less';
+@import '../../nbatheme/less/_mobile.less';
+
+
+header {
+    padding: 0 0 @main-wrapper-padding 0;
+
+    #block-search-form,
+    .quick-search {
+        @media screen and (min-width: @screen-sm-min) {
+        	top: 0;
+        	right: 0;
+        }
+    }
+}

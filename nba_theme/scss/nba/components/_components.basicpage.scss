@@ -1,7 +1,20 @@
 .node-type-nbabasicpage,
-.node-type-nbablogpage {
+.node-type-nbablog {
     .nbacontent_body {
-        padding: $base-font-size;
+        padding: $base-spacing-unit;
+    }
+
+    .documents {
+        span {
+            display: block;
+            padding: $base-spacing-unit / 2;
+        }
+    }
+
+    @media screen and (max-width: $screen-md-min) {
+        .c-block {
+            margin: $base-spacing-unit;
+        }
     }
     
     @media screen and (min-width: $screen-md-min) {
@@ -9,23 +22,21 @@
             float: left;
             width: 70%;
         }
+
+        .documents,
         .region-sidebar {
             float: right;
-            width: 30%;
+            width: 29%;
+            margin-right: 1%;
+        }
+
+        .documents {
+            margin-bottom: 0;
         }
     }
 }
 
-.nbacontent {
-    &_body {
-        time {
-            display: block;
-            font-size: initial;
-            font-weight: normal;
-            
-            strong {
-                font-weight: normal;
-            }
-        }
-    }
+
+.spreadtheword {
+    margin-top: $base-spacing;
 }

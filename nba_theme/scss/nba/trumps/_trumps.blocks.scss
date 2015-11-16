@@ -1,0 +1,11 @@
+.main_header,
+.main_footer {
+    .c-block {
+        background: transparent;
+        margin: 0;
+
+        &_content {
+        	background: transparent;
+        }
+    }
+}

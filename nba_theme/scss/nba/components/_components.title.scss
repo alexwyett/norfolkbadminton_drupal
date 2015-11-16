@@ -1,0 +1,19 @@
+.c-title {
+    @include font-size(32px);
+    color: $color-brand;
+
+    &-medium {
+    	@include font-size(24px);
+    }
+
+    &-small {
+    	@include font-size(16px);
+    	margin-bottom: $base-spacing;
+    }
+
+    &-main {
+	    margin-bottom:  $base-spacing-unit;
+	    border-bottom: 1px solid $color-ui;
+	    padding-bottom: $base-font-size / 2;
+    }
+}

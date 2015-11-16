@@ -1,0 +1,6 @@
+ul.o-menu,
+ul.menu,
+.item-list ul,
+ol.o-menu {
+	@include reset();
+}

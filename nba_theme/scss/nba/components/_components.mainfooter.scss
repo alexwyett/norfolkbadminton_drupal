@@ -1,10 +1,15 @@
 .main_footer {
     @include clearfix();
-    .menu {
-        @include reset();
-        
+    ul.menu {
         li {
             float: left;
+
+            a {
+                padding: 0;
+                &:before {
+                    display: none;
+                }
+            }
             
             &:after {
                 content: "|";

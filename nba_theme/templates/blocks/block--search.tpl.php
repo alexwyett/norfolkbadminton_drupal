@@ -4,6 +4,6 @@
     <?php endif; ?>
     <div class="block_content">
         <?php print $content; ?>
-        <a href="#" class="sitesearch_btn icon icon-search" id="dosearch"></a>
+        <a href="#!" class="sitesearch_btn icon icon-search" id="dosearch"></a>
     </div>
 </div>

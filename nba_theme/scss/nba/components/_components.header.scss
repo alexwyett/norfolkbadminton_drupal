@@ -1,9 +1,8 @@
 .header {
-    background: $color-brand;
+    background: url(../assets/img/shuttle.png) no-repeat bottom left $color-brand;
     
     .logo {
         @include box(100%, auto);
-        margin: $base-spacing-unit auto;
         text-align: center;
         
         &:hover {
@@ -17,7 +16,11 @@
     
     @media screen and (min-width: $screen-sm-min) {
         @include absolute(0, auto, auto, 0);
-        @include box(25%, 100%);
+        @include box($sidebar-width, 100%);
+        
+        .logo {
+            margin: $base-spacing-unit auto;
+        }
     }
     
     &_nav {
@@ -47,10 +50,37 @@
                 
                 &.active {
                     &:before {
-                        background: $color-brand-highlight;
+                        background: $color-brand-mark;
                     }
                 }
             }
+            
+            li {
+                &:last-child {
+                    a {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+    
+    @media screen and (min-width: $screen-sm-min) {
+        &:after {
+            @include absolute(0, -10px);
+            @include box(10px, 100%);
+            opacity: 0.2;
+            content: "";
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAAPFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD////QkQAiAAAAEnRSTlMWFzAxSktkZX1+l5ixssvk5f7KuKiQAAAANElEQVQI11XLsQ3AAAyAMOWE5v9XgS5RpW4MZlYNzVlNudS+DKN50g5QhDarEcZt6g/cFr4yWVoTFtyv5gAAAABJRU5ErkJggg==);
+        }
+    }
+}
+
+html.rgba {
+    .header {
+        @media screen and (min-width: $screen-sm-min) {
+            position: fixed;
+            z-index: 1;
         }
     }
 }

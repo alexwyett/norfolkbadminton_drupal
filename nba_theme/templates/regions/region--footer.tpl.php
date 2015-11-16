@@ -34,9 +34,9 @@ $themePath = $base_path  . drupal_get_path('theme', 'nbatheme');
 $localThemePath = $base_path  . drupal_get_path('theme', $theme);
 ?>
 <?php if ($content): ?>
-    <footer class="main-footer <?php print $classes; ?>">
+    <footer class="main_footer sectionstrip <?php print $classes; ?>">
     	<div class="wrapper">
-        	<?php print $content; ?>
+            <?php print $content; ?>
         </div>
     </footer>
 <?php endif;

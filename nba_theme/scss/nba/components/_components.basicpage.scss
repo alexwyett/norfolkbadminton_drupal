@@ -1,0 +1,31 @@
+.node-type-nbabasicpage,
+.node-type-nbablogpage {
+    .nbacontent_body {
+        padding: $base-font-size;
+    }
+    
+    @media screen and (min-width: $screen-md-min) {
+        .nbacontent_body {
+            float: left;
+            width: 70%;
+        }
+        .region-sidebar {
+            float: right;
+            width: 30%;
+        }
+    }
+}
+
+.nbacontent {
+    &_body {
+        time {
+            display: block;
+            font-size: initial;
+            font-weight: normal;
+            
+            strong {
+                font-weight: normal;
+            }
+        }
+    }
+}

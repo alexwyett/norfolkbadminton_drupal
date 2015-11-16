@@ -1,6 +1,8 @@
 .main {
+    background: white;
+    
     @media screen and (min-width: $screen-sm-min) {
-        width: 75%;
-        margin-left: 25%;
+        width: 80%;
+        margin-left: 20%;
     }
 }

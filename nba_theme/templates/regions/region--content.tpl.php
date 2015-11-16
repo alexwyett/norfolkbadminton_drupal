@@ -29,7 +29,7 @@
  */
 ?>
 <?php if ($content): ?>
-    <main class="left content main-content <?php print $classes; ?>">
+    <section class="left content main_content <?php print $classes; ?>">
         <?php
             $slogan = variable_get('site_slogan', '');
             if (drupal_strlen($slogan) > 0) {
@@ -41,5 +41,5 @@
             
             print $content;
         ?>
-  </main>
+  </section>
 <?php endif;

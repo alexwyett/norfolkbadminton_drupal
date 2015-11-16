@@ -24,7 +24,7 @@ $localThemePath = $base_path  . drupal_get_path('theme', $theme);
 
     ?>
 
-    <div class="<?php echo $cols; ?>-column clearfix">
+    <div class="main_body <?php echo $cols; ?>-column clearfix">
         <?php echo render($page['content']); ?>
         <?php echo $sidebar; ?>
     </div>

@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+
 @import "settings/settings.global";
 @import "settings/settings.colors";
 
@@ -20,8 +22,15 @@
 @import "objects/objects.media";
 
 @import "nba/components/components.header";
+@import "nba/components/components.slogan";
 @import "nba/components/components.search";
+@import "nba/components/components.regionsearch";
+@import "nba/components/components.sectionstrip";
 @import "nba/components/components.main";
+@import "nba/components/components.whitebackground";
+@import "nba/components/components.mainfooter";
+@import "nba/components/components.basicpage";
+@import "nba/components/components.gallery";
 
 @import "components/components.page-title";
 @import "components/components.buttons";

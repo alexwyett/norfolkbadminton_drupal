@@ -23,7 +23,7 @@ $localThemePath = $base_path  . drupal_get_path('theme', $theme);
     <!-- CSS  -->
     <link rel="icon" href="<?php echo $localThemePath; ?>/favicon.ico" type="image/x-icon" />
 </head>
-<body>
+<body class="<?php echo $classes; ?>" <?php echo $attributes;?>>
 
     <?php
         global $user;

@@ -1,0 +1,13 @@
+.region-search {
+    position: relative;
+    
+    .sitesearch {
+        display: none;
+    }
+    
+    &.open {
+        .siteslogan .icon {
+            background: $color-brand-shadow;
+        }
+    }
+}

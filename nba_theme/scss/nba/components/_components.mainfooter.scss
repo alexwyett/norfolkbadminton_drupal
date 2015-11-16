@@ -1,0 +1,21 @@
+.main_footer {
+    @include clearfix();
+    .menu {
+        @include reset();
+        
+        li {
+            float: left;
+            
+            &:after {
+                content: "|";
+                margin: 0 10px;
+            }
+            
+            &.last {
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+}

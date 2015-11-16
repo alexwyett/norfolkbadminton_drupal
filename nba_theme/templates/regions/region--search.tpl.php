@@ -35,15 +35,14 @@ $localThemePath = $base_path  . drupal_get_path('theme', $theme);
 
 ?>
 <div class="region-search">
-    <blockquote>
+    <blockquote class="siteslogan sectionstrip">
         <?php echo variable_get(
             'site_slogan',
             'Norfolk Badminton.  Change ' . l('here', 'admin/config/system/site-information') . '.'
         ); ?>
+        <a href="#!" class="icon icon-search" id="opensearch"></a>
     </blockquote>
 <?php if ($content): ?>
     <?php print $content; ?>
-    
-    <a href="#" class="icon icon-search" id="opensearch"></a>
 <?php endif; ?>
 </div>

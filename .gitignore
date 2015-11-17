@@ -5,4 +5,5 @@ site/
 ; npm
 **/node_modules
 **/npm-debug.log
-/nba_theme/.sass-cache/
+nba_theme/.sass-cache
+nba_theme/.sass-cache/

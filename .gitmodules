@@ -1,0 +1,3 @@
+[submodule "imageshortcode"]
+	path = imageshortcode
+	url = git@github.com:alexwyett/imageshortcode.git

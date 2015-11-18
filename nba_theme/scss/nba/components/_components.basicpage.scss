@@ -1,14 +1,14 @@
 .node-type-nbabasicpage,
 .node-type-nbablog {
+    
+    .region-content {
+        float: none;
+        width: 100%;
+        padding: 0;
+    }
+    
     .nbacontent_body {
         padding: $base-spacing-unit;
-    }
-
-    .documents {
-        span {
-            display: block;
-            padding: $base-spacing-unit / 2;
-        }
     }
 
     @media screen and (max-width: $screen-md-min) {

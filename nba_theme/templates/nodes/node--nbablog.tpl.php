@@ -5,7 +5,7 @@ if ($teaser) {
     $hasThumbnail = strlen($thumbnail) > 0;
 ?>
 
-<article class="media nbacontent blog-item nbacontent-teaser <?php echo ($hasThumbnail) ? 'nbacontent-thumbnail' : ''; ?> node-<?php print $node->nid; ?> <?php print $classes; ?>  clearfix"<?php print $attributes; ?>">
+<article class="card media nbacontent blog-item nbacontent-teaser <?php echo ($hasThumbnail) ? 'nbacontent-thumbnail' : ''; ?> node-<?php print $node->nid; ?> <?php print $classes; ?>  clearfix"<?php print $attributes; ?>">
     <time class="blog_date" itemprop="datePublished">
         <strong><?php echo date('j', $node->created); ?></strong>
         <small><?php echo date('M', $node->created); ?></small>
@@ -23,10 +23,9 @@ if ($teaser) {
         </h2>
         <?php
             echo theme(
-                'nbacontentauthorname',
+                'nbacontentauthorinfo',
                 array(
-                    'author' => $node_author,
-                    'node' => $node,
+                    'author' => $node_author
                 )
             );
         ?>

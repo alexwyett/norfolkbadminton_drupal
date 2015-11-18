@@ -1,0 +1,49 @@
+ul.menu,
+.item-list ul,
+.documents {
+    
+    @include rounded();
+    
+    li,
+    .file {
+        margin: 0;
+
+        a {
+            position: relative;
+            display: block;
+            padding: $base-spacing-unit / 2 $base-spacing-unit;
+            margin-bottom: 2px;
+
+            &:before {
+                @include absolute(0, auto, auto, 0);
+                @include box(5px, 100%);
+                background: $color-brand-highlight;
+                content: "";
+            }
+
+            &:hover {
+                &:before {
+                    background: $color-brand-highlight-extreme;
+                }
+            }
+
+            &.active {
+                &:before {
+                    background: $color-brand-mark;
+                }
+            }
+        }
+
+        &:last-child {
+            a {
+                margin-bottom: 0;
+            }
+        }
+    }
+    
+    .file {
+        img {
+            display: none;
+        }
+    }
+}

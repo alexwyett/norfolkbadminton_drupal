@@ -11,6 +11,12 @@ function nba_theme_theme($existing, $type, $theme, $path)
         'nbacontentsocialtags' => array(
             'variables' => array(),
             'template' => 'templates/components/nbasocialtags'
+        ),
+        'nbacontentauthorinfo' => array(
+            'variables' => array(
+                'author' => NULL
+            ),
+            'template' => 'templates/components/nbacontentauthorinfo'
         )
     );
 }

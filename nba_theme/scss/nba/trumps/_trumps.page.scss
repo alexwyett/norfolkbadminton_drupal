@@ -1,0 +1,13 @@
+@media screen and (min-width: $screen-md-min) {
+    .region-content {
+        float: left;
+        width: 70%;
+        padding: $base-spacing-unit;
+    }
+
+    .region-sidebar {
+        float: right;
+        width: 29%;
+        margin-right: 1%;
+    }
+}

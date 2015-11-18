@@ -48,6 +48,25 @@
     display: $display;
 }
 
+@mixin rounded($radius: 3px) {
+    @include border-radius($radius, $radius, $radius, $radius);
+}
+
+@mixin border-radius($topright: 0, $bottomright: 0, $bottomleft: 0, $topleft: 0) {
+    -webkit-border-top-right-radius: $topright;
+    -webkit-border-bottom-right-radius: $bottomright;
+    -webkit-border-bottom-left-radius: $bottomleft;
+    -webkit-border-top-left-radius: $topleft;
+    -moz-border-radius-topright: $topright;
+    -moz-border-radius-bottomright: $bottomright;
+    -moz-border-radius-bottomleft: $bottomleft;
+    -moz-border-radius-topleft: $topleft;
+    border-top-right-radius: $topright;
+    border-bottom-right-radius: $bottomright;
+    border-bottom-left-radius: $bottomleft;
+    border-top-left-radius: $topleft;
+}
+
 @mixin absolute($top: auto, $right: auto, $bottom: auto, $left: auto, $z-index: 0) {
     position: absolute;
     top: $top;
@@ -57,14 +76,43 @@
     z-index: $z-index;
 }
 
-@mixin transition($duration: 0.2s, $ease: ease-out) {
-    -webkit-transition: all $duration $ease;
-    -moz-transition: all $duration $ease;
-    transition: all $duration $ease;
+@mixin transition($target: all, $duration: 0.2s) {
+    -webkit-transition: $target $duration;
+    -moz-transition: $target $duration;
+    transition: $target $duration ;
+}
+
+@mixin transitionease($target: all, $duration: 0.2s, $ease: ease-out) {
+    @include transition($target, $duration);
+    -webkit-transition-timing-function: $ease;
+    -moz-transition-timing-function: $ease;
+    transition-timing-function: $ease;
 }
 
 @mixin reset() {
     margin: 0;
     padding: 0;
     list-style-type: none;
+}
+
+@mixin icomoon($family: 'IcoMoon-Free') {
+    font-family: $family;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Enable Ligatures ================ */
+    -webkit-font-feature-settings: "liga";
+    -moz-font-feature-settings: "liga=1";
+    -moz-font-feature-settings: "liga";
+    -ms-font-feature-settings: "liga" 1;
+    -o-font-feature-settings: "liga";
+    font-feature-settings: "liga";
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }

@@ -1,6 +1,7 @@
 // Color palette
 $color-brand:            #1f4a88;
 $color-brand-highlight:  lighten($color-brand, 15%);
+$color-brand-highlight-extreme:  lighten($color-brand, 50%);
 $color-brand-background: lighten($color-brand, 15%);
 $color-brand-shadow:     darken($color-brand, 15%);
 $color-brand-mark:       #E20000;
@@ -21,7 +22,7 @@ $color-shadow:           rgba(0, 0, 0, 0.05);
 $color-ui:          $color-gray-light;
 
 // Text
-$color-text:        $color-gray-dark;
+$color-text:        #5A5A5A;
 
 // Links
 $color-link:        $color-brand;
@@ -30,3 +31,6 @@ $color-link-hover:  $color-brand-shadow;
 // Buttons
 $color-btn:         $color-brand;
 $color-btn-hover:   $color-brand-shadow;
+
+// Cards
+$card-bg-color:     white;

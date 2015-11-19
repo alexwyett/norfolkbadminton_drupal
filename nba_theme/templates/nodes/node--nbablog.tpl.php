@@ -5,7 +5,7 @@ if ($teaser) {
     $thumbnail = render($content['thumbnail']);
 ?>
 
-<article class="card card-large node-<?php print $node->nid; ?> <?php print $classes; ?> "<?php print $attributes; ?>">
+<article class="card card-medium node-<?php print $node->nid; ?> <?php print $classes; ?> "<?php print $attributes; ?>">
     <?php
         if (strlen($thumbnail) > 0) {
             ?>

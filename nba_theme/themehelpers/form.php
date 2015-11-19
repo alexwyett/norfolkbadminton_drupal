@@ -19,4 +19,8 @@ function nba_theme_form_alter(&$form, &$form_state, $form_id)
             'scope' => 'footer'
         );
     }
+
+    if ($form_id == 'search_form') {
+        $form['#attributes']['class'][] = 'c-block';
+    }
 }

@@ -237,7 +237,7 @@ function nbacontent_get_content_fields()
                 'field_name' => 'banners',
                 'label' => $t('Banner images'),
                 'description' => $t('Banner images for the page.'),
-                'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+                'cardinality' => 1,
                 'type' => 'image',
                 'widget' => array(
                     'type' => 'image'

@@ -8,7 +8,7 @@
     
     if (count($links) > 0) {
         ?>
-<h3 class="c-title c-title-small spreadtheword">Spread the word</h3>
+<h3 class="c-title c-title-small spreadtheword">Share this:</h3>
         <?php
         echo theme(
             'nbacontent_sm_links',

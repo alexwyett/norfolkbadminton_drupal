@@ -1,13 +1,31 @@
+.view-nbacontent-promoted-blogs {
+	@media screen and (min-width: $screen-sm-min) {
+		@include clearfix();
+		.card {
+			//width: 40%;
+			//float: left;
+		}
+	}
+
+	.card {
+		&_action {
+			a {
+				width: 100%;
+				@extend .ellipsis;
+			}
+		}
+	}
+}
+
+
 @media screen and (min-width: $screen-md-min) {
     .region-content {
         float: left;
         width: 70%;
-        padding: $base-spacing-unit;
     }
 
     .region-sidebar {
         float: right;
-        width: 29%;
-        margin-right: 1%;
+        width: 30%;
     }
 }

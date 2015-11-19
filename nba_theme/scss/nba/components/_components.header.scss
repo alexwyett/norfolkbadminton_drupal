@@ -24,9 +24,18 @@
     }
     
     &_nav {
+        .c-title {
+            color: white;
+            background: $color-brand-shadow;
+
+            @media screen and (min-width: $screen-sm-min) {
+                display: none;
+            }
+        }
         .menu {
             a {
                 color: white;
+                background: $color-brand;
             }
         }
     }

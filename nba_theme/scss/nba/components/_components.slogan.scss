@@ -1,4 +1,9 @@
 .siteslogan {
+	.slogan {
+		width: 70%;
+		display: block;
+	}
+
     .icon {
         @include absolute(0, 0);
         padding: $base-font-size / 2 $base-font-size;

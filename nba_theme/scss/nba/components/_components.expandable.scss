@@ -1,0 +1,32 @@
+.c-expandable {
+	&_toggle {
+        padding: $base-spacing;
+        cursor: pointer;
+
+        &:before {
+        	@include icomoon();
+        	content: "\ea43";
+        	margin-right: $base-spacing;
+        }
+	}
+
+	&_toggletarget {
+		display: none;
+	}
+
+	&.open &_toggle {
+        &:before {
+        	content: "\ea41";
+        }
+	}
+
+	&.open &_toggletarget {
+		display: block;
+	}
+
+    @media screen and (min-width: $screen-sm-min) {
+		&_toggletarget {
+			display: block;
+		}
+    }
+}

@@ -35,7 +35,7 @@ $localThemePath = $base_path  . drupal_get_path('theme', $theme);
 
 ?>
 <?php if ($content): ?>
-    <aside class="right region-sidebar">
+    <aside class="region-sidebar">
         <?php print $content; ?>
     </aside>
 <?php endif;

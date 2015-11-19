@@ -1,37 +1,30 @@
 <?php 
 
 if ($teaser) {
+
     $thumbnail = render($content['thumbnail']);
-    $hasThumbnail = strlen($thumbnail) > 0;
 ?>
 
-<article class="card media nbacontent blog-item nbacontent-teaser <?php echo ($hasThumbnail) ? 'nbacontent-thumbnail' : ''; ?> node-<?php print $node->nid; ?> <?php print $classes; ?>  clearfix"<?php print $attributes; ?>">
-    <time class="blog_date" itemprop="datePublished">
-        <strong><?php echo date('j', $node->created); ?></strong>
-        <small><?php echo date('M', $node->created); ?></small>
-    </time>
-    <div class="article-body nbacontent_body">
-        <h2 class="blog_title">
-            <a href="<?php echo url('node/' . $node->nid); ?>">
-                <?php echo $title; ?>&nbsp;&raquo;
-                <?php
-                    if ($hasThumbnail) {
-                        echo $thumbnail;
-                    }
-                ?>
-            </a>
+<article class="card card-large node-<?php print $node->nid; ?> <?php print $classes; ?> "<?php print $attributes; ?>">
+    <?php
+        if (strlen($thumbnail) > 0) {
+            ?>
+    <div class="card_image">
+        <?php echo $thumbnail; ?>
+    </div>
+            <?php
+        }
+    ?>
+    <div class="card_content">
+        <h2 class="c-title c-title-small">
+            <?php echo l($node->title, 'node/' . $node->nid); ?>
         </h2>
-        <?php
-            echo theme(
-                'nbacontentauthorinfo',
-                array(
-                    'author' => $node_author
-                )
-            );
-        ?>
         <?php 
             echo render($content['body']);
         ?>
+    </div>
+    <div class="card_action">
+        <?php echo l('Read more', 'node/' . $node->nid); ?>
     </div>
 </article>
 
@@ -79,13 +72,13 @@ if ($teaser) {
         </time>
 
         <?php
-            echo theme('nbacontentsocialtags');
+            echo theme('nbacontentauthorinfo', array('author' => $node_author));
         ?>
     </div>
 </article>
-
+<div class="region-sidebar">
+    <?php echo render($content['documents']); ?>
+</div>
 <?php
-
-    echo render($content['documents']);
 
 }

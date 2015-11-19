@@ -1,5 +1,5 @@
 .c-block {
-    margin: $base-spacing-unit 0;
+    @extend .element-margin;
     padding: $base-spacing;
     background: $color-block-background;
     

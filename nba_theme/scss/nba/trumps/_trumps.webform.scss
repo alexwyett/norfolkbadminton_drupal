@@ -1,0 +1,6 @@
+.webform-client-form {
+    button,
+    input[type=submit] {
+        @extend .btn;
+    }
+}

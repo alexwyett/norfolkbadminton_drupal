@@ -10,7 +10,7 @@ if ($teaser) {
         if (strlen($thumbnail) > 0) {
             ?>
     <div class="card_image">
-        <?php echo $thumbnail; ?>
+        <?php echo l($thumbnail, 'node/' . $node->nid, array('html' => true)); ?>
     </div>
             <?php
         }
@@ -37,6 +37,7 @@ if ($teaser) {
 <article class="nbacontent node-<?php print $node->nid; ?> <?php print $classes; ?> "<?php print $attributes; ?>>
     <?php
         echo render($content['banners']);
+        echo render($content['nbablog_cat']);
     ?>
     <div class="article-body nbacontent_body">
         <h2 class="c-title c-title-main">

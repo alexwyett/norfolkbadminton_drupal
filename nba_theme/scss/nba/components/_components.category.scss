@@ -1,0 +1,27 @@
+.c-category {
+    &_title {
+        margin: 0;
+        padding: $base-margin;
+        position: relative;
+        overflow: hidden;
+        color: white;
+        
+        &:after {
+            @include box(50%, 100%);
+            content: "";
+            position: absolute;
+            right: -20px;
+            top: 0;
+            background: rgba(0, 0, 0, 0.4);
+        
+            @include transition(transform, 0.5s);
+            transform: skewX(-20deg);
+        }
+        
+        &:hover {
+            &:after {
+                transform: skewX(-30deg);
+            }
+        }
+    }
+}

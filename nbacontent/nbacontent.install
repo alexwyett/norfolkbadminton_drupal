@@ -73,6 +73,14 @@ function nbacontent_install()
         'user_signatures',
         1
     );
+
+    // Add blog cat to taxonomy
+    $vocab = taxonomy_vocabulary_machine_name_load('nbablog_cat');
+    $term = new stdClass();
+    $term->name = 'News';
+    $term->vid = $vocab->vid;
+    $term->nba_colour['und'][0]['value'] = 'red';
+    taxonomy_term_save($term);
 }
 
 /**
@@ -90,7 +98,11 @@ function nbacontent_get_taxonomies()
         'nbasocialmedialinks' => array(
             'name' => 'Social media links taxonomy',
             'description' => 'Primarily used for config of social media links in the footer.'
-        )
+        ),
+        'nbablog_cat' => array(
+            'name' => 'Blog Category',
+            'description' => 'Used to categorise blog pages.'
+        ),
     );
 }
 
@@ -233,6 +245,48 @@ function nbacontent_get_content_fields()
                     )
                 )
             ),
+            'nbablog_cat' => array(
+                'field_name' => 'nbablog_cat',
+                'label' => $t('Category'),
+                'description' => $t('Use this to categorise content.  Can be used to pull content into lists.'),
+                'type' => 'taxonomy_term_reference',
+                'cardinality' => 1,
+                'settings' => array(
+                    'allowed_values' => array(
+                        array(
+                            'vocabulary' => 'nbablog_cat',
+                            'parent' => 0
+                        )
+                    )
+                ),
+                'required' => true,
+                'widget' => array(
+                    'type' => 'options_list'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'taxonomy_term_reference_link'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'taxonomy_term_reference_link'
+                    )
+                ),
+                'foreign keys' => array(
+                    'tid' => array(
+                        'columns' => array(
+                            'tid' => 'tid',
+                        ),
+                        'table' => 'taxonomy_term_data',
+                    )
+                ),
+                'indexes' => array(
+                    'tid' => array(
+                        0 => 'tid',
+                    )
+                )
+            ),
             'banners' => array(
                 'field_name' => 'banners',
                 'label' => $t('Banner images'),
@@ -261,7 +315,6 @@ function nbacontent_get_content_fields()
             'thumbnail' => array(
                 'field_name' => 'thumbnail',
                 'label' => $t('Thumbnail image'),
-                'description' => $t('Thumbnail image for the page.'),
                 'cardinality' => 1,
                 'required' => false,
                 'type' => 'image',
@@ -319,19 +372,34 @@ function nbacontent_get_content_fields()
 function nbacontent_add_taxonomy_custom_fields()
 {
     // Add taxonomy fields
-    foreach (nbacontent_get_taxonomy_fields() as $fields) {
+    $custom_tax_fields = nbacontent_get_taxonomy_fields();
+    foreach ($custom_tax_fields as $fields) {
         foreach ($fields as $field) {
             field_create_field($field);
         }
     }
 
-    foreach (nbacontent_get_taxonomy_fields() as $bundle => $fields) {
+    foreach ($custom_tax_fields as $bundle => $fields) {
         foreach ($fields as $fieldinstance) {
             $fieldinstance['entity_type'] = 'taxonomy_term';
             $fieldinstance['bundle'] = $bundle;
             field_create_instance($fieldinstance);
         }
     }
+    
+    $custom_fields = nbacontent_get_content_fields();
+
+    // Add thumbnail category
+    $instance = $custom_fields['nbablog']['thumbnail'];
+    $instance['entity_type'] = 'taxonomy_term';
+    $instance['bundle'] = 'nbablog_cat';
+    field_create_instance($instance);
+
+    // Add thumbnail to blog category
+    $instance = $custom_tax_fields['nbatag']['nba_colour'];
+    $instance['entity_type'] = 'taxonomy_term';
+    $instance['bundle'] = 'nbablog_cat';
+    field_create_instance($instance);
 }
 
 /**
@@ -344,8 +412,8 @@ function nbacontent_get_taxonomy_fields()
     $t = get_t();
     return array(
         'nbatag' => array(
-            'nbatag_colour' => array(
-                'field_name' => 'nbatag_colour',
+            'nba_colour' => array(
+                'field_name' => 'nba_colour',
                 'label' => $t('Tag colour'),
                 'description' => $t(
                     'Choosing an item here will determine the colour of the tag'
@@ -372,32 +440,6 @@ function nbacontent_get_taxonomy_fields()
                         'label' => 'hidden',
                         'type' => 'text'
                     )
-                )
-            ),
-            'tag_thumbnail' => array(
-                'field_name' => 'tag_thumbnail',
-                'label' => $t('Thumbnail image'),
-                'description' => $t('Thumbnail image for the page.'),
-                'cardinality' => 1,
-                'required' => false,
-                'type' => 'image',
-                'widget' => array(
-                    'type' => 'image'
-                ),
-                'display' => array(
-                    'default' => array(
-                        'label' => 'hidden',
-                        'type' => 'thumbnail'
-                    ),
-                    'teaser' => array(
-                        'label' => 'hidden',
-                        'type' => 'thumbnail'
-                    )
-                ),
-                'settings' => array(
-                    'alt_field' => true,
-                    'title_field' => true,
-                    'file_extensions' => 'png gif jpg jpeg'
                 )
             )
         ),

@@ -12,6 +12,7 @@ function nbacontent_form_taxonomy_form_term_alter(&$form, &$form_state)
         && (
             $form['#term']['vocabulary_machine_name'] == 'nbasocialmedialinks'
             || $form['#term']['vocabulary_machine_name'] == 'nbatag'
+            || $form['#term']['vocabulary_machine_name'] == 'nbablog_cat'
         )
     ) {
         $form['relations']['#access'] = false;

@@ -75,7 +75,7 @@ function nbacontent_install()
     );
 
     // Add blog cat to taxonomy
-    $vocab = taxonomy_vocabulary_machine_name_load('nbablog_cat');
+    $vocab = taxonomy_vocabulary_machine_name_load('nba_cat');
     $term = new stdClass();
     $term->name = 'News';
     $term->vid = $vocab->vid;
@@ -99,9 +99,9 @@ function nbacontent_get_taxonomies()
             'name' => 'Social media links taxonomy',
             'description' => 'Primarily used for config of social media links in the footer.'
         ),
-        'nbablog_cat' => array(
-            'name' => 'Blog Category',
-            'description' => 'Used to categorise blog pages.'
+        'nba_cat' => array(
+            'name' => 'Blog / Page Category',
+            'description' => 'Used to categorise blog and basic pages.'
         ),
     );
 }
@@ -175,6 +175,12 @@ function nbacontent_add_custom_fields()
         }
     }
 
+    // Add cat to basic page instance
+    $instance = $custom_fields['nbablog']['nba_cat'];
+    $instance['entity_type'] = 'node';
+    $instance['bundle'] = 'nbabasicpage';
+    field_create_instance($instance);
+
     // Add banners to basic page instance
     $instance = $custom_fields['nbablog']['banners'];
     $instance['entity_type'] = 'node';
@@ -245,8 +251,8 @@ function nbacontent_get_content_fields()
                     )
                 )
             ),
-            'nbablog_cat' => array(
-                'field_name' => 'nbablog_cat',
+            'nba_cat' => array(
+                'field_name' => 'nba_cat',
                 'label' => $t('Category'),
                 'description' => $t('Use this to categorise content.  Can be used to pull content into lists.'),
                 'type' => 'taxonomy_term_reference',
@@ -254,7 +260,7 @@ function nbacontent_get_content_fields()
                 'settings' => array(
                     'allowed_values' => array(
                         array(
-                            'vocabulary' => 'nbablog_cat',
+                            'vocabulary' => 'nba_cat',
                             'parent' => 0
                         )
                     )
@@ -392,13 +398,13 @@ function nbacontent_add_taxonomy_custom_fields()
     // Add thumbnail category
     $instance = $custom_fields['nbablog']['thumbnail'];
     $instance['entity_type'] = 'taxonomy_term';
-    $instance['bundle'] = 'nbablog_cat';
+    $instance['bundle'] = 'nba_cat';
     field_create_instance($instance);
 
     // Add thumbnail to blog category
     $instance = $custom_tax_fields['nbatag']['nba_colour'];
     $instance['entity_type'] = 'taxonomy_term';
-    $instance['bundle'] = 'nbablog_cat';
+    $instance['bundle'] = 'nba_cat';
     field_create_instance($instance);
 }
 

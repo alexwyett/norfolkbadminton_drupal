@@ -4,5 +4,9 @@
     @media screen and (min-width: $screen-sm-min) {
         width: 80%;
         margin-left: 20%;
+        
+        &_body {
+            max-width: 1500px;
+        }
     }
 }

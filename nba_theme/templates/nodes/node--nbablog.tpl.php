@@ -37,7 +37,7 @@ if ($teaser) {
 <article class="nbacontent node-<?php print $node->nid; ?> <?php print $classes; ?> "<?php print $attributes; ?>>
     <?php
         echo render($content['banners']);
-        echo render($content['nbablog_cat']);
+        echo render($content['nba_cat']);
     ?>
     <div class="article-body nbacontent_body">
         <h2 class="c-title c-title-main">

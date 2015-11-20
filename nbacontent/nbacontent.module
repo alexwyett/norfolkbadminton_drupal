@@ -224,7 +224,8 @@ function nbacontent_get_tag_colours()
 {
     return array(
         'blue' => 'Blue',
-        'red' => 'Red'
+        'red' => 'Red',
+        '#1f4a88' => 'NBA Brand'
     );
 }
 

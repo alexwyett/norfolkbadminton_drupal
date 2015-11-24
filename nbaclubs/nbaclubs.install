@@ -1,0 +1,290 @@
+<?php
+
+/**
+ * Implement hook_install()
+ *
+ * @return void
+ */
+function nbaclubs_install()
+{
+    nbaclubs_setup_content_type();
+    nbaclubs_add_custom_fields();
+}
+
+/**
+ * Setup the club content type
+ *
+ * @return void
+ */
+function nbaclubs_setup_content_type()
+{
+    $searchnode = array(
+        'type' => 'nbaclub',
+        'name' => 'Club',
+        'base' => 'node_content',
+        'description' => t('This node allows you to create a club.'),
+        'title_label' => t('Page Title'),
+        'custom' => TRUE
+    );
+
+    $content_type = node_type_set_defaults($searchnode);
+    //node_add_body_field($content_type, t('About the club'));
+    node_type_save($content_type);
+}
+
+/**
+ * Install custom fields
+ *
+ * @return void
+ */
+function nbaclubs_add_custom_fields()
+{
+    $custom_fields = nbaclubs_get_content_fields();
+    foreach ($custom_fields as $bundle => $fields) {
+        foreach ($fields as $key => $field) {
+            if (!field_info_field($key)) {
+                field_create_field($field);
+            }
+        }
+    }
+    foreach ($custom_fields as $bundle => $fields) {
+        $type = node_type_load($bundle);
+        $type->promote = 0;
+        node_type_save($type);
+
+        foreach ($fields as $fieldinstance) {
+            $fieldinstance['entity_type'] = 'node';
+            $fieldinstance['bundle'] = $bundle;
+            field_create_instance($fieldinstance);
+        }
+    }
+}
+
+/**
+ * Return the fields
+ *
+ * @return array
+ */
+function nbaclubs_get_content_fields()
+{
+    $t = get_t();
+    return array(
+        'nbaclub' => array(
+            'clubnight' => array(
+                'field_name' => 'clubnight',
+                'label' => $t('Club Nights'),
+                'description' => $t('Nights and times the club plays.'),
+                'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+                'type' => 'double_field',
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'double_field',
+                    'settings' => array(
+                        'first' => array(
+                            'general' => array(
+                                'prefix' => '',
+                                'required' => 1,
+                                'suffix' => '',
+                            ),
+                            'select' => array(
+                                'allowed_values' => array(
+                                    'monday' => 'Monday',
+                                    'tuesday' => 'Tuesday',
+                                    'wednesday' => 'Wednesday',
+                                    'thursday' => 'Thursday',
+                                    'friday' => 'Friday',
+                                    'saturday' => 'Saturday',
+                                    'sunday' => 'Sunday',
+                                )
+                            ),
+                        ),
+                        'inline' => 1,
+                        'second' => array(
+                            'general' => array(
+                                'prefix' => '',
+                                'required' => 1,
+                                'suffix' => '',
+                            ),
+                            'textfield' => array(
+                                'placeholder' => 'Time',
+                                'size' => 50,
+                            ),
+                        ),
+                    ),
+                    'type' => 'select_&_textfield'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'module' => 'double_field',
+                        'settings' => array(
+                            'first' => array(
+                              'format' => 'plain_text',
+                              'hidden' => 0,
+                              'prefix' => '',
+                              'suffix' => '',
+                            ),
+                            'second' => array(
+                              'format' => 'plain_text',
+                              'hidden' => 0,
+                              'prefix' => '',
+                              'suffix' => '',
+                            ),
+                            'style' => 'inline',
+                        ),
+                        'type' => 'double_field_unformatted_list',
+                        'weight' => 1,
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'settings' => array(),
+                        'type' => 'hidden',
+                        'weight' => 0,
+                    ),
+                ),
+                'settings' => array(
+                    'first' => array(
+                        'maxlength' => 255,
+                        'precision' => 10,
+                        'scale' => 2,
+                        'size' => 'normal',
+                        'type' => 'varchar',
+                    ),
+                    'second' => array(
+                        'maxlength' => 255,
+                        'precision' => 10,
+                        'scale' => 2,
+                        'size' => 'normal',
+                        'type' => 'varchar',
+                    ),
+                )
+            ),
+            'officals' => array(
+                'field_name' => 'officals',
+                'label' => $t('Club Officials'),
+                'description' => $t('Positions occupied in the organisation.'),
+                'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+                'type' => 'double_field',
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'double_field',
+                    'settings' => array(
+                        'first' => array(
+                            'general' => array(
+                                'prefix' => '',
+                                'required' => 1,
+                                'suffix' => '',
+                            ),
+                            'select' => array(
+                                'allowed_values' => array(
+                                    'president' => 'President',
+                                    'chairman' => 'Chairman',
+                                    'secretary' => 'Secretary',
+                                    'matchsecretary' => 'Match Secretary',
+                                    'captain' => 'Captain'
+                                )
+                            ),
+                        ),
+                        'inline' => 1,
+                        'second' => array(
+                            'general' => array(
+                                'prefix' => '',
+                                'required' => 1,
+                                'suffix' => '',
+                            ),
+                            'textfield' => array(
+                                'placeholder' => 'Name',
+                                'size' => 50,
+                            ),
+                        ),
+                    ),
+                    'type' => 'select_&_textfield'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'module' => 'double_field',
+                        'settings' => array(
+                            'first' => array(
+                              'format' => 'plain_text',
+                              'hidden' => 0,
+                              'prefix' => '',
+                              'suffix' => '',
+                            ),
+                            'second' => array(
+                              'format' => 'plain_text',
+                              'hidden' => 0,
+                              'prefix' => '',
+                              'suffix' => '',
+                            ),
+                            'style' => 'inline',
+                        ),
+                        'type' => 'double_field_unformatted_list',
+                        'weight' => 1,
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'settings' => array(),
+                        'type' => 'hidden',
+                        'weight' => 0,
+                    ),
+                ),
+                'settings' => array(
+                    'first' => array(
+                        'maxlength' => 255,
+                        'precision' => 10,
+                        'scale' => 2,
+                        'size' => 'normal',
+                        'type' => 'varchar',
+                    ),
+                    'second' => array(
+                        'maxlength' => 255,
+                        'precision' => 10,
+                        'scale' => 2,
+                        'size' => 'normal',
+                        'type' => 'varchar',
+                    ),
+                )
+            )
+        )
+    );
+}
+
+/**
+ * Un-install.  Implements hook_uninstall()
+ *
+ * @return void
+ */
+function nbaclubs_uninstall()
+{
+    // Remove content types
+    foreach (array('nbaclubs') as $contenttype) {
+        $sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
+        $result = db_query($sql, array(':type' => $contenttype));
+        $nodeids = array();
+        foreach ($result as $row) {
+            $nodeids[] = $row->nid;
+        }
+        node_delete_multiple($nodeids);
+
+        // Remove node instances
+        $instances = field_info_instances('node', $contenttype);
+        foreach ($instances as $instance_name => $fieldinstance) {
+            field_delete_instance($fieldinstance);
+        }
+
+        node_type_delete($contenttype);
+        field_purge_batch(500);
+    }
+
+    // Remove additional content fields
+    $bundles = array_merge(nbaclubs_get_content_fields());
+    foreach ($bundles as $bundle => $fields) {
+        foreach (array_keys($fields) as $field) {
+            field_delete_field($field);
+        }
+    }
+    
+    // Rebuild menu (to remove content type from it).
+    menu_rebuild();
+}

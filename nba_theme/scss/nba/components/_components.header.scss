@@ -28,6 +28,10 @@
             color: white;
             background: $color-brand-shadow;
 
+            @media screen and (max-width: $screen-sm-min) {
+                margin-bottom: 0;
+            }
+
             @media screen and (min-width: $screen-sm-min) {
                 display: none;
             }
@@ -36,6 +40,10 @@
             a {
                 color: white;
                 background: $color-brand;
+
+                @media screen and (min-width: $screen-sm-min) {
+                    background: none;
+                }
             }
         }
     }

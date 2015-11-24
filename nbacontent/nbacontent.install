@@ -177,6 +177,7 @@ function nbacontent_add_custom_fields()
 
     // Add cat to basic page instance
     $instance = $custom_fields['nbablog']['nba_cat'];
+    $instance['required'] = false;
     $instance['entity_type'] = 'node';
     $instance['bundle'] = 'nbabasicpage';
     field_create_instance($instance);

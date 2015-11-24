@@ -1,0 +1,13 @@
+name = NBA Clubs module
+description = Provides the clubs content type.
+core = 7.x
+version = "7.x-0.0"
+package = NBA
+
+files[] = nbacontent.admin.inc
+
+dependencies[] = entity
+dependencies[] = image
+dependencies[] = views
+dependencies[] = file
+dependencies[] = double_field

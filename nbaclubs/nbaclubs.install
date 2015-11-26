@@ -18,16 +18,23 @@ function nbaclubs_install()
  */
 function nbaclubs_setup_content_type()
 {
-    $searchnode = array(
+    $content_type = node_type_set_defaults(array(
         'type' => 'nbaclub',
         'name' => 'Club',
         'base' => 'node_content',
         'description' => t('This node allows you to create a club.'),
-        'title_label' => t('Page Title'),
-        'custom' => TRUE
-    );
-
-    $content_type = node_type_set_defaults($searchnode);
+        'title_label' => t('Page Title')
+    ));
+    //node_add_body_field($content_type, t('About the club'));
+    node_type_save($content_type);
+    
+    $content_type = node_type_set_defaults(array(
+        'type' => 'nbaclubmember',
+        'name' => 'Club Member',
+        'base' => 'node_content',
+        'description' => t('This node allows you to create a club member.'),
+        'title_label' => t('Name')
+    ));
     //node_add_body_field($content_type, t('About the club'));
     node_type_save($content_type);
 }
@@ -39,7 +46,7 @@ function nbaclubs_setup_content_type()
  */
 function nbaclubs_add_custom_fields()
 {
-    $custom_fields = nbaclubs_get_content_fields();
+    $custom_fields = nbaclubs_get_content_fields();    
     foreach ($custom_fields as $bundle => $fields) {
         foreach ($fields as $key => $field) {
             if (!field_info_field($key)) {
@@ -61,6 +68,105 @@ function nbaclubs_add_custom_fields()
 }
 
 /**
+ * Create an array of settings for the double_field
+ * 
+ * @param array $settings Settings array.  Required keys are field_name, label,
+ *                        description, selects and placeHolder.
+ * 
+ * @return array
+ */
+function nbaclubs_create_double_field($settings)
+{
+    $fieldName = $settings['field_name'];
+    $label = $settings['label'];
+    $desc = $settings['description'];
+    $selects = $settings['selects'];
+    $placeHolder = $settings['placeholder'];
+    
+    return array(
+        'field_name' => $fieldName,
+        'label' => $label,
+        'description' => $desc,
+        'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+        'type' => 'double_field',
+        'widget' => array(
+            'active' => 1,
+            'module' => 'double_field',
+            'settings' => array(
+                'first' => array(
+                    'general' => array(
+                        'prefix' => '',
+                        'required' => 1,
+                        'suffix' => '',
+                    ),
+                    'select' => array(
+                        'allowed_values' => $selects
+                    ),
+                ),
+                'inline' => 1,
+                'second' => array(
+                    'general' => array(
+                        'prefix' => '',
+                        'required' => 1,
+                        'suffix' => '',
+                    ),
+                    'textfield' => array(
+                        'placeholder' => $placeHolder,
+                        'size' => 50,
+                    ),
+                ),
+            ),
+            'type' => 'select_&_textfield'
+        ),
+        'display' => array(
+            'default' => array(
+                'label' => 'hidden',
+                'module' => 'double_field',
+                'settings' => array(
+                    'first' => array(
+                      'format' => 'plain_text',
+                      'hidden' => 0,
+                      'prefix' => '',
+                      'suffix' => '',
+                    ),
+                    'second' => array(
+                      'format' => 'plain_text',
+                      'hidden' => 0,
+                      'prefix' => '',
+                      'suffix' => '',
+                    ),
+                    'style' => 'inline',
+                ),
+                'type' => 'double_field_unformatted_list',
+                'weight' => 1,
+            ),
+            'teaser' => array(
+                'label' => 'hidden',
+                'settings' => array(),
+                'type' => 'hidden',
+                'weight' => 0,
+            ),
+        ),
+        'settings' => array(
+            'first' => array(
+                'maxlength' => 255,
+                'precision' => 10,
+                'scale' => 2,
+                'size' => 'normal',
+                'type' => 'varchar',
+            ),
+            'second' => array(
+                'maxlength' => 255,
+                'precision' => 10,
+                'scale' => 2,
+                'size' => 'normal',
+                'type' => 'varchar',
+            ),
+        )
+    );
+}
+
+/**
  * Return the fields
  *
  * @return array
@@ -70,182 +176,45 @@ function nbaclubs_get_content_fields()
     $t = get_t();
     return array(
         'nbaclub' => array(
-            'clubnight' => array(
+            'clubnight' => nbaclubs_create_double_field(array(
                 'field_name' => 'clubnight',
                 'label' => $t('Club Nights'),
                 'description' => $t('Nights and times the club plays.'),
-                'cardinality' => FIELD_CARDINALITY_UNLIMITED,
-                'type' => 'double_field',
-                'widget' => array(
-                    'active' => 1,
-                    'module' => 'double_field',
-                    'settings' => array(
-                        'first' => array(
-                            'general' => array(
-                                'prefix' => '',
-                                'required' => 1,
-                                'suffix' => '',
-                            ),
-                            'select' => array(
-                                'allowed_values' => array(
-                                    'monday' => 'Monday',
-                                    'tuesday' => 'Tuesday',
-                                    'wednesday' => 'Wednesday',
-                                    'thursday' => 'Thursday',
-                                    'friday' => 'Friday',
-                                    'saturday' => 'Saturday',
-                                    'sunday' => 'Sunday',
-                                )
-                            ),
-                        ),
-                        'inline' => 1,
-                        'second' => array(
-                            'general' => array(
-                                'prefix' => '',
-                                'required' => 1,
-                                'suffix' => '',
-                            ),
-                            'textfield' => array(
-                                'placeholder' => 'Time',
-                                'size' => 50,
-                            ),
-                        ),
-                    ),
-                    'type' => 'select_&_textfield'
+                'selects' => array(
+                    'monday' => 'Monday',
+                    'tuesday' => 'Tuesday',
+                    'wednesday' => 'Wednesday',
+                    'thursday' => 'Thursday',
+                    'friday' => 'Friday',
+                    'saturday' => 'Saturday',
+                    'sunday' => 'Sunday',
                 ),
-                'display' => array(
-                    'default' => array(
-                        'label' => 'hidden',
-                        'module' => 'double_field',
-                        'settings' => array(
-                            'first' => array(
-                              'format' => 'plain_text',
-                              'hidden' => 0,
-                              'prefix' => '',
-                              'suffix' => '',
-                            ),
-                            'second' => array(
-                              'format' => 'plain_text',
-                              'hidden' => 0,
-                              'prefix' => '',
-                              'suffix' => '',
-                            ),
-                            'style' => 'inline',
-                        ),
-                        'type' => 'double_field_unformatted_list',
-                        'weight' => 1,
-                    ),
-                    'teaser' => array(
-                        'label' => 'hidden',
-                        'settings' => array(),
-                        'type' => 'hidden',
-                        'weight' => 0,
-                    ),
+                'placeholder' => 'Time'
+            ))
+        ),
+        'nbaclubmember' => array(
+            'telephone' => nbaclubs_create_double_field(array(
+                'field_name' => 'telephone',
+                'label' => $t('Telephone number'),
+                'description' => $t('First one in the list will be the main number'),
+                'selects' => array(
+                    'home' => 'Home',
+                    'work' => 'Work',
+                    'mobile' => 'Mobile'
                 ),
-                'settings' => array(
-                    'first' => array(
-                        'maxlength' => 255,
-                        'precision' => 10,
-                        'scale' => 2,
-                        'size' => 'normal',
-                        'type' => 'varchar',
-                    ),
-                    'second' => array(
-                        'maxlength' => 255,
-                        'precision' => 10,
-                        'scale' => 2,
-                        'size' => 'normal',
-                        'type' => 'varchar',
-                    ),
-                )
-            ),
-            'officals' => array(
-                'field_name' => 'officals',
-                'label' => $t('Club Officials'),
-                'description' => $t('Positions occupied in the organisation.'),
-                'cardinality' => FIELD_CARDINALITY_UNLIMITED,
-                'type' => 'double_field',
-                'widget' => array(
-                    'active' => 1,
-                    'module' => 'double_field',
-                    'settings' => array(
-                        'first' => array(
-                            'general' => array(
-                                'prefix' => '',
-                                'required' => 1,
-                                'suffix' => '',
-                            ),
-                            'select' => array(
-                                'allowed_values' => array(
-                                    'president' => 'President',
-                                    'chairman' => 'Chairman',
-                                    'secretary' => 'Secretary',
-                                    'matchsecretary' => 'Match Secretary',
-                                    'captain' => 'Captain'
-                                )
-                            ),
-                        ),
-                        'inline' => 1,
-                        'second' => array(
-                            'general' => array(
-                                'prefix' => '',
-                                'required' => 1,
-                                'suffix' => '',
-                            ),
-                            'textfield' => array(
-                                'placeholder' => 'Name',
-                                'size' => 50,
-                            ),
-                        ),
-                    ),
-                    'type' => 'select_&_textfield'
+                'placeholder' => 'Telephone number'
+            )),
+            'emailaddress' => nbaclubs_create_double_field(array(
+                'field_name' => 'emailaddress',
+                'label' => $t('Email address'),
+                'description' => $t('First one in the list will be the main email address'),
+                'selects' => array(
+                    'home' => 'Home',
+                    'work' => 'Work',
+                    'mobile' => 'Mobile'
                 ),
-                'display' => array(
-                    'default' => array(
-                        'label' => 'hidden',
-                        'module' => 'double_field',
-                        'settings' => array(
-                            'first' => array(
-                              'format' => 'plain_text',
-                              'hidden' => 0,
-                              'prefix' => '',
-                              'suffix' => '',
-                            ),
-                            'second' => array(
-                              'format' => 'plain_text',
-                              'hidden' => 0,
-                              'prefix' => '',
-                              'suffix' => '',
-                            ),
-                            'style' => 'inline',
-                        ),
-                        'type' => 'double_field_unformatted_list',
-                        'weight' => 1,
-                    ),
-                    'teaser' => array(
-                        'label' => 'hidden',
-                        'settings' => array(),
-                        'type' => 'hidden',
-                        'weight' => 0,
-                    ),
-                ),
-                'settings' => array(
-                    'first' => array(
-                        'maxlength' => 255,
-                        'precision' => 10,
-                        'scale' => 2,
-                        'size' => 'normal',
-                        'type' => 'varchar',
-                    ),
-                    'second' => array(
-                        'maxlength' => 255,
-                        'precision' => 10,
-                        'scale' => 2,
-                        'size' => 'normal',
-                        'type' => 'varchar',
-                    ),
-                )
-            )
+                'placeholder' => 'Email address'
+            ))
         )
     );
 }

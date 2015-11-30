@@ -9,6 +9,16 @@ function nbaclubs_install()
 {
     nbaclubs_setup_content_type();
     nbaclubs_add_custom_fields();
+
+    variable_set(
+        'pathauto_node_nbaclub_pattern',
+        'club/[node:title]'
+    );
+
+    variable_set(
+        'pathauto_node_nbaclubmember_pattern',
+        'clubmember/[node:title]'
+    );
 }
 
 /**
@@ -190,7 +200,78 @@ function nbaclubs_get_content_fields()
                     'sunday' => 'Sunday',
                 ),
                 'placeholder' => 'Time'
-            ))
+            )),
+            'clubmember' => array(
+                'active' => 1,
+                'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+                'label' => $t('Club Members'),
+                'description' => $t('Choose a club member and type a role which they have in the club.'),
+                'deleted' => 0,
+                'entity_types' => array(),
+                'field_name' => 'clubmember',
+                'bundle' => 'nbaclub',
+                'default_value' => NULL,
+                'deleted' => 0,
+                'description' => '',
+                'indexes' => array(
+                    'target_id' => array(
+                        0 => 'target_id',
+                    ),
+                ),
+                'locked' => 0,
+                'module' => 'entityreference',
+                'settings' => array(
+                    'handler' => 'base',
+                    'handler_settings' => array(
+                        'behaviors' => array(
+                            'member_role' => array(
+                                'status' => 0,
+                            ),
+                            'views-select-list' => array(
+                                'status' => 0,
+                            ),
+                        ),
+                        'sort' => array(
+                            'type' => 'none',
+                        ),
+                        'target_bundles' => array(
+                            'nbaclubmember' => 'nbaclubmember',
+                        ),
+                    ),
+                    'target_type' => 'node',
+                    'user_register_form' => FALSE
+                ),
+                'translatable' => 0,
+                'type' => 'entityreference',
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'module' => 'entityreference',
+                        'settings' => array(
+                            'link' => FALSE
+                        ),
+                        'type' => 'entityreference_label',
+                        'weight' => 2,
+                    ),
+                    'teaser' => array(
+                        'label' => 'above',
+                        'settings' => array(),
+                        'type' => 'hidden',
+                        'weight' => 0,
+                    ),
+                ),
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'entityreference',
+                    'settings' => array(
+                        'match_operator' => 'CONTAINS',
+                        'path' => '',
+                        'size' => 60,
+                    ),
+                    'type' => 'entityreference_autocomplete',
+                    'weight' => 32,
+                ),
+            )
         ),
         'nbaclubmember' => array(
             'telephone' => nbaclubs_create_double_field(array(
@@ -227,7 +308,7 @@ function nbaclubs_get_content_fields()
 function nbaclubs_uninstall()
 {
     // Remove content types
-    foreach (array('nbaclubs') as $contenttype) {
+    foreach (array('nbaclub', 'nbaclubmember') as $contenttype) {
         $sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
         $result = db_query($sql, array(':type' => $contenttype));
         $nodeids = array();

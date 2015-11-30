@@ -1,2 +1,49 @@
 <?php
 
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function nbaclubs_ctools_plugin_directory($module, $plugin)
+{
+  	if ($module === 'entityreference') {
+		return 'plugins/' . $plugin;
+  	}
+}
+
+/**
+ * Implements hook_field_widget_form_alter().
+ */
+function nbaclubs_field_widget_form_alter(&$element, &$form_state, $context)
+{
+  	// Act on our behavior.
+  	if (!empty($context['field']['settings']['handler_settings']['behaviors']['member_role']['status'])) {
+  		$items = field_get_items('node', $element['target_id']['#entity'], 'clubmember', $element['target_id']['#entity']->language);
+    	$element['clubmember_member_role'] = array(
+      		'#type'     => 'textfield',
+      		'#title'    => 'Club member role',
+      		'#weight'   => -1,
+      		'#required' => FALSE,
+      		'#default_value' => (isset($items[$element['_weight']['#default_value']]) ? $items[$element['_weight']['#default_value']]['clubmember_member_role'] : '')
+    	);
+    	$element['target_id']['#title'] = 'Club Member';
+  	}
+}
+
+/**
+ * Implements hook_field_attach_view_alter().
+ */
+function nbaclubs_field_attach_view_alter(&$output, $context)
+{
+  	// Prefix the reference with the label.
+  	foreach (element_children($output) as $field_name) {
+    	$element = &$output[$field_name];
+		if ($element['#field_type'] == 'entityreference') {
+      		$field = field_info_field($field_name);
+      		if (!empty($field['settings']['handler_settings']['behaviors']['member_role']['status'])) {
+        		foreach ($element['#items'] as $delta => $item) {
+          			$element[$delta]['#prefix'] = "<strong>{$item['clubmember_member_role']}:</strong> ";
+        		}
+      		}
+    	}
+  	}
+}

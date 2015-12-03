@@ -11,3 +11,4 @@ dependencies[] = image
 dependencies[] = views
 dependencies[] = file
 dependencies[] = double_field
+dependencies[] = entityreference

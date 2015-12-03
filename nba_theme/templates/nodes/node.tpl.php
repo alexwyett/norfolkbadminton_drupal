@@ -50,10 +50,6 @@ if ($teaser) {
             <span class="c-date_month"><?php echo date('M', $date); ?></span>
             <span class="c-date_year"><?php echo date('Y', $date); ?></span>
         </time>
-
-        <?php
-            echo theme('nbacontentauthorinfo', array('author' => $node_author));
-        ?>
     </div>
 </article>
 <?php

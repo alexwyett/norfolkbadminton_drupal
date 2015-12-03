@@ -279,6 +279,7 @@ function nbaclubs_get_content_fields()
                 'label' => $t('Telephone number'),
                 'description' => $t('First one in the list will be the main number'),
                 'selects' => array(
+                    '' => '',
                     'home' => 'Home',
                     'work' => 'Work',
                     'mobile' => 'Mobile'
@@ -290,6 +291,7 @@ function nbaclubs_get_content_fields()
                 'label' => $t('Email address'),
                 'description' => $t('First one in the list will be the main email address'),
                 'selects' => array(
+                    '' => '',
                     'home' => 'Home',
                     'work' => 'Work',
                     'mobile' => 'Mobile'

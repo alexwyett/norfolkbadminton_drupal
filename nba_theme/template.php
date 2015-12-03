@@ -11,10 +11,7 @@ require_once 'themehelpers/form.php';
 function nba_theme_preprocess_html(&$vars)
 {
     drupal_add_js(
-        '//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js',
-        array(
-            'type' => 'external'
-        )
+        drupal_get_path('theme', 'nba_theme') . '/js/vendor/modernizr.min.js'
     );
 }
 
@@ -27,7 +24,7 @@ function nba_theme_preprocess_html(&$vars)
  */
 function nba_theme_js_alter(&$javascript)
 {
-    $jquery_path = drupal_get_path('theme', 'nbatheme') . '/js/vendor/jquery-1.11.3.min.js';
+    $jquery_path = drupal_get_path('theme', 'nba_theme') . '/js/vendor/jquery-1.11.3.min.js';
     $javascript[$jquery_path] = $javascript['misc/jquery.js'];
     $javascript[$jquery_path]['version'] = '1.11.3';
     $javascript[$jquery_path]['data'] = $jquery_path;

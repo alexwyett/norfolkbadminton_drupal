@@ -44,10 +44,6 @@ if ($teaser) {
             hide($content['comments']);
             print render($content);
         ?>
-
-        <?php
-            echo theme('nbacontentauthorinfo', array('author' => $node_author));
-        ?>
     </div>
 </article>
 <?php

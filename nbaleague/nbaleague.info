@@ -1,0 +1,7 @@
+name = Norfolk Badminton League System
+description = Provides content types and management for storing league results.
+package = TOCC
+core = 7.x
+version = "7.x-0.x-dev"
+dependencies[] = field
+dependencies[] = nbaclubs

@@ -1,0 +1,256 @@
+<?php
+
+/**
+ * Implement hook_install()
+ *
+ * @return void
+ */
+function nbaleague_install()
+{ 
+    // Create a taxonomies
+    foreach (nbaleague_get_taxonomies() as $key => $val) {
+        taxonomy_vocabulary_save(
+            (object) array_merge($val, array('machine_name' => $key))
+        );
+    }
+
+    nbaleague_add_custom_taxonomy_fields();
+}
+
+/**
+ * Implements hook_schema().
+ */
+function nbaleague_schema() {
+    $schema = array();
+
+    $schema['nbaleague_match'] = array(
+        'description' => 'The base table for badminton matches.',
+        'fields' => array(
+            'match_id' => array(
+                'description' => 'Primary key.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'league_id' => array(
+                'description' => 'League id.',
+                'type' => 'int',
+                'not null' => TRUE
+            ),
+            'season_id' => array(
+                'description' => 'Season id.',
+                'type' => 'int',
+                'not null' => TRUE
+            ),
+            'match_date' => array(
+                'description' => 'The Unix timestamp of the match date.',
+                'type' => 'int',
+                'not null' => TRUE
+            ),
+            'hometeam_id' => array(
+                'description' => 'Node id of the home club.',
+                'type' => 'int',
+                'not null' => TRUE
+            ),
+            'away_id' => array(
+                'description' => 'Node id of the away club.',
+                'type' => 'int',
+                'not null' => TRUE
+            ),
+            'created' => array(
+                'description' => 'The Unix timestamp of the entity creation time.',
+                'type' => 'int',
+                'not null' => TRUE,
+                'default' => 0,
+            ),
+            'createdby' => array(
+                'description' => 'User id.',
+                'type' => 'int',
+                'not null' => TRUE,
+                'default' => 0,
+            ),
+        ),
+        'primary key' => array('match_id'),
+    );
+
+    $schema['nbaleague_match_score'] = array(
+        'description' => 'The base table for badminton match scores.',
+        'fields' => array(
+            'match_id' => array(
+                'description' => 'Match id.',
+                'type' => 'int',
+                'not null' => TRUE,
+            ),
+            'club_id' => array(
+                'description' => 'Club id.',
+                'type' => 'int',
+                'not null' => TRUE
+            ),
+            'games' => array(
+                'description' => 'Number of games.',
+                'type' => 'int',
+                'not null' => TRUE
+            ),
+            'authorised' => array(
+                'description' => 'Flag for whether the match score has been authorised or not.',
+                'type' => 'int',
+                'not null' => TRUE,
+                'default' => 0
+            ),
+            'created' => array(
+                'description' => 'The Unix timestamp of the entity creation time.',
+                'type' => 'int',
+                'not null' => TRUE,
+                'default' => 0,
+            ),
+            'createdby' => array(
+                'description' => 'User id.',
+                'type' => 'int',
+                'not null' => TRUE,
+                'default' => 0,
+            ),
+        ),
+        'primary key' => array('match_id', 'club_id'),
+    );
+
+    return $schema;
+}
+
+/**
+ * Return the taxonomy definitions
+ *
+ * @return array
+ */
+function nbaleague_get_taxonomies()
+{
+    return array(
+        'nbaleague' => array(
+            'name' => 'League',
+            'description' => 'Used to tag seasons with a league'
+        ),
+        'nbaseason' => array(
+            'name' => 'Season',
+            'description' => 'Used to create a new season for a league.'
+        )
+    );
+}
+
+/**
+ * Install custom taxonomy fields
+ * 
+ * @return void
+ */
+function nbaleague_add_custom_taxonomy_fields()
+{
+    // Add taxonomy fields
+    $custom_fields = nbaleague_installed_taxonomy_fields();
+    foreach ($custom_fields as $fields) {
+        foreach ($fields as $field) {
+            field_create_field($field);
+        }
+    }
+    
+    foreach ($custom_fields as $bundle => $fields) {
+        foreach ($fields as $fieldinstance) {
+            $fieldinstance['entity_type'] = 'taxonomy_term';
+            $fieldinstance['bundle'] = $bundle;
+            field_create_instance($fieldinstance);
+        }
+    }
+
+    // Add active flag to season instance
+    $instance = $custom_fields['nbaleague']['active'];
+    $instance['entity_type'] = 'taxonomy_term';
+    $instance['bundle'] = 'nbaseason';
+    field_create_instance($instance);
+}
+
+/**
+ * Return the taxonomy field descriptions
+ * 
+ * @return array
+ */
+function nbaleague_installed_taxonomy_fields()
+{
+    $t = get_t();
+    return array(
+    	'nbaleague' => array(
+	        'active' => array(
+	            'field_name' => 'isactive',
+	            'label' => $t('Tick for league to be active'),
+	            'type' => 'list_boolean',
+	            'module' => 'list',
+	            'required' => false,
+	            'widget' => array(
+	                'type' => 'options_onoff',
+	                'settings' => array(
+	                    'display_label' => true
+	                ),
+	            ),
+	            'cardinality' => 1,
+	            'settings' => array(
+	                'allowed_values' => drupal_map_assoc(range(0, 1)),
+	            )
+	        ),
+            'maxgames' => array(
+                'field_name' => 'maxgames',
+                'label' => $t('Number of games allowed in the league'),
+                'description' => $t('This will determine the validation of match score input.'),
+                'type' => 'text',
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'text',
+                    'settings' => array(
+                        'size' => '2',
+                    ),
+                    'type' => 'text_textfield'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    )
+                )
+            )
+		)
+	);
+}
+
+/**
+ * Un-install.  Implements hook_uninstall()
+ * 
+ * @return void
+ */
+function nbaleague_uninstall()
+{
+    // Delete the all taxonomy vocabulary
+    foreach (nbaleague_get_taxonomies() as $taxname => $detail) {
+        $vocab = taxonomy_vocabulary_machine_name_load($taxname);
+        taxonomy_vocabulary_delete($vocab->vid);
+    }
+
+    // Remove taxonomy and content fields
+    $fields = array_merge(nbaleague_installed_taxonomy_fields());
+    foreach (array_keys($fields) as $field) {
+        field_delete_field($field);
+    }
+    
+    // Remove field instances
+    foreach (nbaleague_get_taxonomies() as $taxname => $detail) {
+        $instances = field_info_instances('taxonomy_term', $taxname);
+        foreach ($instances as $fieldinstance) {
+            field_delete_instance($fieldinstance);
+        }
+    }
+
+    if (db_table_exists('nbaleague_match')) {
+        db_drop_table('nbaleague_match');
+    }
+    if (db_table_exists('nbaleague_match_score')) {
+        db_drop_table('nbaleague_match_score');
+    }
+}

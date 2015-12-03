@@ -1,0 +1,103 @@
+<?php
+
+require_once dirname(__FILE__) . '/nbaleague.taxonomy.inc';
+
+/**
+ * Implements hook_menu().
+ *
+ * @return array
+ */
+function nbaleague_menu()
+{
+    $items = array();
+
+    // Add a tab to the TABS config section.
+    $items['admin/config/nba/league'] = array(
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('nbaleague_config_form'),
+        'title' => 'NBA Leagues',
+        'access arguments' => array('nbaleague'),
+        'type' => MENU_NORMAL_ITEM,
+        'file' => 'nbaleague.admin.inc',
+        'weight' => 10
+    );
+
+    // Add a tab to the TABS config section.
+    $items['admin/config/nba/leagueimport'] = array(
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('nbaleague_import_config_form'),
+        'title' => 'NBA League - Import matches',
+        'access arguments' => array('nbaleague'),
+        'type' => MENU_NORMAL_ITEM,
+        'file' => 'nbaleague.import.inc',
+        'weight' => 20
+    );
+
+    return $items;
+}
+
+/**
+ * Implements hook_permission()
+ *
+ * @return array
+ */
+function nbaleague_permission()
+{
+    return array(
+        'nbaleague' => array(
+            'title' => 'Manage the league system'
+        )
+    );
+}
+
+/**
+ * Return an array of league taxonomy objects
+ *
+ * @return array
+ */
+function nbaleague_get_leagues()
+{
+	return nbacontent_get_vocabulary('nbaleague');
+}
+
+/**
+ * Return an array of league ids/ names for select options
+ *
+ * @return array
+ */
+function nbaleague_get_leagues_assoc()
+{
+	$leagues = nbaleague_get_leagues();
+	$leagues_assoc = array();
+	foreach ($leagues as $id => $league) {
+		$leagues_assoc[$id] = $league->name->value();
+	}
+
+	return $leagues_assoc;
+}
+
+/**
+ * Return an array of season taxonomy objects
+ *
+ * @return array
+ */
+function nbaleague_get_seasons()
+{
+	return nbacontent_get_vocabulary('nbaseason');
+}
+
+/**
+ * Return an array of league ids/ names for select options
+ *
+ * @return array
+ */
+function nbaleague_get_seasons_assoc()
+{
+	$seasons = nbaleague_get_seasons();
+	$seasons_assoc = array();
+	foreach ($seasons as $id => $season) {
+		$seasons_assoc[$id] = $season->name->value();
+	}
+
+	return $seasons_assoc;
+}

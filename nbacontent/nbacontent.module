@@ -23,13 +23,24 @@ function nbacontent_menu()
 {
     $items = array();
 
+    // Register configuration page.
+    $items['admin/config/nba'] = array(
+        'title' => 'Norfolk badminton association',
+        'description' => 'NBA core modules',
+        'position' => 'right',
+        'page callback' => 'system_admin_menu_block_page',
+        'access arguments' => array('nba'),
+        'file' => 'system.admin.inc',
+        'file path' => drupal_get_path('module', 'system'),
+    );
+
     // Add a tab to the config section.
-    $items['admin/config/nbacontent'] = array(
+    $items['admin/config/nba/content'] = array(
         'page callback' => 'drupal_get_form',
         'page arguments' => array('nbacontent_config_form'),
         'title' => 'NBA Content Admin',
         'access arguments' => array('nbacontent'),
-        'type' => MENU_LOCAL_TASK,
+        'type' => MENU_NORMAL_ITEM,
         'file' => 'nbacontent.admin.inc',
         'weight' => 50
     );
@@ -46,6 +57,12 @@ function nbacontent_menu()
 function nbacontent_permission()
 {
     return array(
+        'nba' => array(
+            'title' => 'View nba modules',
+            'description' => t(
+                'Allows users to configure the system internals for the NBA modules'
+            )
+        ),
         'nbacontent' => array(
             'title' => 'Manage the NBA Content types module',
             'description' => t(

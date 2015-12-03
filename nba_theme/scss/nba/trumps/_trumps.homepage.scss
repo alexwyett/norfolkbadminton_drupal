@@ -1,0 +1,25 @@
+.view-nbacontent-promoted-blogs {
+
+	.view-content {
+		@include clearfix();
+		padding: $base-margin;
+	}
+
+	.views-row {
+		width: 49%;
+		float: right;
+		.card {
+			margin: 0 0 $base-margin 0;
+		}
+	}
+
+	.views-row-odd {
+		float: left;
+	}
+
+	.pager {
+		a {
+			@extend .btn;
+		}
+	}
+}

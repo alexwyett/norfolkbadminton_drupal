@@ -578,7 +578,7 @@ ol.o-menu {
   .c-block_content {
     background: white; }
 
-.btn, .btn-large, .webform-client-form button,
+.btn, .btn-large, .view-nbacontent-promoted-blogs .pager a, .webform-client-form button,
 .webform-client-form input[type=submit] {
   border: none;
   border-radius: 3px;
@@ -591,12 +591,13 @@ ol.o-menu {
   vertical-align: middle;
   -webkit-tap-highlight-color: transparent; }
 
-.btn.disabled, .disabled.btn-large, .webform-client-form button.disabled,
+.btn.disabled, .disabled.btn-large, .view-nbacontent-promoted-blogs .pager a.disabled, .webform-client-form button.disabled,
 .webform-client-form input.disabled[type=submit],
 .btn-floating.disabled,
 .btn-large.disabled,
 .btn:disabled,
 .btn-large:disabled,
+.view-nbacontent-promoted-blogs .pager a:disabled,
 .webform-client-form button:disabled,
 .webform-client-form input[type=submit]:disabled,
 .btn-large:disabled,
@@ -605,23 +606,25 @@ ol.o-menu {
   box-shadow: none;
   color: #9F9F9F !important;
   cursor: default; }
-  .btn.disabled *, .disabled.btn-large *, .webform-client-form button.disabled *,
+  .btn.disabled *, .disabled.btn-large *, .view-nbacontent-promoted-blogs .pager a.disabled *, .webform-client-form button.disabled *,
   .webform-client-form input.disabled[type=submit] *,
   .btn-floating.disabled *,
   .btn-large.disabled *,
   .btn:disabled *,
   .btn-large:disabled *,
+  .view-nbacontent-promoted-blogs .pager a:disabled *,
   .webform-client-form button:disabled *,
   .webform-client-form input[type=submit]:disabled *,
   .btn-large:disabled *,
   .btn-floating:disabled * {
     pointer-events: none; }
-  .btn.disabled:hover, .disabled.btn-large:hover, .webform-client-form button.disabled:hover,
+  .btn.disabled:hover, .disabled.btn-large:hover, .view-nbacontent-promoted-blogs .pager a.disabled:hover, .webform-client-form button.disabled:hover,
   .webform-client-form input.disabled[type=submit]:hover,
   .btn-floating.disabled:hover,
   .btn-large.disabled:hover,
   .btn:disabled:hover,
   .btn-large:disabled:hover,
+  .view-nbacontent-promoted-blogs .pager a:disabled:hover,
   .webform-client-form button:disabled:hover,
   .webform-client-form input[type=submit]:disabled:hover,
   .btn-large:disabled:hover,
@@ -629,14 +632,14 @@ ol.o-menu {
     background-color: #DFDFDF;
     color: #9F9F9F; }
 
-.btn i, .btn-large i, .webform-client-form button i,
+.btn i, .btn-large i, .view-nbacontent-promoted-blogs .pager a i, .webform-client-form button i,
 .webform-client-form input[type=submit] i,
 .btn-floating i,
 .btn-large i {
   font-size: 1.3rem;
   line-height: inherit; }
 
-.btn, .btn-large, .webform-client-form button,
+.btn, .btn-large, .view-nbacontent-promoted-blogs .pager a, .webform-client-form button,
 .webform-client-form input[type=submit] {
   text-decoration: none;
   color: #fff;
@@ -647,7 +650,7 @@ ol.o-menu {
   -moz-transition: 0.2s ease-out 0.2s;
   transition: 0.2s ease-out 0.2s;
   cursor: pointer; }
-  .btn:hover, .btn-large:hover, .webform-client-form button:hover,
+  .btn:hover, .btn-large:hover, .view-nbacontent-promoted-blogs .pager a:hover, .webform-client-form button:hover,
   .webform-client-form input[type=submit]:hover {
     background-color: #3b79d2; }
 
@@ -1289,5 +1292,22 @@ ul.menu,
   .region-sidebar {
     float: right;
     width: 30%; } }
+.view-nbacontent-promoted-blogs .view-content {
+  zoom: 1;
+  padding: 24px; }
+  .view-nbacontent-promoted-blogs .view-content:before {
+    content: '';
+    display: block; }
+  .view-nbacontent-promoted-blogs .view-content:after {
+    content: '';
+    display: table;
+    clear: both; }
+.view-nbacontent-promoted-blogs .views-row {
+  width: 49%;
+  float: right; }
+  .view-nbacontent-promoted-blogs .views-row .card {
+    margin: 0 0 24px 0; }
+.view-nbacontent-promoted-blogs .views-row-odd {
+  float: left; }
 
 /*# sourceMappingURL=styles.css.map */

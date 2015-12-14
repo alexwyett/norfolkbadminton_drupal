@@ -61,7 +61,7 @@
         // Image background for content
         img {
             display: block;
-            @include border-radius($base-radius, $base-radius, 0, 0);
+            @include border-radius($base-radius, 0, 0, $base-radius);
             position: relative;
             left: 0;
             right: 0;

@@ -1,0 +1,12 @@
+.c-dlist {
+	dt, dd {
+		display: inline;
+		margin: 0;
+	}
+
+	dt {
+		&:after {
+			content: ": ";
+		}
+	}
+}

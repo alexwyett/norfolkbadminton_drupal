@@ -3,7 +3,7 @@
 if ($teaser) {
 ?>
 
-<article class="card card-medium node-<?php print $node->nid; ?> <?php print $classes; ?> "<?php print $attributes; ?>">
+<article class="card card-small node-<?php print $node->nid; ?> <?php print $classes; ?> "<?php print $attributes; ?>">
     <div class="card_content">
         <h2 class="c-title c-title-small">
             <?php echo l($node->title, 'node/' . $node->nid); ?>
@@ -28,15 +28,6 @@ if ($teaser) {
         <h2 class="c-title c-title-main">
             <?php 
                 echo $title;
-                
-                $date = $node->created;
-                $dateClass = 'c-date';
-                if ($node->changed > $node->created) {
-                    $date = $node->changed;
-                    $dateClass .= ' c-date-updated';
-                } else { 
-                    $dateClass .= ' c-date-created';
-                }
             ?>
         </h2>
         <?php 

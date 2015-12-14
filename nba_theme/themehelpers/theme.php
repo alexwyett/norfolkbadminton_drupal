@@ -41,11 +41,11 @@ function nba_theme_double_field($vars)
         $output .= '<div class="double-field-second">' . $element['#item']['second'] . '</div>';
         $output .= '</div>';
     } else {
-        $output = '<span class="double-field-first">';
-        $output .= strip_tags($element['#item']['first']);
-        $output .= '</span><span class="double-field-second">';
+        $output = '<dt>';
+        $output .= trim(strip_tags($element['#item']['first']));
+        $output .= '</dt><dd>';
         $output .= strip_tags($element['#item']['second']);
-        $output .= '</span>';
+        $output .= '</dd>';
     }
     return $output;
 }

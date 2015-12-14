@@ -756,17 +756,17 @@ button.btn-floating {
     .card_image img {
       display: block;
       -webkit-border-top-right-radius: 3px;
-      -webkit-border-bottom-right-radius: 3px;
+      -webkit-border-bottom-right-radius: 0;
       -webkit-border-bottom-left-radius: 0;
-      -webkit-border-top-left-radius: 0;
+      -webkit-border-top-left-radius: 3px;
       -moz-border-radius-topright: 3px;
-      -moz-border-radius-bottomright: 3px;
+      -moz-border-radius-bottomright: 0;
       -moz-border-radius-bottomleft: 0;
-      -moz-border-radius-topleft: 0;
+      -moz-border-radius-topleft: 3px;
       border-top-right-radius: 3px;
-      border-bottom-right-radius: 3px;
+      border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
-      border-top-left-radius: 0;
+      border-top-left-radius: 3px;
       position: relative;
       left: 0;
       right: 0;
@@ -794,6 +794,24 @@ button.btn-floating {
     border-bottom-left-radius: 3px;
     border-top-left-radius: 3px; }
 
+.cardlist {
+  zoom: 1; }
+  .cardlist:before {
+    content: '';
+    display: block; }
+  .cardlist:after {
+    content: '';
+    display: table;
+    clear: both; }
+  .cardlist-padded {
+    padding: 24px; }
+  .cardlist .card {
+    width: 49%;
+    float: left;
+    margin: 0 0 24px 0; }
+    .cardlist .card:nth-child(odd) {
+      float: right; }
+
 .c-category_title {
   margin: 0;
   padding: 24px;
@@ -811,6 +829,12 @@ button.btn-floating {
     background: #2d6cc6;
     background: rgba(0, 0, 0, 0.2);
     transform: skewX(-20deg); }
+
+.c-dlist dt, .c-dlist dd {
+  display: inline;
+  margin: 0; }
+.c-dlist dt:after {
+  content: ": "; }
 
 .c-expandable_toggle {
   padding: 8px;
@@ -921,7 +945,10 @@ ul.menu,
     display: none; }
 
 .header {
-  background: url(../assets/img/shuttle.png) no-repeat bottom left #1f4a88; }
+  background-color: #1f4a88; }
+  @media screen and (min-width: 768px) {
+    .header {
+      background: url(../assets/img/shuttle.png) no-repeat bottom left #1f4a88; } }
   .header .logo {
     width: 100%;
     height: auto;
@@ -1292,22 +1319,23 @@ ul.menu,
   .region-sidebar {
     float: right;
     width: 30%; } }
-.view-nbacontent-promoted-blogs .view-content {
-  zoom: 1;
-  padding: 24px; }
-  .view-nbacontent-promoted-blogs .view-content:before {
-    content: '';
-    display: block; }
-  .view-nbacontent-promoted-blogs .view-content:after {
-    content: '';
-    display: table;
-    clear: both; }
-.view-nbacontent-promoted-blogs .views-row {
-  width: 49%;
-  float: right; }
-  .view-nbacontent-promoted-blogs .views-row .card {
-    margin: 0 0 24px 0; }
-.view-nbacontent-promoted-blogs .views-row-odd {
-  float: left; }
+@media screen and (min-width: 768px) {
+  .view-nbacontent-promoted-blogs .view-content {
+    zoom: 1;
+    padding: 24px; }
+    .view-nbacontent-promoted-blogs .view-content:before {
+      content: '';
+      display: block; }
+    .view-nbacontent-promoted-blogs .view-content:after {
+      content: '';
+      display: table;
+      clear: both; }
+  .view-nbacontent-promoted-blogs .views-row {
+    width: 49%;
+    float: right; }
+    .view-nbacontent-promoted-blogs .views-row .card {
+      margin: 0 0 24px 0; }
+  .view-nbacontent-promoted-blogs .views-row-odd {
+    float: left; } }
 
 /*# sourceMappingURL=styles.css.map */

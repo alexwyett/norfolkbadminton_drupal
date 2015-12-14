@@ -1,0 +1,17 @@
+.cardlist {
+	@include clearfix();
+
+	&-padded {
+		padding: $base-margin;
+	}
+
+	.card {
+		width: 49%;
+		float: left;
+		margin: 0 0 $base-margin 0;
+
+		&:nth-child(odd) {
+			float: right;
+		}
+	}
+}

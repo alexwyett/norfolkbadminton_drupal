@@ -1,21 +1,23 @@
 .view-nbacontent-promoted-blogs {
 
-	.view-content {
-		@include clearfix();
-		padding: $base-margin;
-	}
-
-	.views-row {
-		width: 49%;
-		float: right;
-		.card {
-			margin: 0 0 $base-margin 0;
+    @media screen and (min-width: $screen-sm-min) {
+		.view-content {
+			@include clearfix();
+			padding: $base-margin;
 		}
-	}
 
-	.views-row-odd {
-		float: left;
-	}
+		.views-row {
+			width: 49%;
+			float: right;
+			.card {
+				margin: 0 0 $base-margin 0;
+			}
+		}
+
+		.views-row-odd {
+			float: left;
+		}
+    }
 
 	.pager {
 		a {

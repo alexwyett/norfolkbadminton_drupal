@@ -152,9 +152,24 @@ function nbaclubs_create_double_field($settings)
             ),
             'teaser' => array(
                 'label' => 'hidden',
-                'settings' => array(),
-                'type' => 'hidden',
-                'weight' => 0,
+                'module' => 'double_field',
+                'settings' => array(
+                    'first' => array(
+                      'format' => 'plain_text',
+                      'hidden' => 0,
+                      'prefix' => '',
+                      'suffix' => '',
+                    ),
+                    'second' => array(
+                      'format' => 'plain_text',
+                      'hidden' => 0,
+                      'prefix' => '',
+                      'suffix' => '',
+                    ),
+                    'style' => 'inline',
+                ),
+                'type' => 'double_field_unformatted_list',
+                'weight' => 1,
             ),
         ),
         'settings' => array(
@@ -186,6 +201,69 @@ function nbaclubs_get_content_fields()
     $t = get_t();
     return array(
         'nbaclub' => array(
+            'venue_address' => array(
+                'field_name' => 'venue_address',
+                'label' => $t('Club venue address'),
+                'type' => 'text_long',
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'text',
+                    'settings' => array(),
+                    'type' => 'text_textarea'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    )
+                )
+            ),
+            'venue_long' => array(
+                'field_name' => 'venue_long',
+                'label' => $t('Club venue longitude'),
+                'type' => 'text',
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'text',
+                    'settings' => array(),
+                    'type' => 'text_textfield'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    )
+                )
+            ),
+            'venue_lat' => array(
+                'field_name' => 'venue_lat',
+                'label' => $t('Club venue latitude'),
+                'type' => 'text',
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'text',
+                    'settings' => array(),
+                    'type' => 'text_textfield'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    )
+                )
+            ),
             'clubnight' => nbaclubs_create_double_field(array(
                 'field_name' => 'clubnight',
                 'label' => $t('Club Nights'),

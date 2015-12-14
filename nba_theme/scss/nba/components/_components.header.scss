@@ -1,5 +1,8 @@
 .header {
-    background: url(../assets/img/shuttle.png) no-repeat bottom left $color-brand;
+    background-color: $color-brand;
+    @media screen and (min-width: $screen-sm-min) {
+        background: url(../assets/img/shuttle.png) no-repeat bottom left $color-brand;
+    }
     
     .logo {
         @include box(100%, auto);

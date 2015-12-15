@@ -35,10 +35,6 @@ if ($teaser) {
 ?>
 
 <article class="nbacontent node-<?php print $node->nid; ?> <?php print $classes; ?> "<?php print $attributes; ?>>
-    <?php
-        echo render($content['banners']);
-        echo render($content['nba_cat']);
-    ?>
     <div class="article-body nbacontent_body">
         <h2 class="c-title c-title-main">
             <?php 
@@ -63,6 +59,8 @@ if ($teaser) {
             hide($content['tags']);
             hide($content['thumbnail']);
             hide($content['documents']);
+            hide($content['banners']);
+            hide($content['nba_cat']);
             print render($content);
         ?>
 
@@ -77,9 +75,6 @@ if ($teaser) {
         ?>
     </div>
 </article>
-<div class="region-sidebar">
-    <?php echo render($content['documents']); ?>
-</div>
 <?php
 
 }

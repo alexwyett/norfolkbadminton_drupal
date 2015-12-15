@@ -131,6 +131,10 @@ function nbaleague_get_taxonomies()
         'nbaseason' => array(
             'name' => 'Season',
             'description' => 'Used to create a new season for a league.'
+        ),
+        'nbateam' => array(
+            'name' => 'Team',
+            'description' => 'Used to create a team for a specific club.'
         )
     );
 }
@@ -162,6 +166,14 @@ function nbaleague_add_custom_taxonomy_fields()
     $instance = $custom_fields['nbaleague']['active'];
     $instance['entity_type'] = 'taxonomy_term';
     $instance['bundle'] = 'nbaseason';
+    $instance['label'] = 'Tick for seasaon to be active';
+    field_create_instance($instance);
+    
+    // Add active flag to season instance
+    $instance = $custom_fields['nbaleague']['active'];
+    $instance['entity_type'] = 'taxonomy_term';
+    $instance['bundle'] = 'nbateam';
+    $instance['label'] = 'Tick for team to be active';
     field_create_instance($instance);
 }
 
@@ -175,23 +187,23 @@ function nbaleague_installed_taxonomy_fields()
     $t = get_t();
     return array(
     	'nbaleague' => array(
-	        'active' => array(
-	            'field_name' => 'isactive',
-	            'label' => $t('Tick for league to be active'),
-	            'type' => 'list_boolean',
-	            'module' => 'list',
-	            'required' => false,
-	            'widget' => array(
-	                'type' => 'options_onoff',
-	                'settings' => array(
-	                    'display_label' => true
-	                ),
-	            ),
-	            'cardinality' => 1,
-	            'settings' => array(
-	                'allowed_values' => drupal_map_assoc(range(0, 1)),
-	            )
-	        ),
+            'active' => array(
+                'field_name' => 'isactive',
+                'label' => $t('Tick for league to be active'),
+                'type' => 'list_boolean',
+                'module' => 'list',
+                'required' => false,
+                'widget' => array(
+                    'type' => 'options_onoff',
+                    'settings' => array(
+                        'display_label' => true
+                    ),
+                ),
+                'cardinality' => 1,
+                'settings' => array(
+                    'allowed_values' => drupal_map_assoc(range(0, 1)),
+                )
+            ),
             'maxgames' => array(
                 'field_name' => 'maxgames',
                 'label' => $t('Number of games allowed in the league'),
@@ -216,8 +228,61 @@ function nbaleague_installed_taxonomy_fields()
                     )
                 )
             )
-		)
-	);
+        ),
+    	'nbateam' => array(
+            'club' => array(
+                'active' => 1,
+                'required' => 1,
+                'field_name' => 'club',
+                'label' => 'Club',
+                'indexes' => array(
+                    'target_id' => array(
+                        0 => 'target_id',
+                    ),
+                ),
+                'module' => 'entityreference',
+                'settings' => array(
+                    'user_register_form' => FALSE,
+                    'handler' => 'base',
+                    'handler_settings' => array(
+                        'behaviors' => array(
+                            'member_role' => array(
+                                'status' => 0,
+                            ),
+                            'views-select-list' => array(
+                                'status' => 0,
+                            ),
+                        ),
+                        'sort' => array(
+                            'type' => 'none',
+                        ),
+                        'target_bundles' => array(
+                            'nbaclub' => 'nbaclub',
+                        ),
+                    ),
+                    'target_type' => 'node',
+                ),
+                'type' => 'entityreference',
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'module' => 'entityreference',
+                        'settings' => array(
+                            'link' => FALSE,
+                        ),
+                        'type' => 'entityreference_label',
+                        'weight' => 1,
+                    ),
+                ),
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'options',
+                    'settings' => array(),
+                    'type' => 'options_select'
+                )
+            )
+        )
+    );
 }
 
 /**

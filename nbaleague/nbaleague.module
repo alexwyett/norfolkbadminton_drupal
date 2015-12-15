@@ -11,7 +11,6 @@ function nbaleague_menu()
 {
     $items = array();
 
-    // Add a tab to the TABS config section.
     $items['admin/config/nba/league'] = array(
         'page callback' => 'drupal_get_form',
         'page arguments' => array('nbaleague_config_form'),
@@ -22,7 +21,6 @@ function nbaleague_menu()
         'weight' => 10
     );
 
-    // Add a tab to the TABS config section.
     $items['admin/config/nba/leagueimport'] = array(
         'page callback' => 'drupal_get_form',
         'page arguments' => array('nbaleague_import_config_form'),
@@ -31,6 +29,16 @@ function nbaleague_menu()
         'type' => MENU_NORMAL_ITEM,
         'file' => 'nbaleague.import.inc',
         'weight' => 20
+    );
+
+    $items['admin/config/nba/addmatch'] = array(
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('nbaleague_addmatch_config_form'),
+        'title' => 'NBA League - Add match',
+        'access arguments' => array('nbaleague_match'),
+        'type' => MENU_NORMAL_ITEM,
+        'file' => 'nbaleague.addmatch.inc',
+        'weight' => 30
     );
 
     return $items;
@@ -46,8 +54,53 @@ function nbaleague_permission()
     return array(
         'nbaleague' => array(
             'title' => 'Manage the league system'
+        ),
+        'nbaleague_match' => array(
+            'title' => 'Allow the use to add matches into the league system'
         )
     );
+}
+
+/**
+ * Return an array of team taxonomy objects
+ *
+ * @return array
+ */
+function nbaleague_get_teams()
+{
+    return nbacontent_get_vocabulary('nbateam');
+}
+
+/**
+ * Get a list of active clubs as an assoc array
+ * 
+ * @return array
+ */
+function nbaleague_get_teams_assoc()
+{
+    return _nbaleague_get_assoc_array_from_taxonomy(
+        nbaleague_get_teams()
+    );
+}
+
+/**
+ * Get a list of active clubs as an assoc array
+ * 
+ * @return array
+ */
+function nbaleague_get_clubteams_assoc()
+{
+    $teams = _nbaleague_filter_active_taxonomies(nbaleague_get_teams());
+    $clubs = array();
+    foreach ($teams as $team) {
+        if (!isset($clubs[$team->club->value()->title])) {
+            $clubs[$team->club->value()->title] = array();
+        }
+        
+        $clubs[$team->club->value()->title][$team->tid->value()] = $team->name->value();
+    }
+    
+    return $clubs;
 }
 
 /**
@@ -57,7 +110,7 @@ function nbaleague_permission()
  */
 function nbaleague_get_leagues()
 {
-	return nbacontent_get_vocabulary('nbaleague');
+    return nbacontent_get_vocabulary('nbaleague');
 }
 
 /**
@@ -67,13 +120,9 @@ function nbaleague_get_leagues()
  */
 function nbaleague_get_leagues_assoc()
 {
-	$leagues = nbaleague_get_leagues();
-	$leagues_assoc = array();
-	foreach ($leagues as $id => $league) {
-		$leagues_assoc[$id] = $league->name->value();
-	}
-
-	return $leagues_assoc;
+    return _nbaleague_get_assoc_array_from_taxonomy(
+        nbaleague_get_leagues()
+    );
 }
 
 /**
@@ -83,7 +132,7 @@ function nbaleague_get_leagues_assoc()
  */
 function nbaleague_get_seasons()
 {
-	return nbacontent_get_vocabulary('nbaseason');
+    return nbacontent_get_vocabulary('nbaseason');
 }
 
 /**
@@ -93,11 +142,40 @@ function nbaleague_get_seasons()
  */
 function nbaleague_get_seasons_assoc()
 {
-	$seasons = nbaleague_get_seasons();
-	$seasons_assoc = array();
-	foreach ($seasons as $id => $season) {
-		$seasons_assoc[$id] = $season->name->value();
-	}
+    return _nbaleague_get_assoc_array_from_taxonomy(
+        nbaleague_get_seasons()
+    );
+}
 
-	return $seasons_assoc;
+/**
+ * Helper function to create assoc arrays
+ * 
+ * @param array $taxonomy Array of taxonomy objects
+ * 
+ * @return array
+ */
+function _nbaleague_get_assoc_array_from_taxonomy($taxonomy)
+{
+    $taxonomyArray = _nbaleague_filter_active_taxonomies($taxonomy);
+    
+    $assoc = array();
+    foreach ($taxonomyArray as $id => $ele) {
+        $assoc[$id] = $ele->name->value();
+    }
+
+    return $assoc;
+}
+
+/**
+ * Helper function to remove any taxonomy items with isactive equal to false
+ * 
+ * @param array $taxonomy Array of taxonomy objects
+ * 
+ * @return array
+ */
+function _nbaleague_filter_active_taxonomies($taxonomy)
+{
+    return array_filter($taxonomy, function ($item) {
+        return $item->isactive->value() == '1';
+    });
 }

@@ -4,7 +4,7 @@
             echo theme(
                 'image_style',
                 array(
-                    'style_name' => 'large',
+                    'style_name' => 'nbathumbnail',
                     'path' => $item['#item']['uri'],
                     'alt' => $item['#item']['alt'],
                     'title' => $item['#item']['title']

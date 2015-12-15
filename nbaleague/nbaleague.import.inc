@@ -46,7 +46,7 @@ function nbaleague_import_config_form($form, &$form_state)
  */
 function nbaleague_upload_element_process($element, &$form_state, $form)
 {
-  	$element = file_managed_file_process($element, $form, $form_state);
-  	$element['upload_button']['#access'] = FALSE;
-  	return $element;
+    $element = file_managed_file_process($element, $form_state, $form);
+    $element['upload_button']['#access'] = FALSE;
+    return $element;
 }

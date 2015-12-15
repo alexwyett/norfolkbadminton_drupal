@@ -12,6 +12,7 @@ function nbaleague_form_taxonomy_form_term_alter(&$form, &$form_state)
         && (
             $form['#term']['vocabulary_machine_name'] == 'nbaleague'
             || $form['#term']['vocabulary_machine_name'] == 'nbaseason'
+            || $form['#term']['vocabulary_machine_name'] == 'nbateam'
         )
     ) {
         $form['description']['#access'] = false;

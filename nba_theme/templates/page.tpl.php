@@ -22,6 +22,15 @@ $localThemePath = $base_path  . drupal_get_path('theme', $theme);
         $sidebar = render($page['sidebar']);
         $cols = (strlen($sidebar) > 0) ? 'two' : 'one';
 
+        if (!empty($node) && property_exists($node, 'type')) {
+            node_build_content($node);
+            foreach (array('banners', 'nba_cat') as $key) {
+                if (isset($node->content[$key])) {
+                    echo render($node->content[$key]);
+                }
+            }
+        }
+
     ?>
 
     <div class="main_body <?php echo $cols; ?>-column clearfix">

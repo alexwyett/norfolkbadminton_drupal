@@ -1546,6 +1546,7 @@ ul.menu .file img,
 }
 
 .page-user #block-system-main,
+.page-nbaleague #block-system-main,
 .page-search #block-system-main {
   padding: 24px;
 }
@@ -1555,11 +1556,11 @@ ul.menu .file img,
 }
 
 @media screen and (min-width: 992px) {
-  .page-node .region-content, body.front .region-content {
+  .page-node .region-content, body.front .region-content, .page-nbaleague-matches .region-content {
     float: left;
     width: 70%;
   }
-  .page-node .region-sidebar, body.front .region-sidebar {
+  .page-node .region-sidebar, body.front .region-sidebar, .page-nbaleague-matches .region-sidebar {
     float: right;
     width: 30%;
   }

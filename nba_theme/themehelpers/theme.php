@@ -21,6 +21,33 @@ function nba_theme_theme($existing, $type, $theme, $path)
     );
 }
 
+/**
+ * Implement hook_preprocess_page
+ * 
+ * @param array $variables
+ * 
+ * @return void
+ */
+function nba_theme_preprocess_page(&$variables)
+{
+    // This disables message-printing on ALL page displays
+    $variables['show_messages'] = FALSE;
+}
+
+/**
+ * Implement hook_process_region
+ * 
+ * @param array $vars
+ * 
+ * @return void
+ */
+function nba_theme_process_region(&$vars)
+{
+    if ($vars['elements']['#region'] == 'content') {
+        $vars['messages'] = theme('status_messages');
+    }
+}
+
 
 /**
  * Implements theme_double_field().

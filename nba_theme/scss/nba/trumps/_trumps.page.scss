@@ -18,6 +18,7 @@
 }
 
 .page-user,
+.page-nbaleague,
 .page-search {
     #block-system-main {
         padding: $base-spacing-unit;
@@ -32,7 +33,7 @@
 
 
 @media screen and (min-width: $screen-md-min) {
-    .page-node, body.front {
+    .page-node, body.front, .page-nbaleague-matches {
         .region-content {
             float: left;
             width: 70%;

@@ -48,12 +48,12 @@ function nbaleague_schema() {
                 'not null' => TRUE
             ),
             'hometeam_id' => array(
-                'description' => 'Node id of the home club.',
+                'description' => 'Taxonomy id of the home team.',
                 'type' => 'int',
                 'not null' => TRUE
             ),
-            'away_id' => array(
-                'description' => 'Node id of the away club.',
+            'awayteam_id' => array(
+                'description' => 'Taxonomy id of the away team.',
                 'type' => 'int',
                 'not null' => TRUE
             ),
@@ -81,8 +81,8 @@ function nbaleague_schema() {
                 'type' => 'int',
                 'not null' => TRUE,
             ),
-            'club_id' => array(
-                'description' => 'Club id.',
+            'team_id' => array(
+                'description' => 'Team id.',
                 'type' => 'int',
                 'not null' => TRUE
             ),
@@ -166,7 +166,7 @@ function nbaleague_add_custom_taxonomy_fields()
     $instance = $custom_fields['nbaleague']['active'];
     $instance['entity_type'] = 'taxonomy_term';
     $instance['bundle'] = 'nbaseason';
-    $instance['label'] = 'Tick for seasaon to be active';
+    $instance['label'] = 'Tick for season to be active';
     field_create_instance($instance);
     
     // Add active flag to season instance
@@ -209,6 +209,57 @@ function nbaleague_installed_taxonomy_fields()
                 'label' => $t('Number of games allowed in the league'),
                 'description' => $t('This will determine the validation of match score input.'),
                 'type' => 'text',
+                'required' => true,
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'text',
+                    'settings' => array(
+                        'size' => '2',
+                    ),
+                    'type' => 'text_textfield'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    )
+                )
+            ),
+            'winpoints' => array(
+                'field_name' => 'winpoints',
+                'label' => $t('Points for a win'),
+                'description' => $t('This will be assigned to the team if their games is greater than the opponents team.'),
+                'type' => 'text',
+                'required' => true,
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'text',
+                    'settings' => array(
+                        'size' => '2',
+                    ),
+                    'type' => 'text_textfield'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    )
+                )
+            ),
+            'drawpoints' => array(
+                'field_name' => 'drawpoints',
+                'label' => $t('Points for a draw'),
+                'description' => $t('This will be assigned to the team if their games is equal to the opponents team.'),
+                'type' => 'text',
+                'required' => true,
                 'widget' => array(
                     'active' => 1,
                     'module' => 'text',

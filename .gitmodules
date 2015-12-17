@@ -1,3 +1,6 @@
 [submodule "imageshortcode"]
 	path = imageshortcode
 	url = git@github.com:alexwyett/imageshortcode.git
+[submodule "fb_feed"]
+	path = fb_feed
+	url = git@github.com:alexwyett/fb_feed.git

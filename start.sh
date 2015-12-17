@@ -30,6 +30,10 @@ if [ ! -d sites/all/modules/nbacontent ]; then
 
     # Setup a symlink to the modules folder
     ln -s $cwd/nbacontent .
+    ln -s $cwd/imageshortcode .
+    ln -s $cwd/fb_feed .
+    ln -s $cwd/nbaclubs .
+    ln -s $cwd/nbaleague .
 
     cd ../../../
 fi

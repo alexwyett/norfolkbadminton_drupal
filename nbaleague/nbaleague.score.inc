@@ -2,28 +2,31 @@
 
 function nbaleague_score_config_form($form, &$form_state, $match_id, $score_id = null)
 {
+    if (empty($match_id) || $match_id === null) {
+        drupal_not_found();
+        drupal_exit();
+    }
+    
     $match = nbaleague_get_match_from_data(array('match_id' => $match_id));
     $score = null;
     
     if (count($match) > 0) {
         $form['match_id'] = array(
-            '#type' => 'hidden'
+            '#type' => 'hidden',
+            '#default_value' => $match['match_id']
         );
     }
     
-    $form['hometeam_score'] = array(
-        '#type' => 'number',
-        '#title' => 'Home team score',
-        '#description' => 'Select the score in games the home team received.',
-        '#required' => true
-    );
-    
-    $form['awayteam_score'] = array(
-        '#type' => 'number',
-        '#title' => 'Home team score',
-        '#description' => 'Select the score in games the home team received.',
-        '#required' => true
-    );
+    foreach (array('home', 'away') as $key) {
+        $form[$key . 'team_score'] = array(
+            '#type' => 'textfield',
+            '#title' => ucfirst($key) . ' team score',
+            '#description' => 'Select the score in games the ' . $key . ' team received.',
+            '#required' => true,
+            '#maxlength' => 2,
+            '#size' => 2
+        );
+    }
     
     foreach (array_keys($form) as $key) {
         
@@ -47,7 +50,20 @@ function nbaleague_score_config_form($form, &$form_state, $match_id, $score_id =
  */
 function nbaleague_score_config_form_validate($form, &$form_state)
 {
+    $match = nbaleague_get_match_from_data(
+        array('match_id' => $form_state['values']['match_id'])
+    );
     
+    // Get league data for validation
+    $league = nbaleague_get_league_by_id($match['league_id']);
+    
+    $totalgames = $form_state['values']['hometeam_score'] + $form_state['values']['awayteam_score'];
+    if ($totalgames != $league->maxgames->value()) {
+        form_set_error(
+            'hometeam_score',
+            'Number of games for this match should equal ' . $league->maxgames->value()
+        );
+    }
 }
 
 /**

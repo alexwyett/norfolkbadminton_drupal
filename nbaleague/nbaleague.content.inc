@@ -96,8 +96,22 @@ function nbaleague_get_matches_list($league_id, $season_id)
     if ($matches->rowCount() > 0) {
         $match_rows = array();
         
+        $header = array(
+            'Date',
+            'Home Team',
+            'Away Team',
+            'Results'
+        );
+        
+        if ($admin === true) {
+            array_push(
+                $header, 
+               t('Admin')
+            );
+        }
+        
         while ($match = $matches->fetch()) {
-            $match = array(
+            $match_row = array(
                 date('dS m Y', $match->match_date),
                 nbaleague_get_team_by_id($match->hometeam_id)->name->value(),
                 nbaleague_get_team_by_id($match->awayteam_id)->name->value(),
@@ -106,12 +120,12 @@ function nbaleague_get_matches_list($league_id, $season_id)
             
             if ($admin === true) {
                 array_push(
-                    $match, 
-                    l('Add score', '')
+                    $match_row, 
+                    l('Add score', 'nbaleague/score/' . $match->match_id)
                 );
             }
             
-            $match_rows[] = $match;
+            $match_rows[] = $match_row;
         }
         
         return array(
@@ -123,12 +137,7 @@ function nbaleague_get_matches_list($league_id, $season_id)
             'matches' => array(
                 '#markup' => theme_table(
                     array(
-                        'header' => array(
-                            'Date',
-                            'Home Team',
-                            'Away Team',
-                            'Results'
-                        ),
+                        'header' => $header,
                         'rows' => $match_rows,
                         'attributes' => array(
                             'class' => array(
@@ -138,7 +147,8 @@ function nbaleague_get_matches_list($league_id, $season_id)
                         ),
                         'caption' => '',
                         'colgroups' => array(),
-                        'sticky' => true
+                        'sticky' => true,
+                        'empty' => ''
                     )
                 )
             ),

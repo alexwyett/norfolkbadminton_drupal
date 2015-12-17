@@ -1555,12 +1555,21 @@ ul.menu .file img,
   margin: 0 0 8px 0;
 }
 
+.card-messages .messages {
+  margin: 0;
+  border-width: 0 none;
+}
+
 @media screen and (min-width: 992px) {
-  .page-node .region-content, body.front .region-content, .page-nbaleague-matches .region-content {
+  body.front .region-content,
+  .page-node .region-content,
+  .page-nbaleague .region-content {
     float: left;
     width: 70%;
   }
-  .page-node .region-sidebar, body.front .region-sidebar, .page-nbaleague-matches .region-sidebar {
+  body.front .region-sidebar,
+  .page-node .region-sidebar,
+  .page-nbaleague .region-sidebar {
     float: right;
     width: 30%;
   }

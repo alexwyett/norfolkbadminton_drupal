@@ -400,9 +400,27 @@ function nbaleague_get_scores_from_data($data)
         $scores->condition('nbams.' . $key, $data[$key], '=');
     }
     
-    $scores->orderBy('nbam.match_date');
-    
     return $scores->execute();
+}
+
+/**
+ * Add a new score
+ * 
+ * @param integer $match_id Match id
+ * @param array   $data     Form data from $form_state
+ * 
+ * @return integer
+ */
+function nbaleague_add_score($match_id, $data)
+{
+    global $user;
+    
+    return db_insert('nbaleague_match_score')
+        ->fields(array(
+            'match_id' => $match_id,
+            'created' => REQUEST_TIME,
+            'createdby' => $user->uid
+        ))->execute();
 }
 
 /**

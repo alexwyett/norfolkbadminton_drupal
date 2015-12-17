@@ -53,8 +53,12 @@ $handler->display->display_options['arguments']['nid']['summary']['format'] = 'd
 $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
 $handler->display->display_options['arguments']['nid']['specify_validation'] = TRUE;
 $handler->display->display_options['arguments']['nid']['validate']['type'] = 'php';
-$handler->display->display_options['arguments']['nid']['validate_options']['code'] = '$node = node_load($argument);
-return (is_array($node->documents) && count($node->documents) > 0);';
+$handler->display->display_options['arguments']['nid']['validate_options']['code'] = 'if ($argument) {
+$node = node_load($argument);
+return (property_exists($node, \'documents\') && is_array($node->documents) && count($node->documents) > 0);
+} else {
+return false;
+}';
 /* Filter criterion: Content: Published */
 $handler->display->display_options['filters']['status']['id'] = 'status';
 $handler->display->display_options['filters']['status']['table'] = 'node';

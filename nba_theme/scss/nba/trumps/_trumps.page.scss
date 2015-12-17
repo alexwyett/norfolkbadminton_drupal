@@ -31,9 +31,18 @@
     }
 }
 
+.card-messages {
+    .messages {
+        margin: 0;
+        border-width: 0 none;
+    }
+}
+
 
 @media screen and (min-width: $screen-md-min) {
-    .page-node, body.front, .page-nbaleague-matches {
+    body.front,
+    .page-node,
+    .page-nbaleague {
         .region-content {
             float: left;
             width: 70%;

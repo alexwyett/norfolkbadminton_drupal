@@ -1,6 +1,6 @@
 <?php
 
-function nbaleague_score_config_form($form, &$form_state, $match_id, $score_id = null)
+function nbaleague_score_config_form($form, &$form_state, $match_id)
 {
     if (empty($match_id) || $match_id === null) {
         drupal_not_found();
@@ -8,7 +8,7 @@ function nbaleague_score_config_form($form, &$form_state, $match_id, $score_id =
     }
     
     $match = nbaleague_get_match_from_data(array('match_id' => $match_id));
-    $score = null;
+    $score = nbaleague_get_scores_from_match_id($match_id);
     
     if (count($match) > 0) {
         $form['match_id'] = array(
@@ -17,24 +17,51 @@ function nbaleague_score_config_form($form, &$form_state, $match_id, $score_id =
         );
     }
     
-    foreach (array('home', 'away') as $key) {
-        $form[$key . 'team_score'] = array(
-            '#type' => 'textfield',
-            '#title' => ucfirst($key) . ' team score',
-            '#description' => 'Select the score in games the ' . $key . ' team received.',
-            '#required' => true,
-            '#maxlength' => 2,
-            '#size' => 2
+    if ($score) {
+        $form['score_update'] = array(
+            '#type' => 'hidden',
+            '#default_value' => 'true'
         );
     }
     
-    foreach (array_keys($form) as $key) {
-        
+    $form['hometeam_score'] = array(
+        '#type' => 'textfield',
+        '#title' => $match['hometeam']->name->value() . ' score',
+        '#description' => 'Enter the score in games the home team received.',
+        '#required' => true,
+        '#maxlength' => 2,
+        '#size' => 2
+    );
+    
+    $form['awayteam_score'] = array(
+        '#type' => 'textfield',
+        '#title' => $match['awayteam']->name->value() . ' score',
+        '#description' => 'Enter the score in games the away team received.',
+        '#required' => true,
+        '#maxlength' => 2,
+        '#size' => 2
+    );
+    
+    if ($score) {
+        foreach (array_keys($form) as $key) {
+            if (isset($score[$key])) {
+                $form[$key]['#default_value'] = $score[$key];
+            }
+        }
     }
 
     $form['submit'] = array(
         '#type' => 'submit',
         '#value' => ($score) ? t('Update') : t('Submit'),
+    );
+    
+    $form['back'] = array(
+        '#prefix' => '<p>',
+        '#suffix' => '</p>',
+        '#markup' => l(
+            'Back to match list',
+            'nbaleague/matches/list/' . $match['league_id'] . '/' . $match['season_id']
+        )
     );
 
     return $form;
@@ -76,17 +103,21 @@ function nbaleague_score_config_form_validate($form, &$form_state)
  */
 function nbaleague_score_config_form_submit($form, &$form_state)
 {
-    if (isset($form_state['values']['score_id'])) {
-        $numUpdated = nbaleague_update_score(
+    if (isset($form_state['values']['score_update'])) {
+        $updated = nbaleague_update_score(
             $form_state['values']['match_id'],
             $form_state['values']
         );
         
-        if ($numUpdated === 1) {
+        if ($updated === true) {
             drupal_set_message('Score updated!');
+        } else {
+            drupal_set_message('There was a problem updating your score.');
         }
-    } else if (nbaleague_add_score($form_state['values'])) {
+    } else if (nbaleague_add_score($form_state['values']['match_id'], $form_state['values'])) {
         drupal_set_message('Score added!');
+    } else {
+        drupal_set_message('There was a problem with the score system.');
     }
 }
 
@@ -125,7 +156,7 @@ function nbaleague_deletescore_form($form, &$form_state, $score_id = null)
  */
 function nbaleague_deletescore_form_submit($form, &$form_state)
 {
-    if (nbaleague_delete_score($form_state['values']['score_id'])) {
+    if (nbaleague_delete_score($form_state['values']['match_id'])) {
         drupal_set_message('Score deleted!');
     }
 

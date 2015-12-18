@@ -289,6 +289,8 @@ function nbaleague_get_match_from_data($data)
     $result = $query->fetchAssoc();
     
     if ($result) {
+        $result['hometeam'] = nbaleague_get_team_by_id($result['hometeam_id']);
+        $result['awayteam'] = nbaleague_get_team_by_id($result['awayteam_id']);
         return $result;
     }
     
@@ -404,6 +406,61 @@ function nbaleague_get_scores_from_data($data)
 }
 
 /**
+ * Get the home and away scores for a given match
+ * 
+ * @param integer $match_id Match id
+ * 
+ * @return array
+ */
+function nbaleague_get_scores_from_match_id($match_id)
+{
+    $match = nbaleague_get_match_from_data(array('match_id' => $match_id));
+    $scoreData = nbaleague_get_scores_from_data(array('match_id' => $match_id));
+    if ($scoreData->rowCount() > 0) {
+        $scores = array(
+            'match_id' => $match_id,
+            'hometeam_score' => 0,
+            'awayteam_score' => 0
+        );
+        
+        while ($score = $scoreData->fetchAssoc()) {
+            if ($score['team_id'] == $match['hometeam_id']) {
+                $scores['hometeam_score'] = $score['games'];
+            }
+            
+            if ($score['team_id'] == $match['awayteam_id']) {
+                $scores['awayteam_score'] = $score['games'];
+            }
+        }
+        
+        return $scores;
+    }
+    
+    return false;
+}
+
+/**
+ * Get the match score
+ * 
+ * @param integer $match_id Match id
+ * 
+ * @return string
+ */
+function nbaleague_get_formatted_scores_from_match_id($match_id)
+{
+    $score = nbaleague_get_scores_from_match_id($match_id);
+    if ($score) {
+        return sprintf(
+            '%s - %s',
+            $score['hometeam_score'],
+            $score['awayteam_score']
+        );
+    }
+    
+    return '';
+}
+
+/**
  * Add a new score
  * 
  * @param integer $match_id Match id
@@ -415,12 +472,31 @@ function nbaleague_add_score($match_id, $data)
 {
     global $user;
     
-    return db_insert('nbaleague_match_score')
-        ->fields(array(
-            'match_id' => $match_id,
-            'created' => REQUEST_TIME,
-            'createdby' => $user->uid
-        ))->execute();
+    $match = nbaleague_get_match_from_data(array('match_id' => $match_id));
+    
+    if ($match) {
+        $home = db_insert('nbaleague_match_score')
+            ->fields(array(
+                'match_id' => $match_id,
+                'team_id' => $match['hometeam_id'],
+                'games' => $data['hometeam_score'],
+                'created' => REQUEST_TIME,
+                'createdby' => $user->uid
+            ))->execute();
+    
+        $away = db_insert('nbaleague_match_score')
+            ->fields(array(
+                'match_id' => $match_id,
+                'team_id' => $match['awayteam_id'],
+                'games' => $data['awayteam_score'],
+                'created' => REQUEST_TIME,
+                'createdby' => $user->uid
+            ))->execute();
+        
+        return true;
+    }
+    
+    return false;
 }
 
 /**
@@ -435,6 +511,23 @@ function nbaleague_delete_score($match_id)
     return db_delete('nbaleague_match_score')
         ->condition('match_id', $match_id)
         ->execute();
+}
+
+/**
+ * Update a score
+ * 
+ * @param integer $match_id Match id
+ * @param array   $data     Form data from $form_state
+ * 
+ * @return integer
+ */
+function nbaleague_update_score($match_id, $data)
+{
+    if (nbaleague_delete_score($match_id)) {
+        return nbaleague_add_score($match_id, $data);
+    } else {
+        return false;
+    }
 }
 
 /**

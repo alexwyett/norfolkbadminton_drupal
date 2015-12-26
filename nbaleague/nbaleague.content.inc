@@ -111,17 +111,23 @@ function nbaleague_get_matches_list($league_id, $season_id)
         }
         
         while ($match = $matches->fetch()) {
+            
+            $score = nbaleague_get_formatted_scores_from_match_id($match->match_id);
+            
             $match_row = array(
                 date('dS m Y', $match->match_date),
                 nbaleague_get_team_by_id($match->hometeam_id)->name->value(),
                 nbaleague_get_team_by_id($match->awayteam_id)->name->value(),
-                nbaleague_get_formatted_scores_from_match_id($match->match_id)
+                $score
             );
             
             if ($admin === true) {
                 array_push(
                     $match_row, 
-                    l('Add score', 'nbaleague/score/' . $match->match_id)
+                    l(
+                        (strlen($score) > 0 ? 'Edit' : 'Add') . ' score',
+                        'nbaleague/score/' . $match->match_id
+                    )
                 );
             }
             

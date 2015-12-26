@@ -1563,12 +1563,14 @@ ul.menu .file img,
 @media screen and (min-width: 992px) {
   body.front .region-content,
   .page-node .region-content,
+  .page-user .region-content,
   .page-nbaleague .region-content {
     float: left;
     width: 70%;
   }
   body.front .region-sidebar,
   .page-node .region-sidebar,
+  .page-user .region-sidebar,
   .page-nbaleague .region-sidebar {
     float: right;
     width: 30%;

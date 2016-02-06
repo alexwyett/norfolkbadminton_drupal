@@ -3,7 +3,7 @@
     @include rounded();
     position: relative;
     background-color: $card-bg-color;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    //box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     border: 1px solid $color-gray-light;
 
     // Card Sizes
@@ -15,6 +15,12 @@
         .card_content {
             max-height: 100%;
             overflow: hidden;
+
+            .c-title {
+                text-transform: uppercase;
+                font-weight: bold;
+                font-size: $title-font-size;
+            }
         }
 
         .card_image {

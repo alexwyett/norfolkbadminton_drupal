@@ -19,6 +19,7 @@
 
 .page-user,
 .page-nbaleague,
+.page-node-done,
 .page-search {
     #block-system-main {
         padding: $base-spacing-unit;
@@ -41,8 +42,9 @@
 
 @media screen and (min-width: $screen-md-min) {
     body.front,
-    .page-node,
+    .page-node .two-column,
     .page-user,
+    .page-node-done,
     .page-nbaleague {
         .region-content {
             float: left;

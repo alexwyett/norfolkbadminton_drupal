@@ -1,12 +1,12 @@
 .main {
-    background: white;
+    background: $main-background-colour;
     
     @media screen and (min-width: $screen-sm-min) {
         width: $main-width;
         margin-left: $sidebar-width;
         
         &_body {
-            max-width: 1500px;
+            max-width: 1200px;
         }
     }
 }

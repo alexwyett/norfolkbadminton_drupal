@@ -110,7 +110,7 @@ function nbaleague_schema() {
                 'default' => 0,
             ),
         ),
-        'primary key' => array('match_id', 'club_id'),
+        'primary key' => array('match_id', 'team_id'),
     );
 
     return $schema;

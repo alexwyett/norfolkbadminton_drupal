@@ -1,27 +1,27 @@
 .view-nbacontent-promoted-blogs {
 
-    @media screen and (min-width: $screen-sm-min) {
-		.view-content {
-			@include clearfix();
-			padding: $base-margin;
-		}
+    @media screen and (min-width: $screen-mob-min) {
+        .view-content {
+            @include clearfix();
+            padding: $base-margin;
+        }
 
-		.views-row {
-			width: 49%;
-			float: right;
-			.card {
-				margin: 0 0 $base-margin 0;
-			}
-		}
+        .views-row {
+            width: 49%;
+            float: right;
+            .card {
+                margin: 0 0 $base-margin 0;
+            }
+        }
 
-		.views-row-odd {
-			float: left;
-		}
+        .views-row-odd {
+            float: left;
+        }
     }
 
-	.pager {
-		a {
-			@extend .btn;
-		}
-	}
+    .pager {
+        a {
+            @extend .btn;
+        }
+    }
 }

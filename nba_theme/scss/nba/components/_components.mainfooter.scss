@@ -1,8 +1,8 @@
 .main_footer {
-    @include clearfix();
     ul.menu {
+        text-align: center;
         li {
-            float: left;
+            display: inline;
 
             a {
                 padding: 0;

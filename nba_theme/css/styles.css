@@ -1330,20 +1330,11 @@ ul.menu .file img,
   display: none;
 }
 
-.main_footer {
-  zoom: 1;
-}
-.main_footer:before {
-  content: '';
-  display: block;
-}
-.main_footer:after {
-  content: '';
-  display: table;
-  clear: both;
+.main_footer ul.menu {
+  text-align: center;
 }
 .main_footer ul.menu li {
-  float: left;
+  display: inline;
 }
 .main_footer ul.menu li a {
   padding: 0;
@@ -1576,7 +1567,7 @@ ul.menu .file img,
     width: 30%;
   }
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 480px) {
   .view-nbacontent-promoted-blogs .view-content {
     zoom: 1;
     padding: 24px;

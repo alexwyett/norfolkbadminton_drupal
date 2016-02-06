@@ -30,7 +30,7 @@
 ?>
 <?php if ($content): ?>
     <section class="left content main_content <?php print $classes; ?>">
-        <?php if ($messages): ?>
+        <?php if (!empty($messages)): ?>
             <div id="messages" class="card card-messages">
                 <?php print $messages; ?>
             </div>    

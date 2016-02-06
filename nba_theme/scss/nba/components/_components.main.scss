@@ -2,8 +2,8 @@
     background: white;
     
     @media screen and (min-width: $screen-sm-min) {
-        width: 80%;
-        margin-left: 20%;
+        width: $main-width;
+        margin-left: $sidebar-width;
         
         &_body {
             max-width: 1500px;

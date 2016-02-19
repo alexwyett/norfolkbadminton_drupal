@@ -9,6 +9,7 @@ $color-block-background: #E5E5E5;
 
 $color-gray:             #666;
 $color-gray-light:       #DDD;
+$color-gray-very-light:  #FEFEFE;
 $color-gray-dark:        #333;
 $main-background-colour: #F9F9F9;
 
@@ -25,7 +26,10 @@ $button-color-raised: #fff !default;
 
 
 // UI
-$color-ui:          $color-gray-light;
+$color-ui:              $color-gray-light;
+$table-ui-head-color:   $color-gray-light;
+$table-ui-color:        $color-gray-very-light;
+$table-ui-border-color: $color-gray-light;
 
 // Text
 $color-text:        #5A5A5A;

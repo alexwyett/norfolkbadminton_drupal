@@ -1,12 +1,25 @@
 <?php
 
-function nbaleague_match_config_form($form, &$form_state, $match_id = null)
-{
+function nbaleague_match_config_form(
+    $form,
+    &$form_state,
+    $match_id = null,
+    $league_id = null,
+    $season_id = null
+) {
     $match = array();
+    $match_date = null;
     if ($match_id) {
         $match = nbaleague_get_match_from_data(array('match_id' => $match_id));
         
         if (count($match) > 0) {
+            $match_date = array(
+                'year' => date('Y', $match['match_date']),
+                'month' => date('n', $match['match_date']),
+                'day' => date('d', $match['match_date'])
+            );
+            $league_id = $match['league_id'];
+            $season_id = $match['season_id'];
             $form['match_id'] = array(
                 '#type' => 'hidden'
             );
@@ -34,7 +47,8 @@ function nbaleague_match_config_form($form, &$form_state, $match_id = null)
         '#title' => 'League',
         '#description' => 'Target league.  Select a league you want to add this match to.',
         '#options' => nbaleague_get_leagues_assoc(),
-        '#required' => true
+        '#required' => true,
+        '#default_value' => $league_id
     );
     
     $form['season_id'] = array(
@@ -42,22 +56,14 @@ function nbaleague_match_config_form($form, &$form_state, $match_id = null)
         '#title' => 'Season',
         '#description' => 'Target season.  Select a season you want to add this match to.',
         '#options' => nbaleague_get_seasons_assoc(),
-        '#required' => true
+        '#required' => true,
+        '#default_value' => $season_id
     );
     
     foreach (array_keys($form) as $key) {
         if (isset($match[$key])) {
             $form[$key]['#default_value'] = $match[$key];
         }
-    }
-    
-    $match_date = null;
-    if (isset($match['match_date'])) {
-        $match_date = array(
-            'year' => date('Y', $match['match_date']),
-            'month' => date('m', $match['match_date']),
-            'day' => date('d', $match['match_date'])
-        );
     }
     
     $form['match_date'] = array(
@@ -72,6 +78,13 @@ function nbaleague_match_config_form($form, &$form_state, $match_id = null)
         '#type' => 'submit',
         '#value' => (count($match) > 0) ? t('Update') : t('Submit'),
     );
+    
+    if ($season_id && $league_id) {
+        $form['backtomatches'] = _nbaleague_backto_match_list_link(
+            $league_id,
+            $season_id
+        );
+    }
 
     return $form;
 }

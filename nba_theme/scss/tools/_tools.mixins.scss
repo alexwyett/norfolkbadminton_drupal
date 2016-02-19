@@ -20,6 +20,16 @@
 
 }
 
+@mixin ellipsis() {
+    @include elispes();
+}
+
+@mixin elispes() {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 
 @mixin inline-block() {
     display: -moz-inline-stack;

@@ -127,6 +127,9 @@ function nbaleague_get_matches_list($league_id, $season_id)
                     l(
                         (strlen($score) > 0 ? 'Edit' : 'Add') . ' score',
                         'nbaleague/score/' . $match->match_id
+                    ) . ' ' . l(
+                        'Edit match',
+                        'nbaleague/match/' . $match->match_id
                     )
                 );
             }
@@ -134,11 +137,14 @@ function nbaleague_get_matches_list($league_id, $season_id)
             $match_rows[] = $match_row;
         }
         
+        $league = nbaleague_get_league_by_id($league_id);
+        $season = nbaleague_get_season_by_id($season_id);
+        
         return array(
             'intro' => array(
                 '#type' => 'html_tag',
                 '#tag' => 'p',
-                '#value' => t('Showing all matches in date order')
+                '#value' => t($league->name->value() . ' league fixtures for the ' . $season->name->value() . ' season.')
             ),
             'matches' => array(
                 '#markup' => theme_table(
@@ -148,7 +154,8 @@ function nbaleague_get_matches_list($league_id, $season_id)
                         'attributes' => array(
                             'class' => array(
                                 'c-table',
-                                'c-table-matches'
+                                'c-table-bordered',
+                                'c-table-striped'
                             )
                         ),
                         'caption' => '',
@@ -158,12 +165,7 @@ function nbaleague_get_matches_list($league_id, $season_id)
                     )
                 )
             ),
-            'back' => array(
-                '#markup' => l(
-                    'Back to Seasons',
-                    'nbaleague/matches/list/' . $league_id
-                )
-            )
+            'links' => _nbaleague_match_list_links($matches, $league_id, $season_id)
         );
     } else {
         return array(
@@ -171,7 +173,69 @@ function nbaleague_get_matches_list($league_id, $season_id)
                 '#type' => 'html_tag',
                 '#tag' => 'p',
                 '#value' => t('No matches found')
-            )
+            ),
+            'links' => _nbaleague_match_list_links(array(), $league_id, $season_id)
+        );
+    }
+}
+
+/**
+ * Return a league table
+ * 
+ * @param integer $league_id League id
+ * @param integer $season_id Season id
+ * 
+ * @return array
+ */
+function nbaleague_get_matches_table($league_id, $season_id)
+{
+    $matches = nbaleague_get_matches_from_data(array(
+        'league_id' => $league_id,
+        'season_id' => $season_id
+    ));
+    
+    if ($matches->rowCount() > 0) {
+        $header = array(
+            'Team',
+            'Matches played',
+            'Games for',
+            'Games Against',
+            'Points'
+        );
+        
+        $league = nbaleague_get_league_by_id($league_id);
+        $season = nbaleague_get_season_by_id($season_id);
+        
+        return array(
+            'intro' => array(
+                '#type' => 'html_tag',
+                '#tag' => 'p',
+                '#value' => t($league->name->value() . ' league table for the ' . $season->name->value() . ' season.')
+            ),
+            'matches' => array(
+                '#markup' => theme_table(
+                    array(
+                        'header' => $header,
+                        'rows' => nbaleague_get_league_table_data($matches),
+                        'attributes' => array(
+                            'class' => array(
+                                'c-table',
+                                'c-table-bordered',
+                                'c-table-striped'
+                            )
+                        ),
+                        'caption' => '',
+                        'colgroups' => array(),
+                        'sticky' => true,
+                        'empty' => ''
+                    )
+                )
+            ),
+            'links' => _nbaleague_match_list_links($matches, $league_id, $season_id, 'list')
+        );
+    } else {
+        return array(
+            'links' => _nbaleague_match_list_links(array(), $league_id, $season_id, 'list')
         );
     }
 }

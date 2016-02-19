@@ -55,14 +55,7 @@ function nbaleague_score_config_form($form, &$form_state, $match_id)
         '#value' => ($score) ? t('Update') : t('Submit'),
     );
     
-    $form['back'] = array(
-        '#prefix' => '<p>',
-        '#suffix' => '</p>',
-        '#markup' => l(
-            'Back to match list',
-            'nbaleague/matches/list/' . $match['league_id'] . '/' . $match['season_id']
-        )
-    );
+    $form['backtomatches'] = _nbaleague_backto_match_list_link($match['league_id'], $match['season_id']);
 
     return $form;
 }

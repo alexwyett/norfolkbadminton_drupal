@@ -1,0 +1,12 @@
+name = Banner
+description = Provides a taxonomy and block for managing a banner system.
+core = 7.x
+version = "7.x-0.0"
+package = NBA
+configure = admin/config/nba/banner
+dependencies[] = image
+dependencies[] = nbacontent_get_vocabulary
+files[] = nbabanner.taxonomy.inc
+files[] = nbabanner.block.inc
+files[] = nbabanner.admin.inc
+files[] = nbabanner.install

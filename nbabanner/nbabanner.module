@@ -1,0 +1,67 @@
+<?php
+
+require_once dirname(__FILE__) . '/nbabanner.taxonomy.inc';
+require_once dirname(__FILE__) . '/nbabanner.block.inc';
+
+/**
+ * Implements hook_menu().
+ *
+ * @return array
+ */
+function nbabanner_menu()
+{
+    $items = array();
+
+    // Add a tab to the TABS config section.
+    $items['admin/config/nba/banner'] = array(
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('nbabanner_config_form'),
+        'title' => 'TOCC Responsive Banners',
+        'description' => 'Choose various hero banner options',
+        'access arguments' => array('nbabanner'),
+        'type' => MENU_NORMAL_ITEM,
+        'file' => 'nbabanner.admin.inc'
+    );
+
+    return $items;
+}
+
+/**
+ * Implements hook_permission()
+ */
+function nbabanner_permission()
+{
+    return array(
+        'nbabanner' => array(
+            'title' => 'Manage Banners module',
+            'description' => t(
+                'Allows users to manage manage the Banners module'
+            )
+        )
+    );
+}
+
+
+/**
+ * Implements hook_theme()
+ *
+ * Defines the theme hooks provided by this module
+ */
+function nbabanner_theme($existing, $type, $theme, $path)
+{
+    return array(
+        'nbabanner_block' => array(
+            'variables' => array(
+                'content' => NULL,
+                'banners' => NULL
+            ),
+            'template' => 'templates/nbabanner.block'
+        ),
+        'nbabanner' => array(
+            'variables' => array(
+                'banner' => NULL
+            ),
+            'template' => 'templates/nbabanner'
+        )
+    );
+}

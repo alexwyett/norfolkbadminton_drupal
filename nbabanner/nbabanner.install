@@ -1,0 +1,181 @@
+<?php
+
+/**
+ * Implement hook_install()
+ * 
+ * @return void
+ */
+function nbabanner_install()
+{
+    // Create a taxonomies for the nbabanner
+    foreach (nbabanner_get_taxonomies() as $key => $val) {
+        taxonomy_vocabulary_save(
+            (object) array_merge($val, array('machine_name' => $key))
+        );
+    }
+    
+    // Add fields
+    field_info_cache_clear();
+    nbabanner_add_custom_taxonomy_fields();
+}
+
+/**
+ * Return the taxonomy definitions
+ *
+ * @return array
+ */
+function nbabanner_get_taxonomies()
+{
+    return array(
+        'nbabanner' => array(
+            'name' => 'Banner',
+            'description' => 'Allows uploading of banners to responsive banner block.'
+        )
+    );
+}
+
+/**
+ * Install custom taxonomy fields
+ * 
+ * @return void
+ */
+function nbabanner_add_custom_taxonomy_fields()
+{
+    // Add taxonomy fields
+    foreach (nbabanner_installed_taxonomy_fields() as $fields) {
+        foreach ($fields as $field) {
+            field_create_field($field);
+        }
+    }
+    
+    foreach (nbabanner_installed_taxonomy_fields() as $bundle => $fields) {
+        foreach ($fields as $fieldinstance) {
+            $fieldinstance['entity_type'] = 'taxonomy_term';
+            $fieldinstance['bundle'] = $bundle;
+            field_create_instance($fieldinstance);
+        }
+    }
+}
+
+/**
+ * Return the taxonomy field descriptions
+ * 
+ * @return array
+ */
+function nbabanner_installed_taxonomy_fields()
+{
+    $t = get_t();
+    return array(
+        'nbabanner' => array(
+            'nbabanner_image' => array(
+                'field_name' => 'nbabanner_image',
+                'label' => $t('Banner Image'),
+                'type' => 'image',
+                'widget' => array(
+                    'type' => 'image'
+                ),
+                'required' => true,
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'image'
+                    )
+                ),
+                'settings' => array(
+                    'alt_field' => true,
+                    'title_field' => true
+                )
+            ),
+            'nbabanner_link' => array(
+                'field_name' => 'nbabanner_link',
+                'label' => $t('Link'),
+                'description' => $t('Target for link.  Drupal shortcuts can be '
+                    . 'used as this will be passed through the url() function.'),
+                'type' => 'text',
+                'required' => true,
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'text',
+                    'settings' => array(
+                        'size' => '50',
+                    ),
+                    'type' => 'text_textfield'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    )
+                )
+            ),
+            'nbabanner_link_text' => array(
+                'field_name' => 'nbabanner_link_text',
+                'label' => $t('Link text'),
+                'description' => $t('Text to be shown in the link'),
+                'type' => 'text',
+                'required' => false,
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'text',
+                    'settings' => array(
+                        'size' => '50',
+                    ),
+                    'type' => 'text_textfield'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    )
+                )
+            ),
+            'nbabanner_link_live' => array(
+                'field_name' => 'nbabanner_link_live',
+                'label' => $t('Publish banner?'),
+                'description' => $t('This needs to be ticked for the banner to be visible.'),
+                'type' => 'list_boolean',
+                'required' => false,
+                'widget' => array(
+                    'type' => 'options_onoff',
+                    'settings' => array(
+                        'display_label' => true
+                    )
+                ),
+                'cardinality' => 1,
+                'settings' => array(
+                    'allowed_values' => array(
+                        0 => '',
+                        1 => ''
+                    )
+                )
+            )
+        )
+    );
+}
+
+/**
+ * Un-install.  Implements hook_uninstall()
+ * 
+ * @return void
+ */
+function nbabanner_uninstall()
+{
+    // Delete the all taxonomy vocabulary
+    foreach (nbabanner_get_taxonomies() as $taxname => $detail) {
+        $vocab = taxonomy_vocabulary_machine_name_load($taxname);
+        taxonomy_vocabulary_delete($vocab->vid);
+    }
+
+    // Remove taxonomy and content fields
+    foreach (array_keys(nbabanner_installed_taxonomy_fields()) as $field) {
+        field_delete_field($field);
+    }
+    
+    // Remove field instances
+    foreach (nbabanner_get_taxonomies() as $taxname => $detail) {
+        $instances = field_info_instances('taxonomy_term', $taxname);
+        foreach ($instances as $fieldinstance) {
+            field_delete_instance($fieldinstance);
+        }
+    }
+}

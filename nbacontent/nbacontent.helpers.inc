@@ -16,11 +16,12 @@ function nbacontent_theme_registry_alter(&$theme_registry)
  * Return a specified taxonomy.  This function will store the taxonomy in memory to save
  * repeated requests to the database.
  * 
- * @param string $taxName Taxonomy name
+ * @param string  $taxName    Taxonomy name
+ * @param boolean $returnTerm Return a term object instead
  * 
  * @return array
  */
-function nbacontent_get_vocabulary($taxName)
+function nbacontent_get_vocabulary($taxName, $returnTerm = false)
 {
     static $nbaVocab;
     if (!isset($nbaVocab)) {
@@ -33,7 +34,12 @@ function nbacontent_get_vocabulary($taxName)
         
         foreach (taxonomy_get_tree($vocab->vid) as $tax) {
             $term = taxonomy_term_load($tax->tid);
-            $nbaVocab[$taxName][$tax->tid] = entity_metadata_wrapper('taxonomy_term', $term);
+            
+            if ($returnTerm === false) {
+                $nbaVocab[$taxName][$tax->tid] = entity_metadata_wrapper('taxonomy_term', $term);
+            } else {
+                $nbaVocab[$taxName][$tax->tid] = $term;
+            }
         }
     }
     

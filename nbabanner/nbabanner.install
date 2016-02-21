@@ -108,27 +108,6 @@ function nbabanner_installed_taxonomy_fields()
                     )
                 )
             ),
-            'nbabanner_link_text' => array(
-                'field_name' => 'nbabanner_link_text',
-                'label' => $t('Link text'),
-                'description' => $t('Text to be shown in the link'),
-                'type' => 'text',
-                'required' => false,
-                'widget' => array(
-                    'active' => 1,
-                    'module' => 'text',
-                    'settings' => array(
-                        'size' => '50',
-                    ),
-                    'type' => 'text_textfield'
-                ),
-                'display' => array(
-                    'default' => array(
-                        'label' => 'hidden',
-                        'type' => 'text'
-                    )
-                )
-            ),
             'nbabanner_link_live' => array(
                 'field_name' => 'nbabanner_link_live',
                 'label' => $t('Publish banner?'),

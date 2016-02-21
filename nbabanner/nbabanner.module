@@ -65,3 +65,15 @@ function nbabanner_theme($existing, $type, $theme, $path)
         )
     );
 }
+
+/**
+ * Implements hook_theme_registry_alter()
+ *
+ * @param array $theme_registry
+ *
+ * @return void
+ */
+function nbabanner_theme_registry_alter(&$theme_registry)
+{
+    _nbacontent_theme_registry_alter($theme_registry, 'nbabanner');
+}

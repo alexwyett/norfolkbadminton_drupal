@@ -1,4 +1,4 @@
-<div class="block <?php echo $block->delta; ?> sitesearch">
+<div id="<?php print $block_html_id; ?>" class="block <?php echo $block->delta; ?> sitesearch">
     <?php if (isset($block->title) && $block->title && $block->title != '<none>'): ?>
         <h2 class="title"><?php print $block->title; ?></h2>
     <?php endif; ?>

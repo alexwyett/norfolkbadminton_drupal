@@ -28,15 +28,24 @@ function nbabanner_block_view($delta = '')
     switch($delta) {
     case 'nbabanner_block':        
         $block['subject'] = t('NBA Banners: Block');
-        $block['content']['#markup'] = theme(
-            $delta,
-            array(
-                'content' => 'nbabanner_block',
-                'banners' => _nbabanner_get_banners(
-                    (variable_get('nbabanner_randomise', 0) == '1')
-                )
+        $block['content'] = array(
+            'container' => array(
+                '#type' => 'fieldset',
+                '#title' => 'NBA Banners: Block',
             )
         );
+        
+        foreach (_nbabanner_get_banners((variable_get('nbabanner_randomise', 0) == '1')) as $index => $banner) {
+            $term = taxonomy_term_view($banner);
+            $block['content']['container']['nbabanner' . $index] = array(
+                '#markup' => render($term)
+            );
+        }
+        
+        $block['content']['#attached']['css'][] = drupal_get_path(
+            'module',
+            'nbabanner'
+        ) . '/css/nbabanner.css';
         
         $block['content']['#attached']['js'][] = array(
             'data' => array(
@@ -61,10 +70,10 @@ function nbabanner_block_view($delta = '')
  */
 function _nbabanner_get_banners($randomise = false)
 {
-    $banners = nbacontent_get_vocabulary('nbabanner');
+    $banners = nbacontent_get_vocabulary('nbabanner', true);
     
     $filteredBanners = array_filter($banners, function($ele) {
-        return $ele->nbabanner_link_live->value() == 1;
+        return $ele->nbabanner_link_live['und'][0]['value'] == 1;
     });
     
     if ($randomise === true) {

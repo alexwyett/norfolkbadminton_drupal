@@ -33,6 +33,7 @@ $localThemePath = $base_path  . drupal_get_path('theme', $theme);
 
     ?>
 
+    <?php echo render($page['content_top']); ?>
     <div class="main_body <?php echo $cols; ?>-column clearfix">
         <?php echo render($page['content']); ?>
         <?php echo $sidebar; ?>

@@ -18,6 +18,7 @@ scripts[] = js/main.js
 ; Regions
 regions[header_nav]  = Header region for the nav component for NBA base theme
 regions[search]  = Search component region for NBA base theme
+regions[content_top] = Region above the main content region for NBA base theme
 regions[content] = Content region for NBA base theme
 regions[nav] = Nav region for NBA base theme
 regions[footer]  = Footer region for NBA base theme

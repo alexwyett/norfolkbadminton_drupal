@@ -1,0 +1,11 @@
+.card {
+    &-small,
+    &-medium,
+    &-large {
+        .card_content {
+            .c-title {
+                
+            }
+        }
+    }
+}

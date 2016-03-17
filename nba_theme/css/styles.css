@@ -1,5 +1,6 @@
 @charset "UTF-8";
 @import url(https://fonts.googleapis.com/css?family=Raleway);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 /*** Buttons ***/
 body,
 h1, h2, h3, h4, h5, h6,
@@ -829,11 +830,11 @@ button.btn-floating {
   font-size: 20px;
 }
 .card-small .card_image, .card-medium .card_image, .card-large .card_image {
-  max-height: 50%;
+  max-height: 70%;
   overflow: hidden;
 }
 .card-small .card_image + .card_content, .card-medium .card_image + .card_content, .card-large .card_image + .card_content {
-  max-height: 50%;
+  max-height: 30%;
 }
 .card-small .card_action, .card-medium .card_action, .card-large .card_action {
   position: absolute;

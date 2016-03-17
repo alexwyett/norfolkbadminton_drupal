@@ -71,7 +71,7 @@ module.exports = function(grunt) {
 
   // TASKS =====================================/
 
-  grunt.registerTask( 'default', [ 'watch'] ); // default 'grunt'
+  grunt.registerTask( 'default', [ 'sass', 'watch' ] ); // default 'grunt'
   grunt.registerTask( 'build', [ 'imagemin','sass:prod' ] ); // optimize images, compress css
 
 };

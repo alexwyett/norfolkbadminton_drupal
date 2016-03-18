@@ -5,55 +5,22 @@
     background-color: $card-bg-color;
     border: 1px solid $color-gray-light;
 
-    // Card Sizes
-    &-small,
-    &-medium,
-    &-large {
-        position: relative;
-        
-        .card_content {
-            max-height: 100%;
-            overflow: hidden;
-
-            .c-title {
-                text-transform: uppercase;
-                font-weight: bold;
-                font-size: $title-font-size;
-            }
-        }
-
-        .card_image {
-            max-height: 70%;
-            overflow: hidden;
-
-            + .card_content {
-                max-height: 30%;
-            }
-        }
-        
-        .card_action {
-            @include absolute(auto, 0, 0, 0, 1);
-            background-color: inherit;
-
-            &:before {
-                @include absolute(-10px, 0);
-                @include box(100%, 10px);
-                content: "";
-                background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAOUlEQVR42mNgIBb8//9fkhgMUmhMDAYp9CEGgxSmEYNBCuuJwSCFM4nBIIWbicEghWeIwSCFxIC/AObyOsjfjYlEAAAAAElFTkSuQmCC') repeat-x left bottom transparent;
-            }
-        }
-    }
-
     &-small {
-        height: 300px;
+        .card_image {
+            padding-bottom: 50%;
+        }
     }
 
     &-medium {
-        height: 400px;
+        .card_image {
+            padding-bottom: 70%;
+        }
     }
 
     &-large {
-        height: 500px;
+        .card_image {
+            padding-bottom: 70%;
+        }
     }
         
     .card_action {
@@ -83,6 +50,48 @@
             bottom: 0;
             left: 0;
             padding: $card-padding;
+        }
+    }
+
+    // Card Sizes
+    &-small,
+    &-medium,
+    &-large {
+        position: relative;
+        overflow: hidden;
+        
+        .card_content {
+            height: 250px;
+            overflow: hidden;
+
+            .c-title {
+                font-weight: bold;
+                font-size: $title-font-size;
+            }
+        }
+
+        .card_image {
+            overflow: hidden;
+            height: 0;
+            
+            img {
+                position: absolute;
+                height: 100%;
+                object-fit: cover;
+                max-height: none;
+            }
+        }
+        
+        .card_action {
+            @include absolute(auto, 0, 0, 0, 1);
+            background-color: inherit;
+
+            &:before {
+                @include absolute(-10px, 0);
+                @include box(100%, 10px);
+                content: "";
+                background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAOUlEQVR42mNgIBb8//9fkhgMUmhMDAYp9CEGgxSmEYNBCuuJwSCFM4nBIIWbicEghWeIwSCFxIC/AObyOsjfjYlEAAAAAElFTkSuQmCC') repeat-x left bottom transparent;
+            }
         }
     }
     

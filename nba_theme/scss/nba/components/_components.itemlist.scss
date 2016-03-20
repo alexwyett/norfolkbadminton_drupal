@@ -1,11 +1,12 @@
-ul.menu,
+.menu-header-menu .menu,
 .view-content .item-list ul,
 .documents {
     
     @include rounded();
     
     li,
-    .file {
+    .views-row,
+    .filelist > .file {
         margin: 0 0 2px 0;
         position: relative;
         padding: $base-spacing-unit / 2 $base-spacing-unit;
@@ -18,20 +19,20 @@ ul.menu,
             content: "";
         }
 
+        &:hover {
+            &:before {
+                background: $color-brand-highlight-extreme;
+            }
+        }
+
         a {
             display: block;
             margin-bottom: 2px;
+        }
 
-            &:hover {
-                &:before {
-                    background: $color-brand-highlight-extreme;
-                }
-            }
-
-            &.active {
-                &:before {
-                    background: $color-brand-mark;
-                }
+        &.active-trail {
+            &:before {
+                background: $color-brand-mark;
             }
         }
 

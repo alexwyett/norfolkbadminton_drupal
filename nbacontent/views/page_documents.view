@@ -22,7 +22,6 @@ $handler->display->display_options['exposed_form']['type'] = 'basic';
 $handler->display->display_options['pager']['type'] = 'some';
 $handler->display->display_options['pager']['options']['items_per_page'] = '10';
 $handler->display->display_options['style_plugin'] = 'default';
-$handler->display->display_options['style_options']['default_row_class'] = FALSE;
 $handler->display->display_options['style_options']['row_class_special'] = FALSE;
 $handler->display->display_options['row_plugin'] = 'fields';
 /* Field: Content: Documents */
@@ -37,6 +36,13 @@ $handler->display->display_options['fields']['documents']['settings'] = array(
   'file_view_mode' => 'default',
 );
 $handler->display->display_options['fields']['documents']['delta_offset'] = '0';
+/* Field: Content: Updated date */
+$handler->display->display_options['fields']['changed']['id'] = 'changed';
+$handler->display->display_options['fields']['changed']['table'] = 'node';
+$handler->display->display_options['fields']['changed']['field'] = 'changed';
+$handler->display->display_options['fields']['changed']['label'] = 'Updated';
+$handler->display->display_options['fields']['changed']['date_format'] = 'long';
+$handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
 /* Sort criterion: Content: Post date */
 $handler->display->display_options['sorts']['created']['id'] = 'created';
 $handler->display->display_options['sorts']['created']['table'] = 'node';

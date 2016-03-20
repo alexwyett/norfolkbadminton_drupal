@@ -32,6 +32,11 @@ function nbabanner_block_view($delta = '')
             'container' => array(
                 '#type' => 'fieldset',
                 '#title' => 'NBA Banners: Block',
+                '#attributes' => array(
+                    'class' => array(
+                        'nbabanners'
+                    )
+                )
             )
         );
         
@@ -42,11 +47,20 @@ function nbabanner_block_view($delta = '')
             );
         }
         
+        
+        $block['content']['#attached']['css'][] = drupal_get_path(
+            'module',
+            'nbabanner'
+        ) . '/vendor/flickity.css';
         $block['content']['#attached']['css'][] = drupal_get_path(
             'module',
             'nbabanner'
         ) . '/css/nbabanner.css';
         
+        $block['content']['#attached']['js'][] = drupal_get_path(
+            'module',
+            'nbabanner'
+        ) . '/vendor/flickity.js';
         $block['content']['#attached']['js'][] = array(
             'data' => array(
                 'nbabanner' => array(
@@ -56,6 +70,10 @@ function nbabanner_block_view($delta = '')
             ),
             'type' => 'setting'
         );
+        $block['content']['#attached']['js'][] = drupal_get_path(
+            'module',
+            'nbabanner'
+        ) . '/js/nbabanner.js';
         
         break;
     }

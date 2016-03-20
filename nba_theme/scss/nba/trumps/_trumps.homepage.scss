@@ -3,7 +3,7 @@
     @media screen and (min-width: $screen-mob-min) {
         .view-content {
             @include clearfix();
-            padding: $base-margin;
+            padding: $base-margin $base-margin 0;
         }
 
         .views-row {
@@ -22,6 +22,14 @@
     .pager {
         a {
             @extend .btn;
+        }
+    }
+}
+
+.front {
+    @media screen and (min-width: $screen-mob-min) {
+        .other_news-block {
+            padding: $base-margin;
         }
     }
 }

@@ -175,30 +175,46 @@ function nbacontent_add_custom_fields()
         }
     }
 
-    // Add cat to basic page instance
-    $instance = $custom_fields['nbablog']['nba_cat'];
-    $instance['required'] = false;
-    $instance['entity_type'] = 'node';
-    $instance['bundle'] = 'nbabasicpage';
-    field_create_instance($instance);
+    $fields = array(
+        'nba_cat',
+        'banners',
+        'thumbnail',
+        'documents',
+        'gallery'
+    );
+    foreach ($fields as $field) {
+        $instance = $custom_fields['nbablog'][$field];
+        $instance['required'] = false;
+        $instance['entity_type'] = 'node';
+        $instance['bundle'] = 'nbabasicpage';
+        field_create_instance($instance);
+    }
+}
 
-    // Add banners to basic page instance
-    $instance = $custom_fields['nbablog']['banners'];
-    $instance['entity_type'] = 'node';
-    $instance['bundle'] = 'nbabasicpage';
-    field_create_instance($instance);
+/**
+ * This update installs the additional fields required for the gallery.
+ */
+function nbacontent_update_7001(&$sandbox)
+{
+    // Add basicpage_tags to blog instance
+    $custom_fields = nbacontent_get_content_fields();
 
-    // Add thumbnail to basic page instance
-    $instance = $custom_fields['nbablog']['thumbnail'];
-    $instance['entity_type'] = 'node';
-    $instance['bundle'] = 'nbabasicpage';
-    field_create_instance($instance);
+    $instance = $custom_fields['nbablog']['gallery'];
+    if (!field_info_field('gallery')) {
+        field_create_field($instance);
 
-    // Add thumbnail to basic page instance
-    $instance = $custom_fields['nbablog']['documents'];
-    $instance['entity_type'] = 'node';
-    $instance['bundle'] = 'nbabasicpage';
-    field_create_instance($instance);
+        if (!field_info_instance('node', 'gallery', 'nbablog')) {
+            $instance['entity_type'] = 'node';
+            $instance['bundle'] = 'nbablog';
+            field_create_instance($instance);
+        }
+
+        if (!field_info_instance('node', 'gallery', 'nbabasicpage')) {
+            $instance['entity_type'] = 'node';
+            $instance['bundle'] = 'nbabasicpage';
+            field_create_instance($instance);
+        }
+    }
 }
 
 /**
@@ -336,6 +352,31 @@ function nbacontent_get_content_fields()
                     'teaser' => array(
                         'label' => 'hidden',
                         'type' => 'banner'
+                    )
+                ),
+                'settings' => array(
+                    'alt_field' => true,
+                    'title_field' => true,
+                    'file_extensions' => 'png gif jpg jpeg'
+                )
+            ),
+            'gallery' => array(
+                'field_name' => 'gallery',
+                'label' => $t('Gallery images'),
+                'description' => $t('Gallery images for the page.'),
+                'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+                'type' => 'image',
+                'widget' => array(
+                    'type' => 'image'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'large'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'large'
                     )
                 ),
                 'settings' => array(

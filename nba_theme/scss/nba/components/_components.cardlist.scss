@@ -6,12 +6,19 @@
     }
 
     .card {
-        width: 49%;
-        float: left;
         margin: 0 0 $base-margin 0;
+        
+        @media screen and (min-width: $screen-sm-min) {
+            width: 49%;
+            float: left;
 
-        &:nth-child(odd) {
-            float: right;
+            &:nth-child(even) {
+                float: right;
+            }
+            
+            &_content {
+                @include elispes();
+            }
         }
     }
 }

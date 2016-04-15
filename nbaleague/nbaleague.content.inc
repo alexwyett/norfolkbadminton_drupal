@@ -182,7 +182,7 @@ function nbaleague_get_matches_list($division_id, $season_id, $league_id)
         $score = nbaleague_get_formatted_scores_from_match_id($match->match_id);
 
         $match_row = array(
-            date('dS m Y', $match->match_date),
+            date('jS M Y', $match->match_date),
             nbaleague_get_team_by_id($match->hometeam_id)->name->value(),
             nbaleague_get_team_by_id($match->awayteam_id)->name->value(),
             $score

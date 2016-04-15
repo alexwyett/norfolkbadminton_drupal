@@ -55,7 +55,25 @@ function nbaleague_score_config_form($form, &$form_state, $match_id)
         '#value' => ($score) ? t('Update') : t('Submit'),
     );
     
-    $form['backtomatches'] = _nbaleague_backto_match_list_link($match['league_id'], $match['season_id']);
+    $league = nbaleague_get_league_by_id($match['league_id']);
+    if ($league) {
+        $deleteScore = array();
+        if (user_access('nbaleague_score') && $score) {
+            $deleteScore[] = array(
+                'href' => 'nbaleague/score/' . $match['match_id'] . '/delete',
+                'title' => 'Delete score'
+            );
+        }
+        
+        $form['backtomatches'] = _nbaleague_match_list_links(
+            array(),
+            $league->division->value()->tid,
+            $match['season_id'],
+            $match['league_id'],
+            'table',
+            $deleteScore
+        );
+    }
 
     return $form;
 }
@@ -122,18 +140,18 @@ function nbaleague_score_config_form_submit($form, &$form_state)
  * 
  * @return void
  */
-function nbaleague_deletescore_form($form, &$form_state, $score_id = null)
+function nbaleague_deletescore_form($form, &$form_state, $match_id = null)
 {
-    $form['score_id'] = array(
-        '#type' => 'value',
-        '#value' => $score_id,
+    $form['match_id'] = array(
+        '#type' => 'hidden',
+        '#value' => $match_id,
     );
 
     return confirm_form(
         $form,
         t('Are you sure you want to delete this score?'),
-        'admin/config/nba/score/' . $score_id,
-        t('This action cannot be undone.'),
+        'nbaleague/score/' . $match_id,
+        t('Are you sure you want to delete this score? This action cannot be undone!'),
         t('Delete'),
         t('Cancel')
     );
@@ -153,5 +171,5 @@ function nbaleague_deletescore_form_submit($form, &$form_state)
         drupal_set_message('Score deleted!');
     }
 
-    $form_state['redirect'] = 'admin/config/nba/scores';
+    $form_state['redirect'] = 'nbaleague/score/' . $form_state['values']['match_id'];
 }

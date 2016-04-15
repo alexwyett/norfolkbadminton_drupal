@@ -12,8 +12,8 @@ function nbaleague_menu()
     $items = array();
 
     $items['nbaleague/matches/list'] = array(
-        'page callback' => 'nbaleague_get_leagues_list',
-        'title' => 'NBA Seasons list',
+        'page callback' => 'nbaleague_get_divisions_list',
+        'title' => 'NBA Divisions list',
         'access arguments' => array('access content'),
         'type' => MENU_NORMAL_ITEM,
         'file' => 'nbaleague.content.inc',
@@ -29,33 +29,42 @@ function nbaleague_menu()
             'file' => 'nbaleague.content.inc'
         );
 
-        $items['nbaleague/matches/list/%/%'] = array(
-            'page callback' => 'nbaleague_get_matches_list',
-            'page arguments' => array(3, 4),
-            'title' => 'NBA Matches list',
-            'access arguments' => array('access content'),
-            'type' => MENU_CALLBACK,
-            'file' => 'nbaleague.content.inc'
-        );
+            $items['nbaleague/matches/list/%/%'] = array(
+                'page callback' => 'nbaleague_get_leagues_list',
+                'page arguments' => array(3, 4),
+                'title' => 'NBA Leagues list',
+                'access arguments' => array('access content'),
+                'type' => MENU_CALLBACK,
+                'file' => 'nbaleague.content.inc'
+            );
 
-        $items['nbaleague/matches/table/%/%'] = array(
-            'page callback' => 'nbaleague_get_matches_table',
-            'page arguments' => array(3, 4),
-            'title' => 'NBA Matches league table',
-            'access arguments' => array('access content'),
-            'type' => MENU_CALLBACK,
-            'file' => 'nbaleague.content.inc'
-        );
+                $items['nbaleague/matches/list/%/%/%'] = array(
+                    'page callback' => 'nbaleague_get_matches_list',
+                    'page arguments' => array(3, 4, 5),
+                    'title' => 'NBA Matches list',
+                    'access arguments' => array('access content'),
+                    'type' => MENU_CALLBACK,
+                    'file' => 'nbaleague.content.inc'
+                );
 
-    $items['admin/config/nba/league'] = array(
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array('nbaleague_config_form'),
-        'title' => 'NBA Leagues',
-        'access arguments' => array('nbaleague'),
-        'type' => MENU_NORMAL_ITEM,
-        'file' => 'nbaleague.admin.inc',
-        'weight' => 10
-    );
+                $items['nbaleague/matches/table/%/%/%'] = array(
+                    'page callback' => 'nbaleague_get_matches_table',
+                    'page arguments' => array(3, 4, 5),
+                    'title' => 'NBA Matches league table',
+                    'access arguments' => array('access content'),
+                    'type' => MENU_CALLBACK,
+                    'file' => 'nbaleague.content.inc'
+                );
+
+//    $items['admin/config/nba/league'] = array(
+//        'page callback' => 'drupal_get_form',
+//        'page arguments' => array('nbaleague_config_form'),
+//        'title' => 'NBA Leagues',
+//        'access arguments' => array('nbaleague'),
+//        'type' => MENU_NORMAL_ITEM,
+//        'file' => 'nbaleague.admin.inc',
+//        'weight' => 10
+//    );
 
     $items['admin/config/nba/leagueimport'] = array(
         'page callback' => 'drupal_get_form',
@@ -97,9 +106,9 @@ function nbaleague_menu()
             'weight' => 32
         );
 
-        $items['nbaleague/match/add/%/%'] = array(
+        $items['nbaleague/match/add/%/%/%'] = array(
             'page callback' => 'drupal_get_form',
-            'page arguments' => array('nbaleague_match_config_form', null, 3, 4),
+            'page arguments' => array('nbaleague_match_config_form', null, 3, 4, 5),
             'title' => 'NBA League - Add match',
             'access arguments' => array('nbaleague_match'),
             'type' => MENU_NORMAL_ITEM,
@@ -212,6 +221,28 @@ function nbaleague_get_clubteams_assoc()
     }
     
     return $clubs;
+}
+
+/**
+ * Return an array of division taxonomy objects
+ *
+ * @return array
+ */
+function nbaleague_get_divisions()
+{
+    return nbacontent_get_vocabulary('nbadivision');
+}
+
+/**
+ * Return an array of league ids/ names for select options
+ *
+ * @return array
+ */
+function nbaleague_get_divisions_assoc()
+{
+    return _nbaleague_get_assoc_array_from_taxonomy(
+        nbaleague_get_divisions()
+    );
 }
 
 /**
@@ -346,13 +377,18 @@ function nbaleague_get_league_table_data($matches)
 {
     // Get all of the home teams
     $league_table = array();
-    $home_teams = array();
+    $teams = array();
     $league_matches = $matches->fetchAll();
     
     foreach ($league_matches as $index => $match) {
-        if (!isset($home_teams[$match->hometeam_id])) {
-            $home_teams[$match->hometeam_id] = nbaleague_get_team_by_id(
+        if (!isset($teams[$match->hometeam_id])) {
+            $teams[$match->hometeam_id] = nbaleague_get_team_by_id(
                 $match->hometeam_id
+            );
+        }
+        if (!isset($teams[$match->awayteam_id])) {
+            $teams[$match->awayteam_id] = nbaleague_get_team_by_id(
+                $match->awayteam_id
             );
         }
         
@@ -361,7 +397,7 @@ function nbaleague_get_league_table_data($matches)
         );
     }
     
-    foreach ($home_teams as $team_id => $team) {
+    foreach ($teams as $team_id => $team) {
         
         // Extracts $games_for, $games_against, $matches_played, $points_for
         extract(nbaleague_get_team_game_stats($team_id, $league_matches));
@@ -434,11 +470,11 @@ function nbaleague_get_team_game_stats($team_id, $league_matches)
 function nbaleague_add_match($data)
 {
     global $user;
-    
     return db_insert('nbaleague_match')
         ->fields(array(
             'hometeam_id' => $data['hometeam_id'],
             'awayteam_id' => $data['awayteam_id'],
+            'division_id' => $data['division_id'],
             'season_id' => $data['season_id'],
             'league_id' => $data['league_id'],
             'match_date' => _nbaleague_get_date_from_submit_data(
@@ -680,7 +716,7 @@ function _nbaleague_get_assoc_array_from_taxonomy($taxonomy)
 function _nbaleague_filter_active_taxonomies($taxonomy)
 {
     return array_filter($taxonomy, function ($item) {
-        return $item->isactive->value() == '1';
+        return !isset($item->isactive) || $item->isactive->value() == '1';
     });
 }
 
@@ -694,6 +730,11 @@ function _nbaleague_filter_active_taxonomies($taxonomy)
  */
 function _nbaleague_get_date_from_submit_data($data, $dateKey = 'date')
 {
+    // If its a bog standard string, parse and move on
+    if (is_string($data)) {
+        return strtotime($data);
+    }
+    
     // Splice date key
     if (isset($data[$dateKey])) {
         $data = $data[$dateKey];
@@ -731,25 +772,46 @@ function _nbaleague_get_taxonomy_by_id($taxonomy_func, $id)
 }
 
 /**
- * Return a link to the matches list of a league in a season
+ * Return a links list for the matches list
  * 
- * @param integer $league_id League Id
- * @param integer $season_id Season Id
+ * @param array   $matches     Matches array
+ * @param integer $division_id Div Id
+ * @param integer $season_id   Season Id
+ * @param integer $league_id   League Id
+ * @param string  $type        View type
  * 
  * @return array
  */
-function _nbaleague_backto_match_list_link($league_id, $season_id)
-{
+function _nbaleague_match_list_links(
+    $matches = array(),
+    $division_id = null,
+    $season_id = null,
+    $league_id = null,
+    $type = 'table',
+    $additional_links = array()
+) {
+    $links = _nbaleague_get_links_list($division_id, $season_id);
+    
+    if (count($matches) > 0 && $division_id) {        
+        array_unshift($links, array(
+            'href' => 'nbaleague/matches/' . $type . '/' . $division_id . '/' . $season_id . '/' . $league_id,
+            'title' => 'View league ' . $type
+        ));
+    }
+    
+    $match_admin = user_access('nbaleague_match');
+    if ($match_admin === true) {
+        $links[] = array(
+            'href' => 'nbaleague/match/add/' . $division_id . '/' . $season_id . '/' . $league_id,
+            'title' => 'Add a match'
+        );
+    }
+    
     return array(
         '#markup' => theme(
             'links',
             array(
-                'links' => array(
-                    array(
-                        'href' => 'nbaleague/matches/list/' . $league_id . '/' . $season_id,
-                        'title' => 'Back to matches list'
-                    )
-                ),
+                'links' => array_merge($links, $additional_links),
                 'attributes' => array()
             )
         )
@@ -757,47 +819,34 @@ function _nbaleague_backto_match_list_link($league_id, $season_id)
 }
 
 /**
- * Return a links list for the matches list
+ * Return a list of links used at the bottom of league pages
  * 
- * @param array   $matches   Matches array
- * @param integer $league_id League Id
- * @param integer $season_id Season Id
- * @param string  $type      View type
+ * @param integer $div_id    Division id
+ * @param integer $season_id Season id
  * 
  * @return array
  */
-function _nbaleague_match_list_links($matches, $league_id, $season_id, $type = 'table')
+function _nbaleague_get_links_list($div_id = null, $season_id = null)
 {
     $links = array();
-    
-    if (count($matches) > 0) {
-        $links[] = array(
-            'href' => 'nbaleague/matches/' . $type . '/' . $league_id . '/' . $season_id,
-            'title' => 'View league ' . $type
-        );
-    }
-    
     $links[] = array(
-        'href' => 'nbaleague/matches/list/' . $league_id,
-        'title' => 'Back to seasons list'
-    );
+        'href' => 'nbaleague/matches/list',
+        'title' => 'Back to divisions list'
+    ); 
     
-    $match_admin = user_access('nbaleague_match');
-    if ($match_admin === true) {
+    if ($div_id) {
         $links[] = array(
-            'href' => 'nbaleague/match/add/' . $league_id . '/' . $season_id,
-            'title' => 'Add a match'
+            'href' => 'nbaleague/matches/list/' . $div_id,
+            'title' => 'Back to seasons list'
         );
+        
+        if ($season_id) {
+            $links[] = array(
+                'href' => 'nbaleague/matches/list/' . $div_id . '/' . $season_id,
+                'title' => 'Back to leagues list'
+            );
+        }
     }
     
-    
-    return array(
-        '#markup' => theme(
-            'links',
-            array(
-                'links' => $links,
-                'attributes' => array()
-            )
-        )
-    );
+    return $links;
 }

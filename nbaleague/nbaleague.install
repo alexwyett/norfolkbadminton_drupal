@@ -32,6 +32,11 @@ function nbaleague_schema() {
                 'unsigned' => TRUE,
                 'not null' => TRUE,
             ),
+            'division_id' => array(
+                'description' => 'Division id.',
+                'type' => 'int',
+                'not null' => TRUE
+            ),
             'league_id' => array(
                 'description' => 'League id.',
                 'type' => 'int',
@@ -135,6 +140,10 @@ function nbaleague_get_taxonomies()
         'nbateam' => array(
             'name' => 'Team',
             'description' => 'Used to create a team for a specific club.'
+        ),
+        'nbadivision' => array(
+            'name' => 'Division',
+            'description' => 'Used to tag leagues with a division.'
         )
     );
 }
@@ -334,6 +343,19 @@ function nbaleague_installed_taxonomy_fields()
             )
         )
     );
+}
+
+/**
+ * This update adds the division field into the matches table
+ */
+function nbaleague_update_7001(&$sandbox)
+{
+    if (!db_field_exists('nbaleague_match', 'division_id')) {
+        db_add_field( 'nbaleague_match', 'division_id', array(
+            'type' => 'int',
+            'description' => 'Division ID'
+        ));
+    }
 }
 
 /**

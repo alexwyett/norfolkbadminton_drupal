@@ -4,8 +4,9 @@ function nbaleague_match_config_form(
     $form,
     &$form_state,
     $match_id = null,
-    $league_id = null,
-    $season_id = null
+    $div_id = null,
+    $season_id = null,
+    $league_id = null
 ) {
     $match = array();
     $match_date = null;
@@ -41,6 +42,22 @@ function nbaleague_match_config_form(
         '#options' => nbaleague_get_clubteams_assoc(),
         '#required' => true
     );
+    
+    if (!$div_id) {
+        $form['division_id'] = array(
+            '#type' => 'select',
+            '#title' => 'Division',
+            '#description' => 'Target division.',
+            '#options' => nbaleague_get_divisions_assoc(),
+            '#required' => true,
+            '#default_value' => $div_id
+        );
+    } else {
+        $form['division_id'] = array(
+            '#type' => 'hidden',
+            '#value' => $div_id
+        );
+    }
     
     $form['league_id'] = array(
         '#type' => 'select',
@@ -80,9 +97,11 @@ function nbaleague_match_config_form(
     );
     
     if ($season_id && $league_id) {
-        $form['backtomatches'] = _nbaleague_backto_match_list_link(
-            $league_id,
-            $season_id
+        $form['backtomatches'] = _nbaleague_match_list_links(
+            array(),
+            $div_id,
+            $season_id,
+            $league_id
         );
     }
 

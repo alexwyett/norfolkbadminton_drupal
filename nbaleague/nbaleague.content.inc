@@ -208,7 +208,19 @@ function nbaleague_get_matches_list($division_id, $season_id, $league_id)
         'title' => array(
             '#type' => 'html_tag',
             '#tag' => 'h3',
-            '#value' => t($league->name->value() . ' ' . $season->name->value() . ' league fixtures')
+            '#value' => t($league->name->value())
+        ),
+        'intro' => array(
+            '#type' => 'html_tag',
+            '#tag' => 'p',
+            '#value' => t('League fixtures for the ' . $season->name->value() . ' season.')
+        ),
+        'links' => _nbaleague_match_list_links(
+            $matches,
+            $division_id,
+            $season_id,
+            $league_id,
+            'table'
         ),
         'matches' => array(
             '#markup' => theme_table(
@@ -228,12 +240,6 @@ function nbaleague_get_matches_list($division_id, $season_id, $league_id)
                     'empty' => 'No matches found'
                 )
             )
-        ),
-        'links' => _nbaleague_match_list_links(
-            $matches,
-            $division_id,
-            $season_id,
-            $league_id
         )
     );
 }
@@ -274,7 +280,19 @@ function nbaleague_get_matches_table($division_id, $season_id, $league_id)
         'title' => array(
             '#type' => 'html_tag',
             '#tag' => 'h3',
-            '#value' => t($league->name->value() . ' ' . $season->name->value() . ' league table')
+            '#value' => t($league->name->value())
+        ),
+        'intro' => array(
+            '#type' => 'html_tag',
+            '#tag' => 'p',
+            '#value' => t('League table for the ' . $season->name->value() . ' season.')
+        ),
+        'links' => _nbaleague_match_list_links(
+            $matches,
+            $division_id,
+            $season_id,
+            $league_id,
+            'list'
         ),
         'matches' => array(
             '#markup' => theme_table(
@@ -294,13 +312,6 @@ function nbaleague_get_matches_table($division_id, $season_id, $league_id)
                     'empty' => 'No matches found'
                 )
             )
-        ),
-        'links' => _nbaleague_match_list_links(
-            $matches,
-            $division_id,
-            $season_id,
-            $league_id,
-            'list'
         )
     );
 }

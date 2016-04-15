@@ -403,18 +403,29 @@ function nbaleague_get_league_table_data($matches)
         extract(nbaleague_get_team_game_stats($team_id, $league_matches));
         
         $league_table[] = array(
-            $team->name->value(),
-            $matches_played,
-            $games_for,
-            $games_against,
-            $points_for
+            'Team Name' => $team->name->value(),
+            'Matches Played' => $matches_played,
+            'Games for' => $games_for,
+            'Games against' => $games_against,
+            'Points for' => $points_for
         );
     }
     
-    // Sort by points for, then games for
-    uasort($league_table, function($a, $b) {
-        return $b[4] > $a[4] && $b[2] > $a[2];
-    });
+    // Sort by points for, then games for    
+    $points_for = array();
+    $games_for = array();
+    foreach ($league_table as $key => $row) {
+        $points_for[$key] = $row['Points for'];
+        $games_for[$key] = $row['Games for'];
+    }
+    
+    array_multisort(
+        $points_for,
+        SORT_DESC,
+        $games_for,
+        SORT_DESC,
+        $league_table
+    );
     
     return $league_table;
 }
@@ -795,7 +806,7 @@ function _nbaleague_match_list_links(
     if (count($matches) > 0 && $division_id) {        
         array_unshift($links, array(
             'href' => 'nbaleague/matches/' . $type . '/' . $division_id . '/' . $season_id . '/' . $league_id,
-            'title' => 'View league ' . $type
+            'title' => 'View ' . (($type === 'table') ? 'league ' : 'fixtures ') . $type
         ));
     }
     

@@ -18,3 +18,22 @@
         }
     }
 }
+
+.card {
+    .c-category {
+        position: absolute;
+        z-index: 1;
+        
+        &_title {
+            @include font-size(12px);
+            line-height: 12px;
+            padding: $base-spacing;
+            margin-top: $base-spacing;
+            pointer-events: none;
+            
+            &:after {
+                display: none;
+            }
+        }
+    }
+}

@@ -12,7 +12,7 @@
             width: 49%;
             float: left;
 
-            &:nth-child(even) {
+            &:nth-child(odd) {
                 float: right;
             }
             

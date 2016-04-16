@@ -1,12 +1,19 @@
 .c-dlist {
-	dt, dd {
-		display: inline;
-		margin: 0;
-	}
+    dt, dd {
+        display: inline;
+        margin: 0;
+    }
 
-	dt {
-		&:after {
-			content: ": ";
-		}
-	}
+    dt {
+        &:after {
+            content: ": ";
+        }
+    }
+    
+    dd {
+        &:after {
+            content: " ";
+            display: block;
+        }
+    }
 }

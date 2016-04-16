@@ -845,18 +845,15 @@ function _nbaleague_get_links_list($div_id = null, $season_id = null)
         'title' => 'Back to divisions list'
     ); 
     
-    if ($div_id) {
+    if ($div_id && $season_id) {
         $links[] = array(
             'href' => 'nbaleague/matches/list/' . $div_id,
             'title' => 'Back to seasons list'
         );
-        
-        if ($season_id) {
-            $links[] = array(
-                'href' => 'nbaleague/matches/list/' . $div_id . '/' . $season_id,
-                'title' => 'Back to leagues list'
-            );
-        }
+        $links[] = array(
+            'href' => 'nbaleague/matches/list/' . $div_id . '/' . $season_id,
+            'title' => 'Back to leagues list'
+        );
     }
     
     return $links;

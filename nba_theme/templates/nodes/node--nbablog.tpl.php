@@ -7,7 +7,8 @@ if ($teaser) {
 
 <article class="card card-medium node-<?php print $node->nid; ?> <?php print $classes; ?> "<?php print $attributes; ?>">
     <?php
-        if (strlen($thumbnail) > 0) {
+        echo render($content['nba_cat']);
+        if (strlen($thumbnail) > 0) {            
             ?>
     <div class="card_image">
         <?php echo l($thumbnail, 'node/' . $node->nid, array('html' => true)); ?>

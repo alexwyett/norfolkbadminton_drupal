@@ -78,3 +78,17 @@ function nbaclubs_get_field_value($node, $field_name, $delta = 0)
     $field = field_get_items('node', $node, $field_name);
     return render(field_view_value('node', $node, $field_name, $field[$delta]));
 }
+
+/**
+ * Get the club marked qualifications
+ * 
+ * @return array
+ */
+function nbaclubs_get_clubmarks()
+{
+    return array(
+        'bronze' => 'Bronze',
+        'silver' => 'Silver',
+        'gold' => 'Gold'
+    );
+}

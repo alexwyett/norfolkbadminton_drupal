@@ -1,7 +1,7 @@
 <?php 
     if (count($items) > 0) {
         ?>
-<div class="cardlist">
+<div class="cardlist cardlist-two-col">
     <h2 class="c-title c-title-medium">Club Members</h2>
     <?php
         foreach ($items as $delta => $item) {

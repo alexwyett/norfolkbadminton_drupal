@@ -7,17 +7,25 @@
 
     .card {
         margin: 0 0 $base-margin 0;
-        
-        @media screen and (min-width: $screen-sm-min) {
-            width: 49%;
-            float: left;
-
-            &:nth-child(odd) {
-                float: right;
-            }
             
-            &_content {
-                @include elispes();
+        &_content {
+            @include elispes();
+        }
+    }
+    
+    &-two-col {
+        .card {
+            @media screen and (min-width: $screen-sm-min) {
+                float: left;
+                width: 49%;
+
+                &:nth-child(odd) {
+                    float: right;
+                }
+
+                &_content {
+                    @include elispes();
+                }
             }
         }
     }

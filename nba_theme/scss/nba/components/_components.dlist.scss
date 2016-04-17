@@ -6,7 +6,8 @@
 
     dt {
         &:after {
-            content: ": ";
+            content: ":";
+            margin-right: 3px;
         }
     }
     

@@ -72,9 +72,36 @@ function nbaclubs_add_custom_fields()
         foreach ($fields as $fieldinstance) {
             $fieldinstance['entity_type'] = 'node';
             $fieldinstance['bundle'] = $bundle;
-            field_create_instance($fieldinstance);
+            if (!field_info_instance('node', $fieldinstance['field_name'], $bundle)) {
+                field_create_instance($fieldinstance);
+            }
         }
     }
+}
+
+/**
+ * This update adds the club venue content type
+ */
+function nbaclubs_update_7001(&$sandbox)
+{
+    variable_set(
+        'pathauto_node_nbaclubvenue_pattern',
+        'club/venue/[node:title]'
+    );
+    
+    $content_type = node_type_set_defaults(array(
+        'type' => 'nbaclubvenue',
+        'name' => 'Club Venue',
+        'base' => 'node_content',
+        'description' => t('This node allows you to create a club venue.'),
+        'title_label' => t('Page Title')
+    ));
+    
+    node_add_body_field($content_type, t('About the venue'));
+    node_type_save($content_type);
+    
+    // Add new custom fields
+    nbaclubs_add_custom_fields();
 }
 
 /**
@@ -201,69 +228,6 @@ function nbaclubs_get_content_fields()
     $t = get_t();
     return array(
         'nbaclub' => array(
-            'venue_address' => array(
-                'field_name' => 'venue_address',
-                'label' => $t('Club venue address'),
-                'type' => 'text_long',
-                'widget' => array(
-                    'active' => 1,
-                    'module' => 'text',
-                    'settings' => array(),
-                    'type' => 'text_textarea'
-                ),
-                'display' => array(
-                    'default' => array(
-                        'label' => 'hidden',
-                        'type' => 'text'
-                    ),
-                    'teaser' => array(
-                        'label' => 'hidden',
-                        'type' => 'text'
-                    )
-                )
-            ),
-            'venue_long' => array(
-                'field_name' => 'venue_long',
-                'label' => $t('Club venue longitude'),
-                'type' => 'text',
-                'widget' => array(
-                    'active' => 1,
-                    'module' => 'text',
-                    'settings' => array(),
-                    'type' => 'text_textfield'
-                ),
-                'display' => array(
-                    'default' => array(
-                        'label' => 'hidden',
-                        'type' => 'text'
-                    ),
-                    'teaser' => array(
-                        'label' => 'hidden',
-                        'type' => 'text'
-                    )
-                )
-            ),
-            'venue_lat' => array(
-                'field_name' => 'venue_lat',
-                'label' => $t('Club venue latitude'),
-                'type' => 'text',
-                'widget' => array(
-                    'active' => 1,
-                    'module' => 'text',
-                    'settings' => array(),
-                    'type' => 'text_textfield'
-                ),
-                'display' => array(
-                    'default' => array(
-                        'label' => 'hidden',
-                        'type' => 'text'
-                    ),
-                    'teaser' => array(
-                        'label' => 'hidden',
-                        'type' => 'text'
-                    )
-                )
-            ),
             'clubnight' => nbaclubs_create_double_field(array(
                 'field_name' => 'clubnight',
                 'label' => $t('Club Nights'),
@@ -279,6 +243,30 @@ function nbaclubs_get_content_fields()
                 ),
                 'placeholder' => 'Time'
             )),
+            'clublogo' => array(
+                'field_name' => 'clublogo',
+                'label' => $t('Club logo'),
+                'cardinality' => 1,
+                'type' => 'image',
+                'widget' => array(
+                    'type' => 'image'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'image'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'image'
+                    )
+                ),
+                'settings' => array(
+                    'alt_field' => true,
+                    'title_field' => true,
+                    'file_extensions' => 'png gif jpg jpeg'
+                )
+            ),
             'clubmember' => array(
                 'active' => 1,
                 'cardinality' => FIELD_CARDINALITY_UNLIMITED,
@@ -349,6 +337,182 @@ function nbaclubs_get_content_fields()
                     'type' => 'entityreference_autocomplete',
                     'weight' => 32,
                 ),
+            ),
+            'juniors' => array(
+                'field_name' => 'juniors',
+                'label' => $t('Does the club has a junior club?'),
+                'type' => 'list_boolean',
+                'required' => false,
+                'widget' => array(
+                    'type' => 'options_onoff',
+                    'settings' => array(
+                        'display_label' => true
+                    )
+                ),
+                'cardinality' => 1,
+                'settings' => array(
+                    'allowed_values' => array(
+                        0 => '',
+                        1 => ''
+                    )
+                )
+            ),
+            'clubmarked' => array(
+                'field_name' => 'clubmarked',
+                'label' => $t('Has the club acheived a clubmark qualification?'),
+                'description' => $t('If so, choose one here.'),
+                'type' => 'list_text',
+                'required' => false,
+                'cardinality' => 1,
+                'foreign keys' => array(),
+                'indexes' => array(
+                    'value' => array(
+                        0 => 'value'
+                    )
+                ),
+                'widget' => array(
+                    'type' => 'options_select'
+                ),
+                'module' => 'list',
+                'settings' => array(
+                    'allowed_values_function' => 'nbaclubs_get_clubmarks'
+                ),
+            ),
+            'clubvenue' => array(
+                'active' => 1,
+                'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+                'label' => $t('Club Venues'),
+                'description' => $t('Choose a club venue which the club plays at.'),
+                'deleted' => 0,
+                'entity_types' => array(),
+                'field_name' => 'clubvenue',
+                'bundle' => 'nbaclubvenue',
+                'default_value' => NULL,
+                'deleted' => 0,
+                'description' => '',
+                'indexes' => array(
+                    'target_id' => array(
+                        0 => 'target_id',
+                    ),
+                ),
+                'locked' => 0,
+                'module' => 'entityreference',
+                'settings' => array(
+                    'handler' => 'base',
+                    'handler_settings' => array(
+                        'behaviors' => array(
+                            'member_role' => array(
+                                'status' => 0,
+                            ),
+                            'views-select-list' => array(
+                                'status' => 0,
+                            ),
+                        ),
+                        'sort' => array(
+                            'type' => 'none',
+                        ),
+                        'target_bundles' => array(
+                            'nbaclubvenue' => 'nbaclubvenue',
+                        ),
+                    ),
+                    'target_type' => 'node',
+                    'user_register_form' => FALSE
+                ),
+                'translatable' => 0,
+                'type' => 'entityreference',
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'module' => 'entityreference',
+                        'settings' => array(
+                            'link' => FALSE
+                        ),
+                        'type' => 'entityreference_label',
+                        'weight' => 2,
+                    ),
+                    'teaser' => array(
+                        'label' => 'above',
+                        'settings' => array(),
+                        'type' => 'hidden',
+                        'weight' => 0,
+                    ),
+                ),
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'entityreference',
+                    'settings' => array(
+                        'match_operator' => 'CONTAINS',
+                        'path' => '',
+                        'size' => 60,
+                    ),
+                    'type' => 'entityreference_autocomplete',
+                    'weight' => 32,
+                ),
+            )
+        ),
+        'nbaclubvenue' => array(
+            'venue_address' => array(
+                'field_name' => 'venue_address',
+                'label' => $t('Club venue address'),
+                'type' => 'text_long',
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'text',
+                    'settings' => array(),
+                    'type' => 'text_textarea'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    )
+                )
+            ),
+            'venue_long' => array(
+                'field_name' => 'venue_long',
+                'label' => $t('Club venue longitude'),
+                'type' => 'text',
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'text',
+                    'settings' => array(),
+                    'type' => 'text_textfield'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    )
+                )
+            ),
+            'venue_lat' => array(
+                'field_name' => 'venue_lat',
+                'label' => $t('Club venue latitude'),
+                'type' => 'text',
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'text',
+                    'settings' => array(),
+                    'type' => 'text_textfield'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    )
+                )
             )
         ),
         'nbaclubmember' => array(

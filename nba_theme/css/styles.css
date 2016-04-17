@@ -773,7 +773,8 @@ button.btn-floating {
       overflow: hidden; }
       .card-small .card_content .c-title, .card-medium .card_content .c-title, .card-large .card_content .c-title {
         font-weight: bold;
-        font-size: 20px; }
+        font-size: 20px;
+        white-space: normal; }
     .card-small .card_image, .card-medium .card_image, .card-large .card_image {
       overflow: hidden;
       height: 0; }
@@ -830,16 +831,20 @@ button.btn-floating {
     padding: 24px; }
   .cardlist .card {
     margin: 0 0 24px 0; }
-    @media screen and (min-width: 768px) {
-      .cardlist .card {
-        width: 49%;
-        float: left; }
-        .cardlist .card:nth-child(odd) {
-          float: right; }
-        .cardlist .card_content {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis; } }
+    .cardlist .card_content {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+  @media screen and (min-width: 768px) {
+    .cardlist-two-col .card {
+      float: left;
+      width: 49%; }
+      .cardlist-two-col .card:nth-child(even) {
+        float: right; }
+      .cardlist-two-col .card_content {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; } }
 
 .c-category_title {
   margin: 0;
@@ -877,7 +882,8 @@ button.btn-floating {
   display: inline;
   margin: 0; }
 .c-dlist dt:after {
-  content: ": "; }
+  content: ":";
+  margin-right: 3px; }
 .c-dlist dd:after {
   content: " ";
   display: block; }

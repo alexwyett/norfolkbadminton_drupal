@@ -13,3 +13,4 @@ dependencies[] = entity
 dependencies[] = image
 dependencies[] = views
 dependencies[] = file
+dependencies[] = better_exposed_filters

@@ -1,24 +1,7 @@
 <?php 
 
 if ($teaser) {
-?>
-
-<article class="card card-small node-<?php print $node->nid; ?> <?php print $classes; ?> "<?php print $attributes; ?>">
-    <div class="card_content">
-        <h2 class="c-title c-title-small">
-            <?php echo l($node->title, 'node/' . $node->nid); ?>
-        </h2>
-        <?php 
-            echo render($content['body']);
-        ?>
-    </div>
-    <div class="card_action">
-        <?php echo l('Read more', 'node/' . $node->nid); ?>
-    </div>
-</article>
-
-<?php
-
+    echo render($content);
 } else {
 
 ?>

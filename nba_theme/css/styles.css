@@ -591,6 +591,8 @@ ol.o-menu {
     font-weight: normal; }
   .c-block_content {
     background: white; }
+    .c-block_content .webform-client-form {
+      padding: 16px; }
 
 .btn, .btn-large, .view-nbacontent-promoted-blogs .pager a, .webform-client-form button,
 .webform-client-form input[type=submit] {
@@ -839,7 +841,7 @@ button.btn-floating {
     .cardlist-two-col .card {
       float: left;
       width: 49%; }
-      .cardlist-two-col .card:nth-child(even) {
+      .cardlist-two-col .card:nth-child(odd) {
         float: right; }
       .cardlist-two-col .card_content {
         white-space: nowrap;

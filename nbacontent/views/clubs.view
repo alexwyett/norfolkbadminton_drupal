@@ -17,17 +17,209 @@ $handler->display->display_options['use_more_always'] = FALSE;
 $handler->display->display_options['access']['type'] = 'perm';
 $handler->display->display_options['cache']['type'] = 'none';
 $handler->display->display_options['query']['type'] = 'views_query';
-$handler->display->display_options['exposed_form']['type'] = 'basic';
+$handler->display->display_options['exposed_form']['type'] = 'better_exposed_filters';
+$handler->display->display_options['exposed_form']['options']['submit_button'] = 'Search';
+$handler->display->display_options['exposed_form']['options']['expose_sort_order'] = FALSE;
+$handler->display->display_options['exposed_form']['options']['bef'] = array(
+  'general' => array(
+    'allow_secondary' => 0,
+    'secondary_label' => 'Advanced options',
+    'collapsible_label' => NULL,
+    'combine_rewrite' => NULL,
+    'reset_label' => NULL,
+    'bef_filter_description' => NULL,
+    'any_label' => NULL,
+    'filter_rewrite_values' => NULL,
+  ),
+  'juniors_value' => array(
+    'bef_format' => 'bef',
+    'more_options' => array(
+      'bef_select_all_none' => 0,
+      'bef_collapsible' => 0,
+      'is_secondary' => 0,
+      'any_label' => '',
+      'bef_filter_description' => '',
+      'tokens' => array(
+        'available' => array(
+          0 => 'global_types',
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+          'filter_rewrite_values' => NULL,
+        ),
+        'secondary_label' => NULL,
+        'collapsible_label' => NULL,
+        'combine_rewrite' => NULL,
+        'reset_label' => NULL,
+        'bef_filter_description' => NULL,
+        'any_label' => NULL,
+        'filter_rewrite_values' => NULL,
+      ),
+      'rewrite' => array(
+        'filter_rewrite_values' => '',
+        'secondary_label' => NULL,
+        'collapsible_label' => NULL,
+        'combine_rewrite' => NULL,
+        'reset_label' => NULL,
+        'bef_filter_description' => NULL,
+        'any_label' => NULL,
+      ),
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+      'filter_rewrite_values' => NULL,
+    ),
+    'secondary_label' => NULL,
+    'collapsible_label' => NULL,
+    'combine_rewrite' => NULL,
+    'reset_label' => NULL,
+    'bef_filter_description' => NULL,
+    'any_label' => NULL,
+    'filter_rewrite_values' => NULL,
+  ),
+  'clubmarked_value' => array(
+    'bef_format' => 'default',
+    'more_options' => array(
+      'bef_select_all_none' => FALSE,
+      'bef_collapsible' => 0,
+      'is_secondary' => 0,
+      'any_label' => '',
+      'bef_filter_description' => '',
+      'tokens' => array(
+        'available' => array(
+          0 => 'global_types',
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+          'filter_rewrite_values' => NULL,
+        ),
+        'secondary_label' => NULL,
+        'collapsible_label' => NULL,
+        'combine_rewrite' => NULL,
+        'reset_label' => NULL,
+        'bef_filter_description' => NULL,
+        'any_label' => NULL,
+        'filter_rewrite_values' => NULL,
+      ),
+      'rewrite' => array(
+        'filter_rewrite_values' => '',
+        'secondary_label' => NULL,
+        'collapsible_label' => NULL,
+        'combine_rewrite' => NULL,
+        'reset_label' => NULL,
+        'bef_filter_description' => NULL,
+        'any_label' => NULL,
+      ),
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+      'filter_rewrite_values' => NULL,
+    ),
+    'secondary_label' => NULL,
+    'collapsible_label' => NULL,
+    'combine_rewrite' => NULL,
+    'reset_label' => NULL,
+    'bef_filter_description' => NULL,
+    'any_label' => NULL,
+    'filter_rewrite_values' => NULL,
+  ),
+  'clubvenue_target_id' => array(
+    'bef_format' => 'default',
+    'slider_options' => array(
+      'bef_slider_min' => '0',
+      'bef_slider_max' => '99999',
+      'bef_slider_step' => '1',
+      'bef_slider_animate' => '',
+      'bef_slider_orientation' => 'horizontal',
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+      'bef_filter_description' => NULL,
+      'any_label' => NULL,
+      'filter_rewrite_values' => NULL,
+    ),
+    'more_options' => array(
+      'is_secondary' => 0,
+      'any_label' => '',
+      'bef_filter_description' => '',
+      'tokens' => array(
+        'available' => array(
+          0 => 'global_types',
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+          'filter_rewrite_values' => NULL,
+        ),
+        'secondary_label' => NULL,
+        'collapsible_label' => NULL,
+        'combine_rewrite' => NULL,
+        'reset_label' => NULL,
+        'bef_filter_description' => NULL,
+        'any_label' => NULL,
+        'filter_rewrite_values' => NULL,
+      ),
+      'rewrite' => array(
+        'filter_rewrite_values' => '',
+        'secondary_label' => NULL,
+        'collapsible_label' => NULL,
+        'combine_rewrite' => NULL,
+        'reset_label' => NULL,
+        'bef_filter_description' => NULL,
+        'any_label' => NULL,
+      ),
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+      'filter_rewrite_values' => NULL,
+    ),
+    'secondary_label' => NULL,
+    'collapsible_label' => NULL,
+    'combine_rewrite' => NULL,
+    'reset_label' => NULL,
+    'bef_filter_description' => NULL,
+    'any_label' => NULL,
+    'filter_rewrite_values' => NULL,
+  ),
+  'secondary_label' => NULL,
+  'collapsible_label' => NULL,
+  'combine_rewrite' => NULL,
+  'reset_label' => NULL,
+  'bef_filter_description' => NULL,
+  'any_label' => NULL,
+  'filter_rewrite_values' => NULL,
+);
+$handler->display->display_options['exposed_form']['options']['input_required'] = 0;
+$handler->display->display_options['exposed_form']['options']['text_input_required_format'] = 'filtered_html';
 $handler->display->display_options['pager']['type'] = 'none';
 $handler->display->display_options['pager']['options']['offset'] = '0';
-$handler->display->display_options['style_plugin'] = 'list';
-$handler->display->display_options['row_plugin'] = 'fields';
+$handler->display->display_options['style_plugin'] = 'default';
+$handler->display->display_options['row_plugin'] = 'entity';
+$handler->display->display_options['row_options']['view_mode'] = 'teaser';
 /* Header: Global: Unfiltered text */
 $handler->display->display_options['header']['area_text_custom']['id'] = 'area_text_custom';
 $handler->display->display_options['header']['area_text_custom']['table'] = 'views';
 $handler->display->display_options['header']['area_text_custom']['field'] = 'area_text_custom';
 $handler->display->display_options['header']['area_text_custom']['content'] = '<p>Here is a list of clubs we have registered to the Norfolk Badminton Association.</p>
 <p>If you are a member of a club which is not listed here, please <a href="/contact-us">get in touch</a> and we\'ll happily add it!</p>';
+/* No results behavior: Global: Unfiltered text */
+$handler->display->display_options['empty']['area_text_custom']['id'] = 'area_text_custom';
+$handler->display->display_options['empty']['area_text_custom']['table'] = 'views';
+$handler->display->display_options['empty']['area_text_custom']['field'] = 'area_text_custom';
+$handler->display->display_options['empty']['area_text_custom']['empty'] = TRUE;
+$handler->display->display_options['empty']['area_text_custom']['content'] = '<p>No clubs found.  Please try using another filter.</p>';
 /* Field: Content: Title */
 $handler->display->display_options['fields']['title']['id'] = 'title';
 $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -35,17 +227,6 @@ $handler->display->display_options['fields']['title']['field'] = 'title';
 $handler->display->display_options['fields']['title']['label'] = '';
 $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
 $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-/* Field: Content: Updated date */
-$handler->display->display_options['fields']['changed']['id'] = 'changed';
-$handler->display->display_options['fields']['changed']['table'] = 'node';
-$handler->display->display_options['fields']['changed']['field'] = 'changed';
-$handler->display->display_options['fields']['changed']['label'] = '';
-$handler->display->display_options['fields']['changed']['alter']['alter_text'] = TRUE;
-$handler->display->display_options['fields']['changed']['alter']['text'] = '<small>Last updated: [changed]</small>';
-$handler->display->display_options['fields']['changed']['element_type'] = '0';
-$handler->display->display_options['fields']['changed']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['changed']['date_format'] = 'long';
-$handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
 /* Field: Content: Body */
 $handler->display->display_options['fields']['body']['id'] = 'body';
 $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
@@ -83,7 +264,63 @@ $handler->display->display_options['filters']['type']['field'] = 'type';
 $handler->display->display_options['filters']['type']['value'] = array(
   'nbaclub' => 'nbaclub',
 );
+/* Filter criterion: Content: Does the club has a junior club? (juniors) */
+$handler->display->display_options['filters']['juniors_value']['id'] = 'juniors_value';
+$handler->display->display_options['filters']['juniors_value']['table'] = 'field_data_juniors';
+$handler->display->display_options['filters']['juniors_value']['field'] = 'juniors_value';
+$handler->display->display_options['filters']['juniors_value']['value'] = array(
+  1 => '1',
+);
+$handler->display->display_options['filters']['juniors_value']['exposed'] = TRUE;
+$handler->display->display_options['filters']['juniors_value']['expose']['operator_id'] = 'juniors_value_op';
+$handler->display->display_options['filters']['juniors_value']['expose']['label'] = 'Junior clubs only';
+$handler->display->display_options['filters']['juniors_value']['expose']['operator'] = 'juniors_value_op';
+$handler->display->display_options['filters']['juniors_value']['expose']['identifier'] = 'juniors';
+$handler->display->display_options['filters']['juniors_value']['expose']['multiple'] = TRUE;
+$handler->display->display_options['filters']['juniors_value']['expose']['remember_roles'] = array(
+  2 => '2',
+  1 => 0,
+  3 => 0,
+);
+$handler->display->display_options['filters']['juniors_value']['expose']['reduce'] = TRUE;
+$handler->display->display_options['filters']['juniors_value']['group_info']['label'] = 'Does the club has a junior club? (juniors)';
+$handler->display->display_options['filters']['juniors_value']['group_info']['identifier'] = 'juniors_value';
+$handler->display->display_options['filters']['juniors_value']['group_info']['remember'] = FALSE;
+$handler->display->display_options['filters']['juniors_value']['group_info']['group_items'] = array(
+  1 => array(),
+  2 => array(),
+  3 => array(),
+);
+/* Filter criterion: Content: Has the club acheived a clubmark qualification? (clubmarked) */
+$handler->display->display_options['filters']['clubmarked_value']['id'] = 'clubmarked_value';
+$handler->display->display_options['filters']['clubmarked_value']['table'] = 'field_data_clubmarked';
+$handler->display->display_options['filters']['clubmarked_value']['field'] = 'clubmarked_value';
+$handler->display->display_options['filters']['clubmarked_value']['exposed'] = TRUE;
+$handler->display->display_options['filters']['clubmarked_value']['expose']['operator_id'] = 'clubmarked_value_op';
+$handler->display->display_options['filters']['clubmarked_value']['expose']['label'] = 'Clubmark qualification';
+$handler->display->display_options['filters']['clubmarked_value']['expose']['operator'] = 'clubmarked_value_op';
+$handler->display->display_options['filters']['clubmarked_value']['expose']['identifier'] = 'clubmarked';
+$handler->display->display_options['filters']['clubmarked_value']['expose']['remember_roles'] = array(
+  2 => '2',
+  1 => 0,
+  3 => 0,
+);
+/* Filter criterion: Content: Club Venues (clubvenue) */
+$handler->display->display_options['filters']['clubvenue_target_id']['id'] = 'clubvenue_target_id';
+$handler->display->display_options['filters']['clubvenue_target_id']['table'] = 'field_data_clubvenue';
+$handler->display->display_options['filters']['clubvenue_target_id']['field'] = 'clubvenue_target_id';
+$handler->display->display_options['filters']['clubvenue_target_id']['exposed'] = TRUE;
+$handler->display->display_options['filters']['clubvenue_target_id']['expose']['operator_id'] = 'clubvenue_target_id_op';
+$handler->display->display_options['filters']['clubvenue_target_id']['expose']['label'] = 'Club Venue';
+$handler->display->display_options['filters']['clubvenue_target_id']['expose']['operator'] = 'clubvenue_target_id_op';
+$handler->display->display_options['filters']['clubvenue_target_id']['expose']['identifier'] = 'clubvenue';
+$handler->display->display_options['filters']['clubvenue_target_id']['expose']['remember_roles'] = array(
+  2 => '2',
+  1 => 0,
+  3 => 0,
+);
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
+$handler->display->display_options['exposed_block'] = TRUE;
 $handler->display->display_options['path'] = 'clubs';

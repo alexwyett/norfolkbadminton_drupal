@@ -34,7 +34,7 @@ if ($teaser) {
             // We hide the comments and links now so that 
             // we can render them later.
             print render($content['body']);
-            print render($content['venue_address']);
+            print render($content['clubvenue']);
             print render($content['clubnight']);
             print render($content['clubmember']);
         ?>

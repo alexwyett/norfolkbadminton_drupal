@@ -13,5 +13,9 @@
 
     &_content {
         background: white;
+        
+        .webform-client-form {
+            padding: $card-margin;
+        }
     }
 }

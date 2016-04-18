@@ -49,22 +49,103 @@ function nbaclubs_field_attach_view_alter(&$output, $context)
 }
 
 /**
+ * Exposed form alter
+ * 
+ * @param array $form
+ * @param array $form_state
+ * 
+ * @return void
+ */
+function nbaclubs_form_views_exposed_form_alter(&$form, &$form_state)
+{
+    //Got the Form Id by using inspect element/Firebug
+    if($form["#id"] == 'views-exposed-form-clubs-page') {
+        $form['#attributes'] = array(
+            'class' => array(
+                'webform-client-form'
+            )
+        );
+        $form['juniors']['#options'][1] = 'Yes';
+        $form['juniors']['#attributes'] = array(
+            'class' => array(
+                'webform-component'
+            )
+        );
+        
+        $venues = array('' => 'Any');
+        $nodes = node_load_multiple(array(), array('type' => 'nbaclubvenue')); 
+        foreach($nodes as $venue) {
+            $venues[$venue->nid] = $venue->title;
+        }
+        asort($venues);
+        
+        $form['clubvenue']['#type'] = 'select';
+        unset($form['clubvenue']['#size']);
+        $form['clubvenue']['#multiple'] = false;
+        $form['clubvenue']['#options'] = $venues;
+    }
+}
+
+/**
  * Attach a map to the club node if the long / lat are present
  *
  * @return void
  */
 function nbaclubs_node_view($node, $view_mode, $lang_code)
 {
-    if ($node && $node->type == 'nbaclub' && $view_mode == 'full') {
+    if ($node && $node->type == 'nbaclubvenue') {
         if (function_exists('leafletmaputils_attach_scripts')) {
-            leafletmaputils_attach_scripts($node->content);
-
             $lat = nbaclubs_get_field_value($node, 'venue_lat');
             $long = nbaclubs_get_field_value($node, 'venue_long');
+            
+            if (drupal_strlen($lat) > 0 && drupal_strlen($long) > 0) {
+                leafletmaputils_attach_scripts($node->content);
+                $node->content['#attached']['js'][] = array(
+                    'data' => array(
+                        'nbaclubvenue' => array(
+                            'lat' => floatval($lat),
+                            'lng' => floatval($long)
+                        )
+                    ),
+                    'type' => 'setting'
+                );
+                $node->content['#attached']['js'][drupal_get_path('module', 'nbaclubs') . '/js/venueMap.js'] = array(
+                    'weight' => 1,
+                    'scope' => 'footer',
+                    'defer' => true
+                );
+                
+                $node->content['map'] = array(
+                    '#markup' => '<div class="card">'
+                    . '<div style="height: 400px;" class="card_content" id="nbaclubvenue_map"></div>'
+                    . '<div class="card_content">' . $node->title . '</div>'
+                    . '</div>',
+                    '#weight' => 10
+                );
+                unset($node->content['venue_address']);
+            }
+        }
+        
+        if ($view_mode == 'teaser') {
+            unset($node->content['body']);
+            $node->content['title'] = array(
+                '#markup' => $node->title
+            );
         }
 
         unset($node->content['venue_long']);
         unset($node->content['venue_lat']);
+    }
+    
+    if ($node && $node->type == 'nbaclub' && $view_mode == 'full') {
+        $node->content['clubvenue']['#prefix'] = t(
+            '<h3 class="c-title c-title-medium">@title</h3>',
+            array(
+                '@title' => 'This club plays at: '
+            )
+        );
+    } else if ($node && $node->type == 'nbaclub' && $view_mode == 'teaser') {
+        unset($node->content['clubvenue']);
     }
 }
 
@@ -76,7 +157,8 @@ function nbaclubs_node_view($node, $view_mode, $lang_code)
 function nbaclubs_get_field_value($node, $field_name, $delta = 0)
 {
     $field = field_get_items('node', $node, $field_name);
-    return render(field_view_value('node', $node, $field_name, $field[$delta]));
+    $value = field_view_value('node', $node, $field_name, $field[$delta]);
+    return render($value);
 }
 
 /**

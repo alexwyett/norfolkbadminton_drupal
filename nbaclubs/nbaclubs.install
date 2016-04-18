@@ -357,6 +357,25 @@ function nbaclubs_get_content_fields()
                     )
                 )
             ),
+            'offerscoaching' => array(
+                'field_name' => 'offerscoaching',
+                'label' => $t('Does the club offer coaching?'),
+                'type' => 'list_boolean',
+                'required' => false,
+                'widget' => array(
+                    'type' => 'options_onoff',
+                    'settings' => array(
+                        'display_label' => true
+                    )
+                ),
+                'cardinality' => 1,
+                'settings' => array(
+                    'allowed_values' => array(
+                        0 => '',
+                        1 => ''
+                    )
+                )
+            ),
             'clubmarked' => array(
                 'field_name' => 'clubmarked',
                 'label' => $t('Has the club acheived a clubmark qualification?'),
@@ -425,16 +444,21 @@ function nbaclubs_get_content_fields()
                         'label' => 'hidden',
                         'module' => 'entityreference',
                         'settings' => array(
-                            'link' => FALSE
+                            'links' => 0,
+                            'view_mode' => 'teaser',
                         ),
-                        'type' => 'entityreference_label',
+                        'type' => 'entityreference_entity_view',
                         'weight' => 2,
                     ),
                     'teaser' => array(
-                        'label' => 'above',
-                        'settings' => array(),
-                        'type' => 'hidden',
-                        'weight' => 0,
+                        'label' => 'hidden',
+                        'module' => 'entityreference',
+                        'settings' => array(
+                            'links' => 0,
+                            'view_mode' => 'teaser',
+                        ),
+                        'type' => 'entityreference_entity_view',
+                        'weight' => 6,
                     ),
                 ),
                 'widget' => array(

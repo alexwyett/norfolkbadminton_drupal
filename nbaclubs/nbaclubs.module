@@ -78,11 +78,14 @@ function nbaclubs_form_views_exposed_form_alter(&$form, &$form_state)
             $venues[$venue->nid] = $venue->title;
         }
         asort($venues);
-        
-        $form['clubvenue']['#type'] = 'select';
-        unset($form['clubvenue']['#size']);
-        $form['clubvenue']['#multiple'] = false;
-        $form['clubvenue']['#options'] = $venues;
+        if (count($venues) > 0) {
+            $form['clubvenue']['#type'] = 'select';
+            unset($form['clubvenue']['#size']);
+            $form['clubvenue']['#multiple'] = false;
+            $form['clubvenue']['#options'] = $venues;
+        } else {
+            unset($form['clubvenue']);
+        }
     }
 }
 
@@ -138,12 +141,14 @@ function nbaclubs_node_view($node, $view_mode, $lang_code)
     }
     
     if ($node && $node->type == 'nbaclub' && $view_mode == 'full') {
-        $node->content['clubvenue']['#prefix'] = t(
-            '<h3 class="c-title c-title-medium">@title</h3>',
-            array(
-                '@title' => 'This club plays at: '
-            )
-        );
+        if (isset($node->content['clubvenue'])) {
+            $node->content['clubvenue']['#prefix'] = t(
+                '<h3 class="c-title c-title-medium">@title</h3>',
+                array(
+                    '@title' => 'This club plays at: '
+                )
+            );
+        }
     } else if ($node && $node->type == 'nbaclub' && $view_mode == 'teaser') {
         unset($node->content['clubvenue']);
     }

@@ -67,7 +67,7 @@ function nbaleague_score_config_form($form, &$form_state, $match_id)
         
         $form['backtomatches'] = _nbaleague_match_list_links(
             array(),
-            $league->division->value()->tid,
+            $match['division_id'],
             $match['season_id'],
             $match['league_id'],
             'table',

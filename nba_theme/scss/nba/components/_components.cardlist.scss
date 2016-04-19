@@ -19,7 +19,7 @@
                 float: left;
                 width: 49%;
 
-                &:nth-child(odd) {
+                &:nth-child(2n+1) {
                     float: right;
                 }
 

@@ -399,7 +399,7 @@ html {
   /* [1] */
   line-height: 1.5;
   /* [1] */
-  background: #2d6cc6;
+  background: #1f4a88;
   color: #5A5A5A;
   font-family: 'Raleway', sans-serif; }
 
@@ -841,7 +841,7 @@ button.btn-floating {
     .cardlist-two-col .card {
       float: left;
       width: 49%; }
-      .cardlist-two-col .card:nth-child(odd) {
+      .cardlist-two-col .card:nth-child(2n+1) {
         float: right; }
       .cardlist-two-col .card_content {
         white-space: nowrap;
@@ -911,7 +911,7 @@ button.btn-floating {
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    content: "\ea43";
+    content: "\ea42";
     margin-right: 8px; }
 .c-expandable_toggletarget {
   display: none; }
@@ -922,6 +922,44 @@ button.btn-floating {
 @media screen and (min-width: 768px) {
   .c-expandable_toggletarget {
     display: block; } }
+
+.c-flag {
+  display: table;
+  width: auto;
+  margin: 8px 0; }
+  .c-flag_image, .c-flag_body {
+    display: table-cell;
+    vertical-align: middle; }
+    .c-flag_image-top, .c-flag_body-top {
+      vertical-align: top; }
+    .c-flag_image-bottom, .c-flag_body-bottom {
+      vertical-align: bottom; }
+  .c-flag_body {
+    width: 100%; }
+  .c-flag_image {
+    padding-right: 8px; }
+    .c-flag_image > img {
+      display: block; }
+    .c-flag_image-rev .c-flag_image {
+      padding-right: 0;
+      padding-left: 8px; }
+
+.c-clubteaser {
+  margin-bottom: 24px;
+  padding: 24px;
+  background: #FEFEFE; }
+  .c-clubteaser .c-title {
+    font-size: 20px;
+    margin-bottom: 0; }
+  .c-clubteaser .c-flag_image img {
+    width: 150px; }
+  .c-clubteaser_body .c-dlist {
+    float: left;
+    width: 50%; }
+    .c-clubteaser_body .c-dlist:last-child {
+      float: right; }
+    .c-clubteaser_body .c-dlist dt:after {
+      content: ""; }
 
 .menu-header-menu .menu,
 .view-content .item-list ul,
@@ -1034,6 +1072,9 @@ button.btn-floating {
       width: 90%;
       height: auto;
       display: inline; }
+      @media screen and (max-width: 768px) {
+        .header .logo img {
+          margin: 8px; } }
   @media screen and (min-width: 768px) {
     .header {
       position: absolute;
@@ -1451,8 +1492,7 @@ button.btn-floating {
   .view-nbacontent-promoted-blogs .views-row-odd {
     float: left; } }
 
-@media screen and (min-width: 480px) {
-  .front .other_news-block {
-    padding: 24px; } }
+.front .other_news-block {
+  padding: 24px; }
 
 /*# sourceMappingURL=styles.css.map */

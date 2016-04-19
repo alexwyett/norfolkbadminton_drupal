@@ -14,6 +14,9 @@
 
         img {
             @include box(90%, auto, inline);
+            @media screen and (max-width: $screen-sm-min) {
+                margin: $base-spacing;
+            }
         }
     }
     

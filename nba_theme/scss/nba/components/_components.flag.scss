@@ -1,0 +1,38 @@
+.c-flag {
+    display:table;
+    width:auto;
+    margin: $base-spacing 0;
+    
+    &_image,
+    &_body {
+        display: table-cell;
+        vertical-align: middle;
+        
+        &-top {
+            vertical-align: top;
+        }
+        
+        &-bottom {
+            vertical-align: bottom;
+        }
+    }
+    
+    &_body {
+        width: 100%;
+    }
+    
+    
+
+    &_image {
+        padding-right: $base-spacing;
+
+        > img{
+            display: block;
+        }
+
+        &-rev &{
+          padding-right: 0;
+          padding-left: $base-spacing;
+        }
+    }
+}

@@ -71,6 +71,12 @@ function nbaclubs_form_views_exposed_form_alter(&$form, &$form_state)
                 'webform-component'
             )
         );
+        $form['coaching']['#options'][1] = 'Yes';
+        $form['coaching']['#attributes'] = array(
+            'class' => array(
+                'webform-component'
+            )
+        );
         
         $venues = array('' => 'Any');
         $nodes = node_load_multiple(array(), array('type' => 'nbaclubvenue')); 
@@ -151,6 +157,25 @@ function nbaclubs_node_view($node, $view_mode, $lang_code)
         }
     } else if ($node && $node->type == 'nbaclub' && $view_mode == 'teaser') {
         unset($node->content['clubvenue']);
+        $meta = array();
+        $venues = array();
+        foreach (entity_metadata_wrapper('node', $node->nid)->clubvenue->value() as $venue) {
+            $venues[$venue->nid] = $venue->title;
+        }
+        
+        if (count($venues) > 0) {
+            $meta['venues'] = $venues;
+        }
+        
+        foreach (array('juniors', 'clubmarked', 'coaching') as $type) {
+            if (isset(entity_metadata_wrapper('node', $node->nid)->$type) 
+                && entity_metadata_wrapper('node', $node->nid)->$type->value()
+            ) {
+                $meta[$type] = entity_metadata_wrapper('node', $node->nid)->$type->value();
+            }
+        }
+        
+        $node->meta = $meta;
     }
 }
 
@@ -174,8 +199,7 @@ function nbaclubs_get_field_value($node, $field_name, $delta = 0)
 function nbaclubs_get_clubmarks()
 {
     return array(
-        'bronze' => 'Bronze',
-        'silver' => 'Silver',
-        'gold' => 'Gold'
+        'ClubMark' => 'ClubMark',
+        'Premier Club' => 'Premier Club'
     );
 }

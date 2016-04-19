@@ -27,9 +27,7 @@
 }
 
 .front {
-    @media screen and (min-width: $screen-mob-min) {
-        .other_news-block {
-            padding: $base-margin;
-        }
+    .other_news-block {
+        padding: $base-margin;
     }
 }

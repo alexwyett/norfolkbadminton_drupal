@@ -2,7 +2,7 @@
     if (count($items) > 0) {
         ?>
 <div class="cardlist cardlist-two-col">
-    <h2 class="c-title c-title-medium">Club Members</h2>
+    <h2 class="c-title c-title-medium">Club Members and Contact details</h2>
     <?php
         foreach ($items as $delta => $item) {
             $ids = array_keys($item['node']);

@@ -1,0 +1,30 @@
+.c-clubteaser {
+    margin-bottom: $base-margin;
+    padding: $base-margin;
+    background: $color-gray-very-light;
+    
+    .c-title {
+        font-size: $title-font-size;
+        margin-bottom: 0;
+    }
+    .c-flag_image img {
+        width: 150px;
+    }
+    
+    &_body {
+        .c-dlist {
+            float: left;
+            width: 50%;
+            
+            &:last-child {
+                float: right;
+            }
+            
+            dt {
+                &:after {
+                    content: "";
+                }
+            }
+        }
+    }
+}

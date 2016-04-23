@@ -1,6 +1,25 @@
 <?php
 
 /**
+ * Implements hook_menu().
+ *
+ * @return array
+ */
+function nbaclubs_menu()
+{
+    $items = array();
+
+    $items['clubs.json'] = array(
+        'title' => 'GeoJson output of clubs and venues',
+        'page callback' => 'nbaclubs_get_json_content',
+        'access arguments' => array('access content'),
+        'delivery callback' => 'drupal_json_output'
+    );
+    
+    return $items;
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function nbaclubs_ctools_plugin_directory($module, $plugin)
@@ -207,5 +226,93 @@ function nbaclubs_get_clubmarks()
     return array(
         'ClubMark' => 'ClubMark',
         'Premier Club' => 'Premier Club'
+    );
+}
+
+/**
+ * Get a list of club venues in geojson format
+ * 
+ * @return array
+ */
+function nbaclubs_get_json_content()
+{
+    // Get all clubs and all venues
+    $venues = node_load_multiple(
+        array(),
+        array(
+            'type' => 'nbaclubvenue'
+        )
+    );
+    
+    $clubs = node_load_multiple(
+        array(),
+        array(
+            'type' => 'nbaclub'
+        )
+    );
+    
+    $clubs = array_filter($clubs, function($club) {
+        return $club->clubvenue && count($club->clubvenue) > 0;
+    });
+    
+    $clubData = array();
+    foreach ($clubs as $club) {
+        $body = field_view_field('node', $club, 'body', 'teaser');
+        $clubnights = field_get_items('node', $club, 'clubnight');
+        $teaser = node_view($club, 'teaser');
+        $clubData[$club->nid] = array(
+            'nid' => $club->nid,
+            'url' => url('node/' . $club->nid),
+            'name' => $club->title,
+            'description' => render($body),
+            'clubnights' => $clubnights,
+            'teaser' => render($teaser)
+        );
+    }
+    
+    $json = array();
+    foreach ($venues as $venue) {
+        $v = array();
+        $lat = nbaclubs_get_field_value($venue, 'venue_lat');
+        $long = nbaclubs_get_field_value($venue, 'venue_long');
+        
+        if (strlen($lat) == 0 && strlen($long) == 0) {
+            continue;
+        }
+        
+        $venueClubs = array();
+        foreach ($clubs as $club) {
+            foreach (field_get_items('node', $club, 'clubvenue') as $cv) {
+                if (isset($cv['target_id']) && $cv['target_id'] == $venue->nid) {
+                    $venueClubs[] = $clubData[$club->nid];
+                }
+            }
+        }
+        
+        $v['type'] = 'Feature';
+        $v['geometry'] = array(
+            'type' => 'Point',
+            'coordinates' => array(
+                $lat,
+                $long
+            )
+        );
+        $v['properties'] = array(
+            'venue' => array(
+                'id' => $venue->nid,
+                'url' => url('node/' . $venue->nid),
+                'name' => $venue->title,
+                'address' => str_replace(PHP_EOL, ' ', nbaclubs_get_field_value($venue, 'venue_address'))
+            ),
+            'clubs' => $venueClubs
+        );
+        
+        $json[] = $v;
+    }
+    
+    
+    return array(
+        'type' => 'FeatureCollection',
+        'features' => $json
     );
 }

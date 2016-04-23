@@ -1,10 +1,11 @@
-.card {
-    &-small,
-    &-medium,
-    &-large {
-        .card_content {
-            .c-title {
-                
+.card {    
+    .nbaclubvenue_map_title {
+        address {
+            display: inline;
+            font-style: normal;
+            
+            &:before {
+                content: ", ";
             }
         }
     }

@@ -1,0 +1,77 @@
+/* -- Setup grids with base class -- */
+.grid-wrap {
+    margin-left: -$grid-gutter;
+    overflow: hidden;
+    clear: both;
+}
+
+.grid-col {
+    float: left;
+    padding-left: $grid-gutter;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    
+    &-resimg img {
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+        display: block;
+    }
+}
+
+.large-gutter {
+    @include setGutter(($grid-gutter * 2));
+}
+
+.half-gutter {
+    @include setGutter(($grid-gutter / 2));
+}
+
+.no-gutter {
+    @include setGutter(0em);
+}
+
+.reset-gutter {
+    @include setGutter();
+}
+
+ul.grid-wrap,
+ol.grid-wrap {
+    padding-left: 0;
+    list-style: none;
+}
+
+li.grid-col {
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
+.col {
+    @include gridSetup();
+}
+
+/* -- Breakpoint (.sm)
+------------------------------------------------------------- */
+@media only screen and (min-width: $screen-mob-min) {
+    .sm-col {
+        @include gridSetup();
+    }
+}
+
+/* -- Breakpoint 2 (.md)
+------------------------------------------------------------- */
+@media only screen and (min-width: $screen-sm-min) {
+    .md-col {
+        @include gridSetup();
+    }
+}
+
+/* -- Breakpoint 3 (.lg)
+------------------------------------------------------------- */
+@media only screen and (min-width: $screen-md-min) {
+    .lg-col {
+        @include gridSetup();
+    }
+}

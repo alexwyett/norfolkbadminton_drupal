@@ -1,1 +1,44 @@
-_tools.functions.scss
+$grid-gutter: 3em;
+
+@mixin setGutter($gutter: $grid-gutter) {
+    margin-left: -$gutter;
+    
+    .grid-col {
+        padding-left: $gutter;
+    }
+}
+
+@mixin gridSetup() {
+    &-full,
+    &-set-full .grid-col {
+        width: 100%;
+    }
+    
+    &-half,
+    &-set-half .grid-col {
+        width: 50%;
+    }
+    
+    &-third,
+    &-set-third .grid-col {
+        width: 33.333%;
+    }
+    
+    &-two-thirds {
+        width: 66.666%;
+    }
+    
+    &-quarter,
+    &-set-quarter .grid-col {
+        width: 25%;
+    }
+    
+    &-three-quarters {
+        width: 75%;
+    }
+    
+    &-fifth,
+    &-set-fifth .grid-col {
+        width: 20%;
+    }
+}

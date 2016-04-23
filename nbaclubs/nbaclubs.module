@@ -66,15 +66,12 @@ function nbaclubs_form_views_exposed_form_alter(&$form, &$form_state)
             )
         );
         $form['juniors']['#options'][1] = 'Yes';
-        $form['juniors']['#attributes'] = array(
-            'class' => array(
-                'webform-component'
-            )
-        );
         $form['coaching']['#options'][1] = 'Yes';
-        $form['coaching']['#attributes'] = array(
+        
+        
+        $form['clubvenue']['#attributes'] = $form['clubmarked']['#attributes'] = array(
             'class' => array(
-                'webform-component'
+                'webform-component-select'
             )
         );
         
@@ -106,14 +103,20 @@ function nbaclubs_node_view($node, $view_mode, $lang_code)
         if (function_exists('leafletmaputils_attach_scripts')) {
             $lat = nbaclubs_get_field_value($node, 'venue_lat');
             $long = nbaclubs_get_field_value($node, 'venue_long');
+            $address = nbaclubs_get_field_value($node, 'venue_address');
+            if (drupal_strlen($address) > 0) {
+                $address = '<address>' . $address . '</address>';
+            }
             
             if (drupal_strlen($lat) > 0 && drupal_strlen($long) > 0) {
                 leafletmaputils_attach_scripts($node->content);
                 $node->content['#attached']['js'][] = array(
                     'data' => array(
                         'nbaclubvenue' => array(
-                            'lat' => floatval($lat),
-                            'lng' => floatval($long)
+                            array(
+                                'lat' => floatval($lat),
+                                'lng' => floatval($long)
+                            )
                         )
                     ),
                     'type' => 'setting'
@@ -126,8 +129,8 @@ function nbaclubs_node_view($node, $view_mode, $lang_code)
                 
                 $node->content['map'] = array(
                     '#markup' => '<div class="card">'
-                    . '<div style="height: 400px;" class="card_content" id="nbaclubvenue_map"></div>'
-                    . '<div class="card_content">' . $node->title . '</div>'
+                    . '<div style="height: 400px;" class="card_content nbaclubvenue_map" id="nbaclubvenue_map"></div>'
+                    . '<div class="card_content nbaclubvenue_map_title">' . $node->title . $address . '</div>'
                     . '</div>',
                     '#weight' => 10
                 );
@@ -157,6 +160,9 @@ function nbaclubs_node_view($node, $view_mode, $lang_code)
         }
     } else if ($node && $node->type == 'nbaclub' && $view_mode == 'teaser') {
         unset($node->content['clubvenue']);
+    }
+    
+    if ($node && $node->type == 'nbaclub') {
         $meta = array();
         $venues = array();
         foreach (entity_metadata_wrapper('node', $node->nid)->clubvenue->value() as $venue) {

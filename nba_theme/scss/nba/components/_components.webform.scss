@@ -1,6 +1,7 @@
 .webform-client-form {
     
-    .webform-component {
+    .webform-component,
+    .views-exposed-widgets {
         // Inputs.  Keep border for equal heights on inputs and
         // selects
         input[type=text],
@@ -30,9 +31,11 @@
     
     .webform-component-left,
     .webform-component-full,
-    .webform-component-right {
+    .webform-component-right,
+    .views-exposed-widgets {
         input[type=text],
         input[type=email],
+        input[type=date],
         select {
             width: 100%;
         }

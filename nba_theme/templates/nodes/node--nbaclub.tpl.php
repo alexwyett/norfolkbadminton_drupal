@@ -14,27 +14,27 @@ if ($teaser) {
                 <?php 
                     echo render($content['body']);
                 ?>
-                <div class="clearfix">
+                <div class="grid-wrap nbclub_attributes columned clearfix">
                     <?php
                         if (isset($meta['venues']) && count($meta['venues']) > 0) {
                             ?>
-                    <div class="c-dlist">
+                    <dl class="c-dlist grid-col md-col-half">
                         <?php
                             foreach ($meta['venues'] as $nid => $venue) {
                                 echo sprintf(
-                                    '<dt><i class="icon icon-location"></i></dt><dt>%s</dt>',
+                                    '<dt><i class="icon icon-location"></i></dt><dd>%s</dd>',
                                     l($venue, 'node/' . $nid)
                                 );
                             }
                         ?>
-                    </div>
+                    </dl>
                             <?php
                             unset($meta['venues']);
                         }
 
                         if (count($meta) > 0) {
                             ?>
-                    <dl class="c-dlist">
+                    <dl class="c-dlist grid-col md-col-half">
                         <?php
                             if (isset($meta['juniors']) && $meta['juniors'] === true) {
                                 echo '<dt class="juniors"><i class="icon icon-checkmark"></i></dt><dd>Junior club</dd>';
@@ -67,9 +67,30 @@ if ($teaser) {
             ?>
         </h2>
         <?php 
-            // We hide the comments and links now so that 
-            // we can render them later.
             print render($content['body']);
+        ?>
+        <div class="nbclub_attributes clearfix">
+            <?php
+                if (count($meta) > 0) {
+                    ?>
+            <dl class="c-dlist">
+                <?php
+                    if (isset($meta['juniors']) && $meta['juniors'] === true) {
+                        echo '<dt class="juniors"><i class="icon icon-checkmark"></i></dt><dd>Junior club</dd>';
+                    }
+                    if (isset($meta['coaching']) && $meta['coaching'] === true) {
+                        echo '<dt class="coaching"><i class="icon icon-checkmark"></i></dt><dd>Coaching available</dd>';
+                    }
+                    if (isset($meta['clubmarked'])) {
+                        echo '<dt class="clubmarked"><i class="icon icon-checkmark"></i></dt><dd>' . $meta['clubmarked'] . ' accredited</dd>';
+                    }
+                ?>
+            </dl>
+                <?php
+                }
+                ?>
+        </div>
+        <?php 
             print render($content['clubvenue']);
             print render($content['clubnight']);
             print render($content['clubmember']);

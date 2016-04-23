@@ -1,0 +1,9 @@
+.nbclub_attributes {
+     .c-dlist {
+        dt {
+            &:after {
+                content: "";
+            }
+        }
+    }
+}

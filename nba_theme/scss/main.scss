@@ -5,11 +5,13 @@
 @import "settings/settings.colors"; 
 
 @import "tools/tools.mixins";
+@import "tools/tools.functions";
 
 @import "generic/generic.reset";
 @import "generic/generic.normalize";
 @import "generic/generic.box-sizing";
 @import "generic/generic.shared";
+@import "generic/generic.grid";
 
 @import "elements/elements.page";
 @import "elements/elements.headings";
@@ -63,3 +65,5 @@
 @import "nba/trumps/trumps.page";
 @import "nba/trumps/trumps.homepage";
 @import "nba/trumps/trumps.webform";
+@import "nba/trumps/trumps.card";
+@import "nba/trumps/trumps.nbaclub";

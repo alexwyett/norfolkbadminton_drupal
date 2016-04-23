@@ -10,15 +10,18 @@
                 }
             });
             
-            var plugin = new nbaclubs_venueMap({
-                center: [
-                    Drupal.settings.nbaclubvenue.lng,
-                    Drupal.settings.nbaclubvenue.lat
-                ],
-                zoom: 12,
-                container: 'nbaclubvenue_map'
+            $('.nbaclubvenue_map').each(function(i, ele) {
+                console.log(i);
+                var plugin = new nbaclubs_venueMap({
+                    center: [
+                        Drupal.settings.nbaclubvenue[i].lng,
+                        Drupal.settings.nbaclubvenue[i].lat
+                    ],
+                    zoom: 12,
+                    container: ele
+                });
+                plugin.createMarker();
             });
-            plugin.createMarker();
         }
     };
 })(jQuery);

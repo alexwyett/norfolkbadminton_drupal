@@ -105,6 +105,14 @@ function nbaclubs_update_7001(&$sandbox)
 }
 
 /**
+ * This update adds the website field to the club contact type
+ */
+function nbaclubs_update_7002(&$sandbox)
+{
+    nbaclubs_add_custom_fields();
+}
+
+/**
  * Create an array of settings for the double_field
  * 
  * @param array $settings Settings array.  Required keys are field_name, label,
@@ -396,6 +404,28 @@ function nbaclubs_get_content_fields()
                 'settings' => array(
                     'allowed_values_function' => 'nbaclubs_get_clubmarks'
                 ),
+            ),
+            'website' => array(
+                'field_name' => 'website',
+                'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+                'label' => $t('Club website'),
+                'type' => 'text',
+                'widget' => array(
+                    'active' => 1,
+                    'module' => 'text',
+                    'settings' => array(),
+                    'type' => 'text_textfield'
+                ),
+                'display' => array(
+                    'default' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    ),
+                    'teaser' => array(
+                        'label' => 'hidden',
+                        'type' => 'text'
+                    )
+                )
             ),
             'clubvenue' => array(
                 'active' => 1,

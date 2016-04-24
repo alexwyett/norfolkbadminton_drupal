@@ -1,7 +1,7 @@
 name = NBA Clubs module
 description = Provides the clubs content type.
 core = 7.x
-version = "7.x-0.1"
+version = "7.x-0.2"
 package = NBA
 
 files[] = nbacontent.admin.inc

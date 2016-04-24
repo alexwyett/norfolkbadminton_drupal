@@ -14,6 +14,7 @@ if ($teaser) {
                 <?php 
                     echo render($content['body']);
                 ?>
+                <p><?php echo l('More info >', 'node/' . $node->nid); ?></p>
                 <div class="grid-wrap nbclub_attributes columned clearfix">
                     <?php
                         if (isset($meta['venues']) && count($meta['venues']) > 0) {
@@ -91,8 +92,9 @@ if ($teaser) {
                 ?>
         </div>
         <?php 
-            print render($content['clubvenue']);
             print render($content['clubnight']);
+            print render($content['website']);
+            print render($content['clubvenue']);
             print render($content['clubmember']);
         ?>
     </div>

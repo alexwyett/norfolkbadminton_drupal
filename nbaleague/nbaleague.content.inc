@@ -46,6 +46,8 @@ function nbaleague_get_seasons_list($division_id)
     $seasons = nbaleague_get_seasons_assoc();
     $seasons_list = array();
     
+    $division = nbaleague_get_division_by_id($division_id);
+    
     foreach ($seasons as $id => $name) {
         $seasons_list[] = array(
             'href' => 'nbaleague/matches/list/' . $division_id . '/' . $id,
@@ -54,6 +56,11 @@ function nbaleague_get_seasons_list($division_id)
     }
     
     return array(
+        'title' => array(
+            '#type' => 'html_tag',
+            '#tag' => 'h3',
+            '#value' => t($division->name->value())
+        ),
         'intro' => array(
             '#type' => 'html_tag',
             '#tag' => 'p',

@@ -1,0 +1,13 @@
+.menu-header-menu .menu,
+.view-id-recent_news ul,
+.view-id-entry_forms ul,
+.view-id-latest_page_updates ul,
+.documents {
+    @include itemlist();
+}
+
+.item-list ul li {
+    margin: 1em 2em;
+    padding: 0;
+    list-style-type: square;
+}

@@ -234,6 +234,18 @@ function nbaleague_get_divisions()
 }
 
 /**
+ * Get a division by its id
+ * 
+ * @param integer $id ID
+ * 
+ * @return stdClass
+ */
+function nbaleague_get_division_by_id($id)
+{
+    return _nbaleague_get_taxonomy_by_id('nbaleague_get_divisions', $id);
+}
+
+/**
  * Return an array of league ids/ names for select options
  *
  * @return array

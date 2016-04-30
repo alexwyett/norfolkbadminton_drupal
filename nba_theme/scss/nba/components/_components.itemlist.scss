@@ -1,6 +1,4 @@
-.menu-header-menu .menu,
-.view-content .item-list ul,
-.documents {
+@mixin itemlist() {
     
     @include rounded();
     

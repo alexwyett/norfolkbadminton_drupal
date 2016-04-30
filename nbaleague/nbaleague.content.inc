@@ -161,6 +161,7 @@ function nbaleague_get_matches_list($division_id, $season_id, $league_id)
     }
     
     $admin = user_access('nbaleague_score');
+    $matchadmin = user_access('nbaleague_match');
     
     $match_rows = array();
 
@@ -187,19 +188,24 @@ function nbaleague_get_matches_list($division_id, $season_id, $league_id)
             nbaleague_get_team_by_id($match->awayteam_id)->name->value(),
             $score
         );
+        
+        $adminLinks = '';
 
         if ($admin === true) {
-            array_push(
-                $match_row, 
-                l(
-                    (strlen($score) > 0 ? 'Edit' : 'Add') . ' score',
-                    'nbaleague/score/' . $match->match_id
-                ) . ' ' . l(
-                    'Edit match',
-                    'nbaleague/match/' . $match->match_id
-                )
+            $adminLinks .= l(
+                (strlen($score) > 0 ? 'Edit' : 'Add') . ' score',
+                'nbaleague/score/' . $match->match_id
             );
         }
+        
+        if ($matchadmin === true) {
+            $adminLinks .= ' ' . l(
+                'Edit match',
+                'nbaleague/match/' . $match->match_id
+            );
+        }
+        
+        array_push($match_row, $adminLinks);
 
         $match_rows[] = $match_row;
     }

@@ -60,15 +60,89 @@ function nbaclubs_block_view($delta = '')
 }
 
 /**
+ * Implements hook_block_configure
+ * 
+ * @param string $delta Block delta
+ * 
+ * @return array
+ */
+function nbaclubs_block_configure($delta = '')
+{
+    $form = array();
+    if ($delta == 'nbaclubs_map') {
+        $form['nbaclubs_fieldset'] = array(
+            '#type' => 'fieldset',
+            '#title' => 'NBA Map Block Options',
+        );
+        
+        foreach (array('height', 'width') as $dim) {
+            $form['nbaclubs_fieldset']['nbaclubs_block_' . $dim] = array(
+                '#type' => 'textfield',
+                '#title' => t('Display ' . ucfirst($dim)),
+                '#default_value' => variable_get('nbaclubs_block_' . $dim, ''),
+                '#attributes' => array(
+                    'class' => array(
+
+                    )
+                ),
+                '#required' => TRUE,
+                '#size' => 3,
+                '#element_validate' => array(
+                    'element_validate_integer_positive'
+                )
+            );
+            $form['nbaclubs_fieldset']['nbaclubs_block_' . $dim . '_measurement'] = array(
+                '#type' => 'select',
+                '#title' => t(ucfirst($dim) . ' measurement'),
+                '#default_value' => variable_get('nbaclubs_block_' . $dim . '_measurement', ''),
+                '#required' => TRUE,
+                '#options' => drupal_map_assoc(
+                    array(
+                        'px',
+                        '%'
+                    )
+                )
+            );
+        }
+    }
+    
+    return $form;
+}
+
+/**
+ * Impements hook_block_save
+ */
+function nbaclubs_block_save($delta = '', $edit = array())
+{
+    if ($delta == 'nbaclubs_map') {
+        $fields = array(
+            'nbaclubs_block_height',
+            'nbaclubs_block_width',
+            'nbaclubs_block_height_measurement',
+            'nbaclubs_block_width_measurement'
+        );
+        foreach($fields as $form_field) {
+            variable_set($form_field, $edit[$form_field]);
+        }
+    }
+}
+
+/**
  * Output the markup required for the map block
  * 
  * @return string
  */
 function nbaclubs_block_render()
 {
-    $output = '<div class="nbaclubs_map loading" id="nbaclubs_map" style="width: 100%; height: 500px;"></div>' . PHP_EOL;
-    
-    return $output;
+    return t(
+        '<div class="nbaclubs_map loading" id="nbaclubs_map" style="width: !v1!v2; height: !v3!v4;"></div>',
+        array(
+            '!v1' => variable_get('nbaclubs_block_width', ''),
+            '!v2' => variable_get('nbaclubs_block_width_measurement', ''),
+            '!v3' => variable_get('nbaclubs_block_height', ''),
+            '!v4' => variable_get('nbaclubs_block_height_measurement', ''),
+        )
+    ) . PHP_EOL;
 }
 
 /**

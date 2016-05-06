@@ -18,7 +18,8 @@
                                     this.definePopup(feature, layer);
                                 }.bind(this)
                             });
-
+                            
+                            $(this.getMap()._container).removeClass('loading')
                             this.resetCluster();
                         }.bind(this)
                     });

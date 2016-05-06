@@ -90,6 +90,78 @@ function nbacontent_node_view($node, $view_mode, $langcode)
 }
 
 /**
+ * Implements hook_block_info
+ * 
+ * @return array
+ */
+function nbacontent_block_info()
+{
+    $blocks['nbacontent_socialmedia'] = array(
+        'info' => t('NBA Content Social Media Links'),
+    );
+    
+    return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ * 
+ * @return array
+ */
+function nbacontent_block_view($delta = '') 
+{
+    // This example is adapted from node.module.
+    $block = array();
+
+    switch ($delta) {
+    case 'nbacontent_socialmedia':
+        $block['subject'] = t('NBA Content Social Media Links');
+        $block['content'] = array(
+            '#markup' => nbacontent_socialmedia_block_render()
+        );
+        break;
+    }
+    
+    return $block;
+}
+
+/**
+ * Get the social media links assuming there is a node available
+ * 
+ * @return string
+ */
+function nbacontent_socialmedia_block_render()
+{
+    $node = menu_get_object();
+    $content = '';
+    if ($node) {
+        $node_author = user_load($node->uid);
+                
+        $date = $node->created;
+        $dateClass = 'c-date';
+        if ($node->changed > $node->created) {
+            $date = $node->changed;
+            $dateClass .= ' c-date-updated';
+        } else { 
+            $dateClass .= ' c-date-created';
+        }
+        
+        if ($node_author) {
+            $content = theme(
+                'nbacontentauthorinfo',
+                array(
+                    'author' => $node_author,
+                    'date' => $date,
+                    'dateClass' => $dateClass
+                )
+            );
+        }
+    }
+    
+    return $content;
+}
+
+/**
  * Return the markup for the social media links
  *
  * @param string $url Set to a url if you want to use the sharing api for
@@ -198,7 +270,9 @@ function nbacontent_theme() {
         ),
         'nbacontentauthorinfo' => array(
             'variables' => array(
-                'author' => NULL
+                'author' => NULL,
+                'date' => time(),
+                'dateClass' => ''
             ),
             'template' => 'templates/nbacontentauthorinfo'
         ),

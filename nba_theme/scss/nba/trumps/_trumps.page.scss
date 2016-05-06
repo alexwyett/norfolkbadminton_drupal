@@ -40,6 +40,25 @@
     }
 }
 
+.node-type-nbablog {
+    .node-nbablog {
+        .cardlist {
+            .card {
+                width: 80%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    }
+}
+
+.node-type-nbablog,
+.node-type-nbabasicpage {
+    .nbacontent_body {
+        padding-bottom: 0;
+    }
+}
+
 
 @media screen and (min-width: $screen-md-min) {
     body.front,

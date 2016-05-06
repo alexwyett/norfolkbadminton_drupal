@@ -46,7 +46,7 @@ function nbaclubs_block_view($delta = '')
 
     switch ($delta) {
     case 'nbaclubs_map':
-        $block['subject'] = t('Facebook Feed');
+        $block['subject'] = t('NBA Clubs Map');
         $block['content'] = array(
             '#markup' => nbaclubs_block_render(),
             '#attached' => nbaclubs_block_attach(),
@@ -277,7 +277,7 @@ function nbaclubs_node_view($node, $view_mode, $lang_code)
             $meta['venues'] = $venues;
         }
         
-        foreach (array('juniors', 'clubmarked', 'coaching') as $type) {
+        foreach (array('juniors', 'clubmarked', 'offerscoaching') as $type) {
             if (isset(entity_metadata_wrapper('node', $node->nid)->$type) 
                 && entity_metadata_wrapper('node', $node->nid)->$type->value()
             ) {

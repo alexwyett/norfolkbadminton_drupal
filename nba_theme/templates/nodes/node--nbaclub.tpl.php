@@ -40,7 +40,7 @@ if ($teaser) {
                             if (isset($meta['juniors']) && $meta['juniors'] === true) {
                                 echo '<dt class="juniors"><i class="icon icon-checkmark"></i></dt><dd>Junior club</dd>';
                             }
-                            if (isset($meta['coaching']) && $meta['coaching'] === true) {
+                            if (isset($meta['offerscoaching']) && $meta['offerscoaching'] === true) {
                                 echo '<dt class="coaching"><i class="icon icon-checkmark"></i></dt><dd>Coaching available</dd>';
                             }
                             if (isset($meta['clubmarked'])) {
@@ -79,7 +79,7 @@ if ($teaser) {
                     if (isset($meta['juniors']) && $meta['juniors'] === true) {
                         echo '<dt class="juniors"><i class="icon icon-checkmark"></i></dt><dd>Junior club</dd>';
                     }
-                    if (isset($meta['coaching']) && $meta['coaching'] === true) {
+                    if (isset($meta['offerscoaching']) && $meta['offerscoaching'] === true) {
                         echo '<dt class="coaching"><i class="icon icon-checkmark"></i></dt><dd>Coaching available</dd>';
                     }
                     if (isset($meta['clubmarked'])) {

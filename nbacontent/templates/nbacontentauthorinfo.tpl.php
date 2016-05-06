@@ -26,6 +26,11 @@
                     <?php echo $author->name; ?>
                 </span>
             </span>
+            <time class="<?php echo $dateClass; ?>" itemprop="datePublished">
+                <span class="c-date_day"><?php echo date('j', $date); ?></span>
+                <span class="c-date_month"><?php echo date('M', $date); ?></span>
+                <span class="c-date_year"><?php echo date('Y', $date); ?></span>
+            </time>
         </h4>
         <p>
             <?php

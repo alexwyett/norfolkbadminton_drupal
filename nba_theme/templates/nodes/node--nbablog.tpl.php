@@ -40,15 +40,6 @@ if ($teaser) {
         <h2 class="c-title c-title-main">
             <?php 
                 echo $title;
-                
-                $date = $node->created;
-                $dateClass = 'c-date';
-                if ($node->changed > $node->created) {
-                    $date = $node->changed;
-                    $dateClass .= ' c-date-updated';
-                } else { 
-                    $dateClass .= ' c-date-created';
-                }
             ?>
         </h2>
         <?php 
@@ -63,16 +54,6 @@ if ($teaser) {
             hide($content['banners']);
             hide($content['nba_cat']);
             print render($content);
-        ?>
-
-        <time class="<?php echo $dateClass; ?>" itemprop="datePublished">
-            <span class="c-date_day"><?php echo date('j', $date); ?></span>
-            <span class="c-date_month"><?php echo date('M', $date); ?></span>
-            <span class="c-date_year"><?php echo date('Y', $date); ?></span>
-        </time>
-
-        <?php
-            echo theme('nbacontentauthorinfo', array('author' => $node_author));
         ?>
     </div>
 </article>

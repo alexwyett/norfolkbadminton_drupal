@@ -6,7 +6,7 @@
                     this._super(args);
                     loaded = false;
                     jQuery.ajax({
-                        url: Drupal.settings.basePath + '/clubs.json',
+                        url: Drupal.settings.basePath + 'clubs.json',
                         async: false,
                         dataType: 'json',
                         success: function(json) {
@@ -64,8 +64,8 @@
 
                 defineMarker: function(feature, latlng) {
                     return Drupal.behaviors.leafletmaputils.createMarker(
-                        this.options.center[0],
-                        this.options.center[1]
+                        latlng.lat,
+                        latlng.lng
                     );
                 }
             });

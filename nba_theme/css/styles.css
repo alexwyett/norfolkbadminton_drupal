@@ -1205,8 +1205,6 @@ button.btn-floating {
   width: 100%; }
 .page-node .nbacontent_body {
   padding: 24px; }
-.page-node .authorname {
-  margin-left: 0; }
 @media screen and (min-width: 992px) {
   .page-node .documents {
     margin-bottom: 0; } }
@@ -1456,6 +1454,13 @@ button.btn-floating {
   .main_footer .c-block_content {
     background: transparent; }
 
+@media screen and (max-width: 768px) {
+  .main_header .c-block {
+    padding: 0; } }
+
+#block-nbaclubs-nbaclubs-map {
+  padding: 0 24px; }
+
 .main_footer .c-block_content ul.menu li a {
   display: inline; }
 
@@ -1485,6 +1490,15 @@ button.btn-floating {
 .card-messages .messages {
   margin: 0;
   border-width: 0 none; }
+
+.node-type-nbablog .node-nbablog .cardlist .card {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto; }
+
+.node-type-nbablog .nbacontent_body,
+.node-type-nbabasicpage .nbacontent_body {
+  padding-bottom: 0; }
 
 @media screen and (min-width: 992px) {
   body.front .region-content,
@@ -1532,11 +1546,21 @@ button.btn-floating {
 .nbclub_attributes .c-dlist dt:after {
   content: ""; }
 
-.marker-cluster-small {
+.marker-cluster {
   background-color: white; }
-  .marker-cluster-small div {
+  .marker-cluster div {
     background-color: #2d6cc6;
     color: white; }
+
+.node-nbaclub .field-name-clubvenue .card {
+  margin-left: 0;
+  margin-right: 0; }
+
+.leaflet-container {
+  font-family: 'Raleway', sans-serif; }
+
+.node-nbaclubmember .card_content .c-dlist dt {
+  display: none; }
 
 .menu-header-menu .menu,
 .view-id-recent_news ul,

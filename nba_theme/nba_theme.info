@@ -21,5 +21,6 @@ regions[search]  = Search component region for NBA base theme
 regions[content_top] = Region above the main content region for NBA base theme
 regions[content] = Content region for NBA base theme
 regions[nav] = Nav region for NBA base theme
+regions[pre_footer] = Pre-Footer region for NBA base theme
 regions[footer]  = Footer region for NBA base theme
 regions[sidebar] = Sidebar region for NBA base theme

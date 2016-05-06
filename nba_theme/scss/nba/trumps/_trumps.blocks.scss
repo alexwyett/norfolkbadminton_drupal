@@ -9,3 +9,15 @@
         }
     }
 }
+
+.main_header {
+    .c-block {
+        @media screen and (max-width: $screen-sm-min) {
+            padding: 0;
+        }
+    }
+}
+
+#block-nbaclubs-nbaclubs-map {
+    padding: 0 $base-margin;
+}

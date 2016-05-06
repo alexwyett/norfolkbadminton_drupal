@@ -39,5 +39,6 @@ $localThemePath = $base_path  . drupal_get_path('theme', $theme);
         <?php echo $sidebar; ?>
     </div>
 
+    <?php echo render($page['pre_footer']); ?>
     <?php echo render($page['footer']); ?>
 </main>

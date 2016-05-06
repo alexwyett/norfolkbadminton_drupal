@@ -20,6 +20,91 @@ function nbaclubs_menu()
 }
 
 /**
+ * Implements hook_block_info
+ * 
+ * @return array
+ */
+function nbaclubs_block_info()
+{
+    // This example comes from node.module.
+    $blocks['nbaclubs_map'] = array(
+        'info' => t('NBA Clubs Map'),
+    );
+    
+    return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ * 
+ * @return array
+ */
+function nbaclubs_block_view($delta = '') 
+{
+    // This example is adapted from node.module.
+    $block = array();
+
+    switch ($delta) {
+    case 'nbaclubs_map':
+        $block['subject'] = t('Facebook Feed');
+        $block['content'] = array(
+            '#markup' => nbaclubs_block_render(),
+            '#attached' => nbaclubs_block_attach(),
+        );
+        
+        leafletmaputils_attach_scripts($block['content']);
+        break;
+    }
+    
+    return $block;
+}
+
+/**
+ * Output the markup required for the map block
+ * 
+ * @return string
+ */
+function nbaclubs_block_render()
+{
+    $output = '<div class="nbaclubs_map loading" id="nbaclubs_map" style="width: 100%; height: 500px;"></div>' . PHP_EOL;
+    
+    return $output;
+}
+
+/**
+ * Attach JavaScript so block can cache properly.
+ * 
+ * @return array
+ */
+function nbaclubs_block_attach()
+{
+    $attach = array();
+    $path = drupal_get_path('module', 'nbaclubs');
+    $attach['js'] = array(
+        $path . '/js/nbaclubs.layermap.js' => array (
+            'type' => 'file',
+            'scope' => 'footer',
+            'weight' => 999
+        ),
+        $path . '/js/nbaclubs.block.js' => array (
+            'type' => 'file',
+            'scope' => 'footer',
+            'weight' => 1000
+        )
+    );
+
+    $settings = array();
+    $attach['js'][] = array(
+        'data' => array(
+            'nbaclubs_block' => $settings
+        ),
+        'type' => 'setting'
+    );
+    
+    return $attach;
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function nbaclubs_ctools_plugin_directory($module, $plugin)

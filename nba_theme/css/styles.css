@@ -1532,6 +1532,12 @@ button.btn-floating {
 .nbclub_attributes .c-dlist dt:after {
   content: ""; }
 
+.marker-cluster-small {
+  background-color: white; }
+  .marker-cluster-small div {
+    background-color: #2d6cc6;
+    color: white; }
+
 .menu-header-menu .menu,
 .view-id-recent_news ul,
 .view-id-entry_forms ul,

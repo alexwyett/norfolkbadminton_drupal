@@ -11,7 +11,6 @@
             });
             
             $('.nbaclubvenue_map').each(function(i, ele) {
-                console.log(i);
                 var plugin = new nbaclubs_venueMap({
                     center: [
                         Drupal.settings.nbaclubvenue[i].lng,

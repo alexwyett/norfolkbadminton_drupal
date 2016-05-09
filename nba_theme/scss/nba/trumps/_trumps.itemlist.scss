@@ -13,25 +13,34 @@
 }
 
 .recentmatches {
-    a {
-        display: block;
-    }
-    .team {
-        &:first-child {
-            strong {
-                margin-left: 5px;
-                &:after {
-                    content: "-";
+    &_row {
+        a {
+            display: block;
+        }
+        .team {
+            &:first-child {
+                strong {
+                    margin-left: 5px;
+                    &:after {
+                        content: "-";
+                    }
+                }
+            }
+
+            &:last-child {
+                strong {
+                    margin-right: 5px;
+                    &:after {
+
+                    }
                 }
             }
         }
-            
-        &:last-child {
-            strong {
-                margin-right: 5px;
-                &:after {
-                    
-                }
+        
+        &_division,
+        &_league {
+            &:before {
+                content: " | ";
             }
         }
     }

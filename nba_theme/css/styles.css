@@ -1537,8 +1537,6 @@ button.btn-floating {
 
 .front .c-list {
   padding: 24px; }
-  .front .c-list .c-title small {
-    float: right; }
 
 .card .nbaclubvenue_map_title address {
   display: inline;
@@ -1705,13 +1703,15 @@ button.btn-floating {
   padding: 0;
   list-style-type: square; }
 
-.recentmatches a {
+.recentmatches_row a {
   display: block; }
-.recentmatches .team:first-child strong {
+.recentmatches_row .team:first-child strong {
   margin-left: 5px; }
-  .recentmatches .team:first-child strong:after {
+  .recentmatches_row .team:first-child strong:after {
     content: "-"; }
-.recentmatches .team:last-child strong {
+.recentmatches_row .team:last-child strong {
   margin-right: 5px; }
+.recentmatches_row_division:before, .recentmatches_row_league:before {
+  content: " | "; }
 
 /*# sourceMappingURL=styles.css.map */

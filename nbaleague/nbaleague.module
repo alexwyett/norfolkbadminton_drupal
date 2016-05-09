@@ -259,6 +259,8 @@ function nbaleague_get_recent_score_row($score)
         )
     );
     $row .= '<small class="recentmatches_row_date">' . date('d F Y', $score['scores']['created']) . '</small>';
+    $row .= '<small class="recentmatches_row_division">' . $score['match']['division']->name->value() . '</small>';
+    $row .= '<small class="recentmatches_row_league">' . $score['match']['league']->name->value() . '</small>';
     return $row;
 }
 
@@ -472,6 +474,8 @@ function nbaleague_get_match_from_data($data)
     if ($result) {
         $result['hometeam'] = nbaleague_get_team_by_id($result['hometeam_id']);
         $result['awayteam'] = nbaleague_get_team_by_id($result['awayteam_id']);
+        $result['league'] = nbaleague_get_league_by_id($result['league_id']);
+        $result['division'] = nbaleague_get_division_by_id($result['division_id']);
         return $result;
     }
     

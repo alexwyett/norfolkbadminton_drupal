@@ -1481,6 +1481,7 @@ button.btn-floating {
 .page-nbaleague #block-system-main,
 .page-node-done #block-system-main,
 .page-clubs #block-system-main,
+.page-sitemap #block-system-main,
 .page-search #block-system-main {
   padding: 24px; }
 
@@ -1534,8 +1535,10 @@ button.btn-floating {
   .view-nbacontent-promoted-blogs .views-row-odd {
     float: left; } }
 
-.front .other_news-block {
+.front .c-list {
   padding: 24px; }
+  .front .c-list .c-title small {
+    float: right; }
 
 .card .nbaclubvenue_map_title address {
   display: inline;
@@ -1594,9 +1597,9 @@ button.btn-floating {
   .documents li,
   .documents .views-row,
   .documents .filelist > .file {
-    margin: 0 0 2px 0;
+    margin: 0 0 2px 0 !important;
     position: relative;
-    padding: 12px 24px;
+    padding: 12px 24px !important;
     display: block; }
     .menu-header-menu .menu li:before,
     .menu-header-menu .menu .views-row:before,
@@ -1701,5 +1704,14 @@ button.btn-floating {
   margin: 1em 2em;
   padding: 0;
   list-style-type: square; }
+
+.recentmatches a {
+  display: block; }
+.recentmatches .team:first-child strong {
+  margin-left: 5px; }
+  .recentmatches .team:first-child strong:after {
+    content: "-"; }
+.recentmatches .team:last-child strong {
+  margin-right: 5px; }
 
 /*# sourceMappingURL=styles.css.map */

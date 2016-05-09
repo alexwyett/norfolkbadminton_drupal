@@ -24,3 +24,31 @@ function nba_theme_form_alter(&$form, &$form_state, $form_id)
         $form['#attributes']['class'][] = 'c-block';
     }
 }
+
+/**
+ * Exposed form alter
+ * 
+ * @param array $form
+ * @param array $form_state
+ * 
+ * @return void
+ */
+function nba_theme_form_views_exposed_form_alter(&$form, &$form_state)
+{
+    //Got the Form Id by using inspect element/Firebug
+    if($form["#id"] == 'views-exposed-form-sitemap-filter') {
+        $form['#attributes'] = array(
+            'class' => array(
+                'webform-client-form'
+            )
+        );        
+        
+        $form['type']['#attributes'] 
+            = $form['sort_by']['#attributes'] 
+            = $form['sort_order']['#attributes'] = array(
+            'class' => array(
+                'webform-component-select'
+            )
+        );
+    }
+}

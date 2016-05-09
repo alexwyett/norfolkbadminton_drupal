@@ -11,3 +11,28 @@
     padding: 0;
     list-style-type: square;
 }
+
+.recentmatches {
+    a {
+        display: block;
+    }
+    .team {
+        &:first-child {
+            strong {
+                margin-left: 5px;
+                &:after {
+                    content: "-";
+                }
+            }
+        }
+            
+        &:last-child {
+            strong {
+                margin-right: 5px;
+                &:after {
+                    
+                }
+            }
+        }
+    }
+}

@@ -170,6 +170,125 @@ function nbaleague_permission()
 }
 
 /**
+ * Implements hook_block_info
+ * 
+ * @return array
+ */
+function nbaleague_block_info()
+{
+    // This example comes from node.module.
+    $blocks['nbaleague_latest_scores'] = array(
+        'info' => t('NBA League - Latest Scores'),
+    );
+    
+    return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ * 
+ * @return array
+ */
+function nbaleague_block_view($delta = '') 
+{
+    $block = array();
+
+    switch ($delta) {
+    case 'nbaleague_latest_scores':
+        $block['subject'] = t('NBA League - Latest Scores');
+                
+        $block['content'] = array(
+            '#markup' => nbaleague_get_recent_scores_list()
+        );
+        break;
+    }
+    
+    return $block;
+}
+
+/**
+ * Get a list of 5 recents scores added into the system as an item list
+ * 
+ * @return string
+ */
+function nbaleague_get_recent_scores_list()
+{
+    $scores = nbaleague_get_recent_scores();
+    $items = array();
+    foreach ($scores as $score) {
+        $items[] = array(
+            'data' => nbaleague_get_recent_score_row($score),
+            'class' => array(
+                'recentmatches_row'
+            )
+        );
+    }
+    
+    return theme_item_list(
+        array(
+            'items' => $items,
+            'title' => null,
+            'type' => 'ul',
+            'attributes' => array(
+                'class' => array(
+                    'recentmatches'
+                )
+            )
+        )
+    );
+}
+
+/**
+ * Get a row for the scores list block
+ * 
+ * @param array $score Score data
+ * 
+ * @return string
+ */
+function nbaleague_get_recent_score_row($score)
+{
+    $row = '';
+    $match = '<span class="team team-home">' . $score['match']['hometeam']->name->value() . '<strong>' . $score['scores']['hometeam_score'] . '</strong></span>';
+    $match .= '<span class="team team-away"><strong>' . $score['scores']['awayteam_score'] . '</strong>' . $score['match']['awayteam']->name->value() . '</span>';
+    
+    $row .= l(
+        $match,
+        'nbaleague/matches/table/' . $score['match']['division_id'] . '/'  . $score['match']['season_id'] . '/'  . $score['match']['league_id'],
+        array(
+            'html' => true
+        )
+    );
+    $row .= '<small class="recentmatches_row_date">' . date('d F Y', $score['scores']['created']) . '</small>';
+    return $row;
+}
+
+/**
+ * Get a list of 5 recents scores added into the system
+ * 
+ * @return array
+ */
+function nbaleague_get_recent_scores()
+{
+    $scores = _nbaleague_get_score_query();
+    $scores->orderBy('created', 'DESC')
+        ->groupBy('match_id')
+        ->range(0, 5);
+    
+    $results = $scores->execute();
+    $score_arr = array();
+    foreach ($results as $result) {
+        $match = nbaleague_get_match_from_data(array('match_id' => $result->match_id));
+        $data = array(
+            'match' => $match,
+            'scores' => nbaleague_get_scores_from_match_id($match['match_id'])
+        );
+        $score_arr[] = $data;
+    }
+    
+    return $score_arr;
+}
+
+/**
  * Return an array of team taxonomy objects
  *
  * @return array
@@ -341,7 +460,7 @@ function _nbaleague_get_query()
 /**
  * Return the match from given params
  * 
- * @param srray $data Data
+ * @param array $data Data
  * 
  * @return boolean|stdClass
  */
@@ -558,15 +677,16 @@ function _nbaleague_get_score_query()
 /**
  * Return the scores from given params
  * 
- * @param srray $data Data
+ * @param array  $data    Data
+ * @param string $operand Operand
  * 
  * @return boolean|stdClass
  */
-function nbaleague_get_scores_from_data($data)
+function nbaleague_get_scores_from_data($data, $operand = '=')
 {
     $scores = _nbaleague_get_score_query();
     foreach ($data as $key => $val) {
-        $scores->condition('nbams.' . $key, $data[$key], '=');
+        $scores->condition('nbams.' . $key, $data[$key], $operand);
     }
     
     return $scores->execute();
@@ -591,7 +711,8 @@ function nbaleague_get_scores_from_match_id($match_id)
             'hometeam_score' => 0,
             'awayteam_score' => 0,
             'hometeam_points' => 0,
-            'awayteam_points' => 0
+            'awayteam_points' => 0,
+            'created' => 0
         );
         
         while ($score = $scoreData->fetchAssoc()) {
@@ -602,6 +723,8 @@ function nbaleague_get_scores_from_match_id($match_id)
             if ($score['team_id'] == $match['awayteam_id']) {
                 $scores['awayteam_score'] = $score['games'];
             }
+            
+            $scores['created'] = $score['created'];
         }
         
         if ($scores['hometeam_score'] > $scores['awayteam_score']) {

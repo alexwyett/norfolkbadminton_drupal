@@ -61,12 +61,11 @@
 }
 
 
-@media screen and (min-width: $screen-md-min) {
+@media screen and (min-width: $screen-lg-min) {
     body.front,
     .two-column,
     .page-user,
-    .page-node-done,
-    .page-nbaleague {
+    .page-node-done {
         .region-content {
             float: left;
             width: 70%;

@@ -179,7 +179,7 @@ function nbaleague_get_matches_list($division_id, $season_id, $league_id)
         'Results'
     );
 
-    if ($admin === true) {
+    if ($admin === true || $matchadmin === true) {
         array_push(
             $header, 
            t('Admin')
@@ -211,8 +211,10 @@ function nbaleague_get_matches_list($division_id, $season_id, $league_id)
                 'nbaleague/match/' . $match->match_id
             );
         }
-        
-        array_push($match_row, $adminLinks);
+
+        if (strlen($adminLinks) > 0) {
+            array_push($match_row, $adminLinks);
+        }
 
         $match_rows[] = $match_row;
     }
@@ -316,6 +318,7 @@ function nbaleague_get_matches_table($division_id, $season_id, $league_id)
                         'class' => array(
                             'c-table',
                             'c-table-bordered',
+                            'c-table-fixed',
                             'c-table-striped'
                         )
                     ),
